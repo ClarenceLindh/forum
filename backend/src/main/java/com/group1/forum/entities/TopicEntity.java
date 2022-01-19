@@ -1,7 +1,5 @@
 package com.group1.forum.entities;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -17,5 +15,5 @@ public class TopicEntity {
     private String name;
 
     @OneToMany(mappedBy = "topicId")
-    private Set<Thread> threads;
+    private Set<ThreadEntity> threads;
 }
