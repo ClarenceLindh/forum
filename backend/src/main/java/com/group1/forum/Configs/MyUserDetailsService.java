@@ -32,7 +32,7 @@ public class MyUserDetailsService implements org.springframework.security.core.u
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-        return (UserDetails) user; // Fix the user (cast UserEntity to userDetails
+        return toUserDetails(user); // Fix the user (cast UserEntity to userDetails
     }
 
 
