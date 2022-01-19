@@ -45,3 +45,14 @@ form{
   text-align: left;
   vertical-align: top;
 }
+.topicList{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+#topic{
+  margin-right: 5px;
+  background-color: rgb(105, 125, 126);
+  width: 60px;
+  border: 5px solid rgb(75, 73, 73);
+}
