@@ -22,7 +22,7 @@ function CreateThread() {
   				
     				<input className="headlineThread" type="text" value={headL} onChange={(e) => setHeadL(e.target.value)} placeholder="Headline...." />
 					
-					<input className="contentThread" type="text" value={content} onChange={(e) => setContent(e.target.value)} placeholder="Write something...." />
+					<textarea className="contentThread" value={content} onChange={(e) => setContent(e.target.value)} placeholder="Write something...." />
   					
   					<input className="submitThread" type="submit" value="Submit" />
 				</form>
