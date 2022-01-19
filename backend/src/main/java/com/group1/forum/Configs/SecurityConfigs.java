@@ -8,8 +8,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Configuration
+@CrossOrigin
 @EnableWebSecurity
 public class SecurityConfigs extends WebSecurityConfigurerAdapter {
 
@@ -25,7 +27,7 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/**").permitAll()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/login").permitAll()
         ;
     }
 

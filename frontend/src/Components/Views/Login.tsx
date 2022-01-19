@@ -12,40 +12,36 @@ const Login = () => {
   const [registerPassword, setRegisterPassword] = useState<string>("");
   const [registerEmail, setRegisterEmail] = useState<string>("");
 
+  const [loggedInUser, setLoggedInUser] = useState<any>({});
+
   useEffect(() => {
-    axios.get(baseURL).then((res) => {
+    axios.get(baseURL + "auth/users").then((res) => {
       console.log(res);
     });
   }, []);
 
   const login = async (e: { preventDefault: () => void }) => {
-    e.preventDefault ();
-      console.log("prevented");
+    e.preventDefault();
     const credentials: string =
       "email=" +
       encodeURIComponent(loginEmail) +
       "&password=" +
       encodeURIComponent(loginPassword);
 
-    let response = await fetch(baseURL + "login", {
+    axios.post(baseURL + "login", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      mode: "no-cors",
+      headers: {'Access-Control-Allow-Origin': '*'},
       body: credentials,
+      
+    }).then((res) => {
+      setLoggedInUser(res.data);
+      console.log(res);
     });
-
-    // axios.post(baseURL, {
-    //   Username: loginEmail,
-    //   Password: password,
-    // });
-    console.log(credentials);
-    console.log(response);
     
   };
+  
 
-  const postNewUser = () => {
+  const register = () => {
     axios.post(baseURL, {
       Username: registerUsername,
       Password: registerPassword,
@@ -81,7 +77,7 @@ const Login = () => {
       </form>
 
       <h1>Or Register</h1>
-      <form onSubmit={login}>
+      <form onSubmit={register}>
         <input
           type="text"
           placeholder="Username"
