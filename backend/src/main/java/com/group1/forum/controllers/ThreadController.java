@@ -1,7 +1,7 @@
-package com.group1.forum.controllers;
+package com.group1.forum.Controllers;
 
 import com.group1.forum.Entities.ThreadEntity;
-import com.group1.forum.services.ThreadService;
+import com.group1.forum.Services.ThreadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
