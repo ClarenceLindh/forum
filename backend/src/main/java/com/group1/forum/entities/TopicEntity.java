@@ -1,4 +1,4 @@
-package com.group1.forum.entities;
+package com.group1.forum.Entities;
 
 import javax.persistence.*;
 import java.util.Set;
