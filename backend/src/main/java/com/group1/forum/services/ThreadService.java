@@ -1,6 +1,6 @@
 package com.group1.forum.services;
 
-import com.group1.forum.entities.ThreadEntity;
+import com.group1.forum.Entities.ThreadEntity;
 import com.group1.forum.repositories.ThreadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

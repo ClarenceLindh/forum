@@ -10,6 +10,22 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+
+    //Add Authority to UserEntity and cast entity to userDetails
+
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "role")
+    private String role;
+
+
     @OneToMany(mappedBy = "creatorUserId")
     private Set<ThreadEntity> threads;
 
@@ -28,6 +44,23 @@ public class UserEntity {
     Set<ThreadEntity> threadModerators;
 
     public UserEntity() {
+    }
+
+    public UserEntity(String email) { this.email = email; }
+
+    public UserEntity(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public String getEmail() { return email;}
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public UserEntity(long id, Set<ThreadEntity> threads, Set<ThreadEntity> blockedThreads, Set<ThreadEntity> threadModerators) {
