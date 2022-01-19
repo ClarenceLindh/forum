@@ -2,6 +2,7 @@ package com.group1.forum.Entities;
 
 import lombok.Data;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 
@@ -13,23 +14,16 @@ public class UserEntity {
 //Add Authority to UserEntity and cast entity to userDetails
 
 
+    public UserEntity() { }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    public UserEntity(String email) { this.email = email; }
 
-    @Column(name = "username")
-    private String username;
-
-    @Column(name = "password")
-    private String password;
-
-    public UserEntity(){}
-
-    public UserEntity(String username, String password) {
-        this.username = username;
+    public UserEntity(String email, String password) {
+        this.email = email;
         this.password = password;
     }
+
+    public String getEmail() { return email;}
 
     public String getPassword() {
         return password;
@@ -38,4 +32,24 @@ public class UserEntity {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "role")
+    private String role;
+
+
+
 }
