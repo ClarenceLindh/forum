@@ -4,12 +4,6 @@ import CreateThread from './CreateThread';
 
 
 class Forum extends React.Component {
-	/*constructor(props) {
-		super(props);
-		this.state = {
-		
-        }}*/
-	
 
     
 	render() {
@@ -17,7 +11,7 @@ class Forum extends React.Component {
 			<div className="main">
 				
 
-    <CreateThread/>
+    <CreateThread />
     </div>
         )
         }
