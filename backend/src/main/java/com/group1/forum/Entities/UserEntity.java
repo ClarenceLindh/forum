@@ -1,17 +1,59 @@
 package com.group1.forum.Entities;
 
+import lombok.Data;
+import org.apache.catalina.User;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
+@Data
 @Entity
 @Table(name = "users")
-public class UserEntity {
+public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
 
     //Add Authority to UserEntity and cast entity to userDetails
+
+
+    public UserEntity() {
+    }
+
+    public UserEntity(String email) { this.email = email; }
+
+    public UserEntity(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+        authorities.add(new SimpleGrantedAuthority(role));
+
+        return authorities;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {return true;}
+
+    @Override
+    public boolean isAccountNonLocked() {return true;}
+
+    @Override
+    public boolean isCredentialsNonExpired() {return true;}
+
+    @Override
+    public boolean isEnabled() {return true;}
+
 
     @Column(name = "username")
     private String username;
@@ -43,15 +85,6 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(name = "thread_id"))
     Set<ThreadEntity> threadModerators;
 
-    public UserEntity() {
-    }
-
-    public UserEntity(String email) { this.email = email; }
-
-    public UserEntity(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
 
     public String getEmail() { return email;}
 
@@ -70,47 +103,7 @@ public class UserEntity {
         this.threadModerators = threadModerators;
     }
 
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Set<ThreadEntity> getThreads() {
-        return threads;
-    }
-
-    public void setThreads(Set<ThreadEntity> threads) {
-        this.threads = threads;
-    }
-
-    public Set<ThreadEntity> getBlockedThreads() {
-        return blockedThreads;
-    }
-
-    public void setBlockedThreads(Set<ThreadEntity> blockedThreads) {
-        this.blockedThreads = blockedThreads;
-    }
-
-    public Set<ThreadEntity> getThreadModerators() {
-        return threadModerators;
-    }
-
-    public void setThreadModerators(Set<ThreadEntity> threadModerators) {
-        this.threadModerators = threadModerators;
-    }
-
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "id=" + id +
-                ", threads=" + threads +
-                ", blockedThreads=" + blockedThreads +
-                ", threadModerators=" + threadModerators +
-                '}';
-    }
 
 
 }
