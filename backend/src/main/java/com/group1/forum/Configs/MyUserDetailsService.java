@@ -3,6 +3,7 @@ package com.group1.forum.Configs;
 import com.group1.forum.Entities.UserEntity;
 import com.group1.forum.Repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 
-@Service
+@Configuration
 public class MyUserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -22,7 +23,7 @@ public class MyUserDetailsService implements org.springframework.security.core.u
     @PostConstruct
     private void createDefaultUsers(){
         if(userRepo.findByEmail("Lasse74") == null){
-            register(new UserEntity("Lasse74", "abc123"));
+            addUser(new UserEntity("Lasse74", "abc123"));
         }
     }
 
@@ -36,7 +37,7 @@ public class MyUserDetailsService implements org.springframework.security.core.u
     }
 
 
-    public UserEntity register(UserEntity user) {
+    public UserEntity addUser(UserEntity user) {
         user.setPassword(encoder.encode(user.getPassword()));
         try {
             return userRepo.save(user);

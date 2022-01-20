@@ -32,14 +32,19 @@ const Login = () => {
     const rawResponse = await fetch(baseURL + "/login", {
       method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
-      body: loginCredentials,
+      mode: "no-cors", // or not????
+      body: JSON.stringify(loginCredentials),
     });
 
     let response = await rawResponse.json();
     console.log(response);
+
+    if (response.status === 403) {
+      console.log('Wrong username/password');
+    }
   };
 
   const register = async (e: { preventDefault: () => void }) => {
