@@ -18,13 +18,19 @@ function CreateThread(props) {
 
 	const handleSubmit = async (e: { preventDefault: () => void }) => {
 		 e.preventDefault();
-		 const threadDetails = {
-			 username: 1,
-			 headline: headL,
-			 text:content,
-			 topic:theTopic
+		 const threadDetails: string = {
+			 "creatorUserId=" + user,
+			 "title="+ headL,
+			 "text=" + content,
+			 "topic" + theTopic
 		 }
-		 const response = await fetch(baseURL + "/auth/register", {
+		 private TopicEntity topicId;
+
+		 private String title;
+		 private String text;
+		 private Date creationDate;
+
+		 axios.post(baseURL + "rest/thread", {
 			 method: "POST",
 			 headers: { "Content-Type": "application/json" },
 			 body: JSON.stringify(threadDetails),
