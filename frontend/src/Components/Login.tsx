@@ -60,14 +60,8 @@ const Login = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(registerCredentials),
     });
-    console.log(JSON.stringify(registerCredentials));
+    console.log(registerCredentials);
   };
-
-  console.log(loginEmail);
-  console.log(loginPassword);
-  console.log(registerUsername);
-  console.log(registerEmail);
-  console.log(registerPassword);
 
   return (
     <div className="login-page">

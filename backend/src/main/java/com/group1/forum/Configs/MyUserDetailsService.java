@@ -22,16 +22,16 @@ public class MyUserDetailsService implements org.springframework.security.core.u
 
     @PostConstruct
     private void createDefaultUsers(){
-        if(userRepo.findByEmail("Lasse74") == null){
-            addUser(new UserEntity("Lasse74", "abc123"));
+        if(userRepo.findByEmail("Lasse74@mail.se") == null){
+            addUser(new UserEntity("Lasse74@mail.se", "Lasse74", "abc123"));
         }
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity user = userRepo.findByEmail(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        UserEntity user = userRepo.findByEmail(email);
         if (user == null) {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException(email);
         }
         return toUserDetails(user); // Fix the user (cast UserEntity to userDetails
     }
