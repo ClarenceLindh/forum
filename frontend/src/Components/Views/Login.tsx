@@ -3,7 +3,7 @@ import axios from "axios";
 import "../../Styles/Login.scss";
 
 const Login = () => {
-  const baseURL = "http://localhost:8080/";
+  const baseURL = "http://localhost:8080";
 
   const [loginEmail, setLoginEmail] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
@@ -15,7 +15,7 @@ const Login = () => {
   const [loggedInUser, setLoggedInUser] = useState<any>({});
 
   useEffect(() => {
-    axios.get(baseURL + "auth/users").then((res) => {
+    axios.get(baseURL + "/auth/users").then((res) => {
       console.log(res);
     });
   }, []);
@@ -27,12 +27,36 @@ const Login = () => {
       encodeURIComponent(loginEmail) +
       "&password=" +
       encodeURIComponent(loginPassword);
+      console.log(credentials);
+      
 
     axios.post(baseURL + "login", {
       method: "POST",
       headers: {'Access-Control-Allow-Origin': '*'},
+      mode: "no-cors",
       body: credentials,
+    }).then((res) => {
+      setLoggedInUser(res.data);
+      console.log(res);
+    });
+    
+  };
+
+  const register = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    const credentials: string =
+      "email=" +
+      encodeURIComponent(loginEmail) +
+      "&password=" +
+      encodeURIComponent(loginPassword);
+      console.log(credentials);
       
+
+    axios.post(baseURL + "auth/register", {
+      method: "POST",
+      // headers: {'Access-Control-Allow-Origin': '*'},
+      mode: "no-cors",
+      body: JSON.stringify(credentials),
     }).then((res) => {
       setLoggedInUser(res.data);
       console.log(res);
@@ -41,13 +65,13 @@ const Login = () => {
   };
   
 
-  const register = () => {
-    axios.post(baseURL, {
-      Username: registerUsername,
-      Password: registerPassword,
-      Email: registerEmail,
-    });
-  };
+  // const register = () => {
+  //   axios.post(baseURL, {
+  //     Username: registerUsername,
+  //     Password: registerPassword,
+  //     Email: registerEmail,
+  //   });
+  // };
 
   console.log(loginEmail);
   console.log(loginPassword);
