@@ -28,7 +28,6 @@ public class UserEntity {
     @Column(name = "role")
     private String role;
 
-
     @OneToMany(mappedBy = "creatorUserId")
     private Set<ThreadEntity> threads;
 
@@ -84,6 +83,7 @@ public class UserEntity {
         this.id = id;
     }
 
+    @JsonIgnore
     public Set<ThreadEntity> getThreads() {
         return threads;
     }
@@ -100,6 +100,7 @@ public class UserEntity {
         this.blockedThreads = blockedThreads;
     }
 
+    @JsonIgnore
     public Set<ThreadEntity> getThreadModerators() {
         return threadModerators;
     }
