@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ThreadService {
@@ -32,9 +33,13 @@ public class ThreadService {
 
     public ThreadEntity createThread(ThreadEntity thread) {
         UserEntity loggedUser = userService.whoAmI();
-
+        if (loggedUser != null) {
+            thread.setCreatorUserId(loggedUser);
+            thread.setBlockedThreadStatus(false);
+            thread.setModerators((Set<UserEntity>) loggedUser);
             return threadRepo.save(thread);
-
+        }
+        return null;
     }
 
 }

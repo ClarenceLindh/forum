@@ -96,6 +96,7 @@ public class UserEntity {
         this.blockedThreads = blockedThreads;
     }
 
+    @JsonIgnore
     public Set<ThreadEntity> getThreadModerators() {
         return threadModerators;
     }
