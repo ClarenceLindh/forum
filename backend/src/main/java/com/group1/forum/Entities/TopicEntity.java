@@ -1,5 +1,7 @@
 package com.group1.forum.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -44,6 +46,7 @@ public class TopicEntity {
         this.name = name;
     }
 
+    @JsonIgnore
     public Set<ThreadEntity> getThreads() {
         return threads;
     }
