@@ -19,6 +19,7 @@ public class UserService {
     private MyUserDetailsService detailsService;
 
     public UserEntity register(UserEntity user) {
+        System.out.println(user);
         return detailsService.register(user);
     }
 

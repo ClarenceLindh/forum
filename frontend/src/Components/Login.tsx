@@ -13,60 +13,50 @@ const Login = () => {
 
   const [loggedInUser, setLoggedInUser] = useState<any>({});
 
+  const getUsers = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
 
+    const response = await fetch(baseURL + "/auth/users", {});
+    console.log(response);
+  };
 
   const login = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    const credentials: string =
+    const loginCredentials: string =
       "email=" +
       encodeURIComponent(loginEmail) +
       "&password=" +
       encodeURIComponent(loginPassword);
-      console.log(credentials);
-      
+    console.log(loginCredentials);
 
-    // axios.post(baseURL + "login", {
-    //   method: "POST",
-    //   headers: {'Access-Control-Allow-Origin': '*'},
-    //   mode: "no-cors",
-    //   body: credentials,
-    // }).then((res) => {
-    //   setLoggedInUser(res.data);
-    //   console.log(res);
-    // });
-    
+    const rawResponse = await fetch(baseURL + "/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: loginCredentials,
+    });
+
+    let response = await rawResponse.json();
+    console.log(response);
   };
 
   const register = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    const credentials: string =
-      "email=" +
-      encodeURIComponent(loginEmail) +
-      "&password=" +
-      encodeURIComponent(loginPassword);
-      console.log(credentials);
-      
+    const registerCredentials = {
+      username: registerUsername,
+      email: registerEmail,
+      password: registerPassword,
+    };
 
-    // axios.post(baseURL + "auth/register", {
-    //   method: "POST",
-    //   // headers: {'Access-Control-Allow-Origin': '*'},
-    //   mode: "no-cors",
-    //   body: JSON.stringify(credentials),
-    // }).then((res) => {
-    //   setLoggedInUser(res.data);
-    //   console.log(res);
-    // });
-    
+    const rawResponse = await fetch(baseURL + "/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(registerCredentials),
+    });
+    console.log(JSON.stringify(registerCredentials));
   };
-  
-
-  // const register = () => {
-  //   axios.post(baseURL, {
-  //     Username: registerUsername,
-  //     Password: registerPassword,
-  //     Email: registerEmail,
-  //   });
-  // };
 
   console.log(loginEmail);
   console.log(loginPassword);
@@ -93,6 +83,9 @@ const Login = () => {
         <button type="submit" onClick={login}>
           Login
         </button>
+        <button type="submit" onClick={getUsers}>
+          getUsers
+        </button>
       </form>
 
       <h1>Or Register</h1>
@@ -101,16 +94,19 @@ const Login = () => {
           type="text"
           placeholder="Username"
           onChange={(e) => setRegisterUsername(e.target.value)}
+          onSubmit={register}
         />
         <input
           type="text"
           placeholder="E-mail"
           onChange={(e) => setRegisterEmail(e.target.value)}
+          onSubmit={register}
         />
         <input
           type="password"
           placeholder="Password"
           onChange={(e) => setRegisterPassword(e.target.value)}
+          onSubmit={register}
         />
         <button type="submit">Register</button>
       </form>
