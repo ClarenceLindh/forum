@@ -1,6 +1,8 @@
 package com.group1.forum.Services;
 
 import com.group1.forum.Entities.ThreadEntity;
+import com.group1.forum.Entities.UserEntity;
+import com.group1.forum.Repositories.ThreadRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +13,10 @@ import java.util.Optional;
 public class ThreadService {
 
     @Autowired
-    private com.group1.forum.Repositories.ThreadRepo threadRepo;
+    private ThreadRepo threadRepo;
+
+    @Autowired
+    private UserService userService;
 
     public List<ThreadEntity> getAllThreads() {
         List<ThreadEntity> threads = threadRepo.findAll();
@@ -21,8 +26,15 @@ public class ThreadService {
         // should be something like: return threadRepository.getALlThreads();
     }
 
-    public Optional<ThreadEntity> getThreadById(long id) {
-        return threadRepo.findById(id); // should be something like: return threadRepository.getThreadById(Id);
+    public Optional<ThreadEntity> getThreadById(long threadId) {
+        return threadRepo.findById(threadId);
+    }
+
+    public ThreadEntity createThread(ThreadEntity thread) {
+        UserEntity loggedUser = userService.whoAmI();
+
+            return threadRepo.save(thread);
+
     }
 
 }

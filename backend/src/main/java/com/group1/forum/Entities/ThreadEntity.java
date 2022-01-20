@@ -17,7 +17,7 @@ public class ThreadEntity {
 
     @ManyToOne
     @JoinColumn(name = "topicId", nullable = false)
-    private UserEntity topicId;
+    private TopicEntity topicId;
 
     private String title;
     private String text;
@@ -34,7 +34,7 @@ public class ThreadEntity {
     public ThreadEntity() {
     }
 
-    public ThreadEntity(long id, UserEntity creatorUserId, UserEntity topicId, String title, String text, Date creationDate, Set<UserEntity> bannedUsers, boolean blockedThreadStatus, Set<UserEntity> moderators) {
+    public ThreadEntity(long id, UserEntity creatorUserId, TopicEntity topicId, String title, String text, Date creationDate, Set<UserEntity> bannedUsers, boolean blockedThreadStatus, Set<UserEntity> moderators) {
         this.id = id;
         this.creatorUserId = creatorUserId;
         this.topicId = topicId;
@@ -62,11 +62,11 @@ public class ThreadEntity {
         this.creatorUserId = creatorUserId;
     }
 
-    public UserEntity getTopicId() {
+    public TopicEntity getTopicId() {
         return topicId;
     }
 
-    public void setTopicId(UserEntity topicId) {
+    public void setTopicId(TopicEntity topicId) {
         this.topicId = topicId;
     }
 
