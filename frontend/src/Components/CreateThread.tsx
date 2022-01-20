@@ -11,7 +11,7 @@ function CreateThread() {
 
 	const handleSubmit = () => {
 		
-	   alert(`headline: ${headL} content: ${content}`)
+	   alert(`headline: ${headL} content: ${content} topic: ${theTopic} `)
    
    }
    const topicsList= [{"topic":"sport"},{"topic":"music"},{"topic":"art"}];
@@ -32,7 +32,8 @@ function CreateThread() {
 					<textarea className="contentThread" value={content} onChange={(e) => setContent(e.target.value)} placeholder="Write something...." />
   					<div className="topicList">
 						  {topicsList.map(function(d,idx){
-							  return(<div id="topic" value={d.topic} onChange={(e) => setTopic(e.target.value)} key={idx}>{d.topic}</div>)
+							  return(<div id="topic" key={idx}>{d.topic}</div>)
+							 // return(<div id="topic" value={d.topic} onChange={(e) => setTopic(e.target.value)} key={idx}>{d.topic}</div>)
 						  })}
 					  </div>
   					<div className="submit"><input className="submitThread" type="submit" value="Submit" /></div>
