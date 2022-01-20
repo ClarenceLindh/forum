@@ -24,6 +24,30 @@ public class ThreadController {
     // GET BY THREAD BY ID
     @GetMapping("/rest/threads/{Id}")
     public Optional<ThreadEntity> getThreadById(@PathVariable Long id) { return threadService.getThreadById(id); }
+
+    // mapping to the saving records service GH
+    @PostMapping("/rest/threads")
+    public ThreadEntity save(@RequestBody ThredEntity threads){
+        return threadService.save(threads);
+    }
+
+
+
+    // mapping to delete a record service GH
+    @DeleteMapping ("/rest/threads{id}")
+    public void  deleteById(@PathVariable Long id){
+       threadService.deleteById(id);
+    }
+
+
+    // mapping to delete a record service GH
+    @PutMapping ("/rest/threads/{Id}")
+    public void  updateById(@PathVariable Long id, @RequestBody ThredEntity threads){
+        threadService.updateById(id, threads);
+    }
+
+
+
 }
 
 
