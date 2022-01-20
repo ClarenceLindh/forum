@@ -1,19 +1,41 @@
 import React, { useState } from "react";
+import axios from "axios";
+import "../Styles/CreateTread.scss";
 
 
 
-
-function CreateThread() {
+function CreateThread(props) {
 	
-	const [headL, setHeadL] = useState("");
-	const [content, setContent] = useState("");
-	const [theTopic, setTopic] = useState("");
+	const{
+		user,
+		topics
 
-	const handleSubmit = () => {
-		
+	}=props;
+	
+	const [headL, setHeadL] = useState<string>("");
+	const [content, setContent] = useState<string>("");
+	const [theTopic, setTopic] = useState<string>("");
+
+	const handleSubmit = async (e: { preventDefault: () => void }) => {
+		 e.preventDefault();
+		 const threadDetails = {
+			 username: 1,
+			 headline: headL,
+			 text:content,
+			 topic:theTopic
+		 }
+		 const response = await fetch(baseURL + "/auth/register", {
+			 method: "POST",
+			 headers: { "Content-Type": "application/json" },
+			 body: JSON.stringify(threadDetails),
+			 });
+			 console.log(JSON.stringify(threadDetails));
+			};
 	   alert(`headline: ${headL} content: ${content} topic: ${theTopic} `)
    
-   }
+   
+  
+	
    const topicsList= [{"topic":"sport"},{"topic":"music"},{"topic":"art"}];
 
    const pickTopic = () =>{
