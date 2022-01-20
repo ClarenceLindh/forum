@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import "../Styles/Login.scss";
 
 const Login = () => {
@@ -14,11 +13,7 @@ const Login = () => {
 
   const [loggedInUser, setLoggedInUser] = useState<any>({});
 
-  useEffect(() => {
-    axios.get(baseURL + "/auth/users").then((res) => {
-      console.log(res);
-    });
-  }, []);
+
 
   const login = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -30,15 +25,15 @@ const Login = () => {
       console.log(credentials);
       
 
-    axios.post(baseURL + "login", {
-      method: "POST",
-      headers: {'Access-Control-Allow-Origin': '*'},
-      mode: "no-cors",
-      body: credentials,
-    }).then((res) => {
-      setLoggedInUser(res.data);
-      console.log(res);
-    });
+    // axios.post(baseURL + "login", {
+    //   method: "POST",
+    //   headers: {'Access-Control-Allow-Origin': '*'},
+    //   mode: "no-cors",
+    //   body: credentials,
+    // }).then((res) => {
+    //   setLoggedInUser(res.data);
+    //   console.log(res);
+    // });
     
   };
 
@@ -52,15 +47,15 @@ const Login = () => {
       console.log(credentials);
       
 
-    axios.post(baseURL + "auth/register", {
-      method: "POST",
-      // headers: {'Access-Control-Allow-Origin': '*'},
-      mode: "no-cors",
-      body: JSON.stringify(credentials),
-    }).then((res) => {
-      setLoggedInUser(res.data);
-      console.log(res);
-    });
+    // axios.post(baseURL + "auth/register", {
+    //   method: "POST",
+    //   // headers: {'Access-Control-Allow-Origin': '*'},
+    //   mode: "no-cors",
+    //   body: JSON.stringify(credentials),
+    // }).then((res) => {
+    //   setLoggedInUser(res.data);
+    //   console.log(res);
+    // });
     
   };
   
