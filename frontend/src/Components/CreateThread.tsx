@@ -35,7 +35,7 @@ function CreateThread() {
 							  return(<div id="topic" value={d.topic} onChange={(e) => setTopic(e.target.value)} key={idx}>{d.topic}</div>)
 						  })}
 					  </div>
-  					<input className="submitThread" type="submit" value="Submit" />
+  					<div className="submit"><input className="submitThread" type="submit" value="Submit" /></div>
 				</form>
 			</div>
 )        

@@ -56,3 +56,12 @@ form{
   width: 60px;
   border: 5px solid rgb(75, 73, 73);
 }
+.submit{
+  position:relative;
+  width: 60vw;
+  background-color: cadetblue;
+}
+.submitThread{
+  position: absolute;
+  right: 0;
+}
