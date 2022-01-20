@@ -14,7 +14,9 @@ code {
 }
 
 .createThread{
-  margin: 10vw;
+  margin-left: 10vw;
+  margin-right: 10vw;
+  margin-top: 10vh;
   width: 80vw;
   height: 70vh;
   position: relative;
@@ -49,12 +51,14 @@ form{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 5vh;
 }
 #topic{
   margin-right: 5px;
   background-color: rgb(105, 125, 126);
-  width: 60px;
+  width: 12vw;
   border: 5px solid rgb(75, 73, 73);
+  font-size: 2vh;
 }
 .submit{
   position:relative;
@@ -64,4 +68,5 @@ form{
 .submitThread{
   position: absolute;
   right: 0;
+  
 }
