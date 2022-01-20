@@ -1,5 +1,8 @@
 package com.group1.forum.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -48,17 +51,20 @@ public class UserEntity {
 
     public UserEntity(String email) { this.email = email; }
 
-    public UserEntity(String email, String password) {
+    public UserEntity(String email, String username, String password) {
         this.email = email;
+        this.username = username;
         this.password = password;
     }
 
     public String getEmail() { return email;}
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
+    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }
@@ -106,13 +112,15 @@ public class UserEntity {
     public String toString() {
         return "UserEntity{" +
                 "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
                 ", threads=" + threads +
                 ", blockedThreads=" + blockedThreads +
                 ", threadModerators=" + threadModerators +
                 '}';
     }
-
-
 }
 
 
