@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "../../Styles/Login.scss";
+import "../Styles/Login.scss";
 
 const Login = () => {
   const baseURL = "http://localhost:8080";
