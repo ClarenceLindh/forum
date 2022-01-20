@@ -1,18 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CreateThread from './CreateThread';
 import '../Styles/Home.scss';
 
 
 
 class Home extends React.Component {
-    constructor(props){
+   /* constructor(props){
         super(props)
         this.state = {
-            topics: ["sport", "fun"],
+           topics: [{"sport"}, {"fun"}],
             isLoggedin: false,
             user:"Anna"
         }
-    }
+    }*/
     
 	render() {
 		return (
@@ -20,8 +20,8 @@ class Home extends React.Component {
 				
 
             <CreateThread 
-            user={this.state.user}
-            topics={this.state.topics}
+            //user={this.state.user}
+            //topics={this.state.topics}
             />
     </div>
         )

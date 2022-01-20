@@ -4,13 +4,14 @@ import "../Styles/CreateTread.scss";
 
 
 
-function CreateThread(props) {
+function CreateThread() {
+	const baseURL = "http://localhost:8080";
 	
-	const{
+	/*const{
 		user,
 		topics
 
-	}=props;
+	}=props;*/
 	
 	const [headL, setHeadL] = useState<string>("");
 	const [content, setContent] = useState<string>("");
@@ -18,37 +19,31 @@ function CreateThread(props) {
 
 	const handleSubmit = async (e: { preventDefault: () => void }) => {
 		 e.preventDefault();
-		 const threadDetails: string = {
-			 "creatorUserId=" + user,
-			 "title="+ headL,
-			 "text=" + content,
-			 "topic" + theTopic
+		 const threadDetails = {
+			 "creatorUserId" : "1",
+			 "title": headL,
+			 "text" : content,
+			 "topicId" : theTopic
 		 }
-		 private TopicEntity topicId;
-
-		 private String title;
-		 private String text;
-		 private Date creationDate;
-
+		 alert(`headline: ${headL} content: ${content} topic: ${theTopic} `)
+		
+/*
 		 axios.post(baseURL + "rest/thread", {
 			 method: "POST",
 			 headers: { "Content-Type": "application/json" },
 			 body: JSON.stringify(threadDetails),
 			 });
+
 			 console.log(JSON.stringify(threadDetails));
 			};
-	   alert(`headline: ${headL} content: ${content} topic: ${theTopic} `)
-   
-   
+	   
+   */
+		}
   
 	
-   const topicsList= [{"topic":"sport"},{"topic":"music"},{"topic":"art"}];
+   const topicsList= [{value:"sport"},{value:"music"},{value:"art"}];
 
-   const pickTopic = () =>{
-	//document.getElementById("createThread").style.borderColor = "lightblue";
-	alert(`headline: ${theTopic} `)
-	
-} 
+ 
 
 			return (
 			<div className="createThread" >
@@ -59,17 +54,20 @@ function CreateThread(props) {
 					
 					<textarea className="contentThread" value={content} onChange={(e) => setContent(e.target.value)} placeholder="Write something...." />
   					<div className="topicList">
-						  {topicsList.map(function(d,idx){
-							  return(<div id="topic" key={idx}>{d.topic}</div>)
-							 // return(<div id="topic" value={d.topic} onChange={(e) => setTopic(e.target.value)} key={idx}>{d.topic}</div>)
-						  })}
+						  <select onChange={(e) => setTopic(e.target.value)} name="" id="">
+							  {topicsList.map((option) =>(
+						  <option value={option.value} >{option.value}</option>
+						))}
+						</select>
+		
 					  </div>
-  					<div className="submit"><input className="submitThread" type="submit" value="Submit" /></div>
+  					<div  className="submit"><input className="submitThread" type="submit" value="Submit" /></div>
 				</form>
 			</div>
-)        
+)   ;     
 
-      }
+							  
+};     
 
 
 	  
