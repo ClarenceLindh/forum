@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import CreateThread from './CreateThread';
+import '../Styles/Home.scss';
 
 
 
-class Forum extends React.Component {
+class Home extends React.Component {
 
     
 	render() {
@@ -16,5 +17,5 @@ class Forum extends React.Component {
         )
         }
     }
-    export default Forum;
+    export default Home;
           
