@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "../Styles/Login.scss";
 
 const Login = () => {
-  const baseURL = "http://localhost:8081";
+  const baseURL = "http://localhost:8080";
 
   const [loginUsername, setLoginUsername] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
