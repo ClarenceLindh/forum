@@ -27,7 +27,16 @@ public class UserController {
 
     @GetMapping("/auth/users")
     public List<UserEntity> getAllUsers(){return userService.getAll();}
-}
+
+    @GetMapping("/auth/whoami")
+    public UserEntity whoAmI() {
+        return userService.whoAmI();
+    }
+
+    }
+
+
+
 
 
 
