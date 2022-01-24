@@ -28,13 +28,17 @@ public class ThreadEntity {
 
     private boolean blockedThreadStatus;
 
-    @ManyToMany(mappedBy = "threadModerators")
-    Set<UserEntity> moderators;
+    @ManyToMany
+    @JoinTable(
+            name = "thread_moderators",
+            joinColumns = @JoinColumn(name = "thread_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<UserEntity> threadModerators;
 
     public ThreadEntity() {
     }
 
-    public ThreadEntity(long id, UserEntity creatorUserId, TopicEntity topicId, String title, String text, Date creationDate, Set<UserEntity> bannedUsers, boolean blockedThreadStatus, Set<UserEntity> moderators) {
+    public ThreadEntity(long id, UserEntity creatorUserId, TopicEntity topicId, String title, String text, Date creationDate, Set<UserEntity> bannedUsers, boolean blockedThreadStatus, Set<UserEntity> threadModerators) {
         this.id = id;
         this.creatorUserId = creatorUserId;
         this.topicId = topicId;
@@ -43,7 +47,7 @@ public class ThreadEntity {
         this.creationDate = creationDate;
         this.bannedUsers = bannedUsers;
         this.blockedThreadStatus = blockedThreadStatus;
-        this.moderators = moderators;
+        this.threadModerators = threadModerators;
     }
 
     public long getId() {
@@ -110,12 +114,12 @@ public class ThreadEntity {
         this.blockedThreadStatus = blockedThreadStatus;
     }
 
-    public Set<UserEntity> getModerators() {
-        return moderators;
+    public Set<UserEntity> getThreadModerators() {
+        return threadModerators;
     }
 
-    public void setModerators(Set<UserEntity> moderators) {
-        this.moderators = moderators;
+    public void setThreadModerators(Set<UserEntity> threadModerators) {
+        this.threadModerators = threadModerators;
     }
 
     @Override
@@ -129,7 +133,11 @@ public class ThreadEntity {
                 ", creationDate=" + creationDate +
                 ", bannedUsers=" + bannedUsers +
                 ", blockedThreadStatus=" + blockedThreadStatus +
-                ", moderators=" + moderators +
+                ", threadModerators=" + threadModerators +
                 '}';
+    }
+
+    public void addModerator(UserEntity user) {
+        threadModerators.add(user);
     }
 }
