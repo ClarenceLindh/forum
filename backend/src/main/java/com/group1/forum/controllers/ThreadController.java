@@ -1,7 +1,6 @@
 package com.group1.forum.Controllers;
 
 import com.group1.forum.Entities.ThreadEntity;
-import com.group1.forum.Entities.UserEntity;
 import com.group1.forum.Services.ThreadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +35,11 @@ public class ThreadController {
     @PutMapping("rest/thread/{threadId}/user/{userId}")
     public ThreadEntity addModeratorToThread(@PathVariable long threadId, @PathVariable long userId) {
         return threadService.addModeratorToThread(threadId, userId);
+    }
+
+    @PutMapping("rest/thread{threadId}")
+    public Optional<ThreadEntity> editThread(@PathVariable long threadId, @RequestBody ThreadEntity editedThread) {
+        return threadService.editThread(threadId, editedThread);
     }
 }
 
