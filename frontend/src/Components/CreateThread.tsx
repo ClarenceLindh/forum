@@ -17,7 +17,7 @@ function CreateThread() {
   const [theTopic, setTopic] = useState<string>("");
   const today = new Date();
   //const time = new Time();
-  const date =
+  const theDate =
     today.getFullYear() +
     "-" +
     (today.getMonth() + 1) +
@@ -37,10 +37,11 @@ function CreateThread() {
       topicId: { id: 1 },
       title: headL,
       text: content,
-      creationDate: "2022-01-24T09:02:15.000+00:00",
+      //creationDate: "2022-01-24T09:02:15.000+00:00",
+      creationDate: theDate
     };
     alert(
-      `headline: ${headL} content: ${content} topic: ${theTopic} date: ${date}`
+      `headline: ${headL} content: ${content} topic: ${theTopic} date: ${theDate}`
     );
 
     
@@ -48,7 +49,7 @@ function CreateThread() {
 			 method: "POST",
 			 headers: { "Content-Type": "application/json" },
 			 body: JSON.stringify(threadDetails),
-			 });
+			 }).catch(error => console.log('Request failed:', error));
 
 			 console.log(JSON.stringify(threadDetails));
 			
