@@ -19,10 +19,7 @@ class Home extends React.Component {
 			<div className="main">
 				
 
-            <CreateThread 
-            //user={this.state.user}
-            //topics={this.state.topics}
-            />
+            <CreateThread />
     </div>
         )
         }

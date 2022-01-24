@@ -20,10 +20,11 @@ function CreateThread() {
 	const handleSubmit = async (e: { preventDefault: () => void }) => {
 		 e.preventDefault();
 		 const threadDetails = {
-			 "creatorUserId" : "1",
+			"topicId" : { "id": 1},
 			 "title": headL,
 			 "text" : content,
-			 "topicId" : theTopic
+			 "creationDate": "2022-01-24T09:02:15.000+00:00"
+			
 		 }
 		 alert(`headline: ${headL} content: ${content} topic: ${theTopic} `)
 		
