@@ -42,7 +42,8 @@ function CreateThread() {
 		}
   
 	
-   const topicsList= [{value:"sport"},{value:"music"},{value:"art"}];
+   const topicsList= [
+	   {"topicId": {"id": 1}},{name:"sport"}},{value:"music"},{value:"art"}];
 
  
 
