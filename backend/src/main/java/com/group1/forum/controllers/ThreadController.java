@@ -37,5 +37,10 @@ public class ThreadController {
     public ThreadEntity addModeratorToThread(@PathVariable long threadId, @PathVariable long userId) {
         return threadService.addModeratorToThread(threadId, userId);
     }
+
+    @DeleteMapping("rest/thread/{threadId}")
+    public void deleteThreadById(@PathVariable long threadId) {
+        threadService.deleteThreadById(threadId);
+    }
 }
 

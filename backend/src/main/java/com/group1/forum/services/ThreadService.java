@@ -54,4 +54,8 @@ public class ThreadService {
             return threadRepo.save(thread);
 
     }
+
+    public void deleteThreadById(long threadId) {
+        threadRepo.deleteById(threadId);
+    }
 }
