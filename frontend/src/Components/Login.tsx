@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import "../Styles/Login.scss";
 
 const Login = () => {
-  const baseURL = "http://localhost:8080";
+  const baseURL = "http://localhost:8081";
 
-  const [loginEmail, setLoginEmail] = useState<string>("");
+  const [loginUsername, setLoginUsername] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
 
   const [registerUsername, setRegisterUsername] = useState<string>("");
@@ -22,28 +22,24 @@ const Login = () => {
 
   const login = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    const loginCredentials: string =
-      "email=" +
-      encodeURIComponent(loginEmail) +
-      "&password=" +
-      encodeURIComponent(loginPassword);
-    console.log(loginCredentials);
+    const credentials = {
+      username: loginUsername,
+      password: loginPassword,
+    };
 
-    const rawResponse = await fetch(baseURL + "/login", {
+    let response = await fetch(baseURL + "/login", {
       method: "POST",
-      headers: {
+      headers: new Headers({
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*", // or not???
-      },
-      mode: "no-cors", // or not???
-      body: JSON.stringify(loginCredentials),
+        "Allow-Control-Allow-Origin": "*",
+      }),
+      body: JSON.stringify(credentials),
+      mode: "no-cors",
     });
+    console.log(JSON.stringify(credentials));
 
-    let response = await rawResponse.json();
-    console.log(response);
-
-    if (response.status === 403) {
-      console.log('Wrong username/password');
+    if (response.url.includes("error")) {
+      console.log("Wrong username/password");
     }
   };
 
@@ -69,8 +65,8 @@ const Login = () => {
       <form onSubmit={login}>
         <input
           type="text"
-          placeholder="Email"
-          onChange={(e) => setLoginEmail(e.target.value)}
+          placeholder="Username"
+          onChange={(e) => setLoginUsername(e.target.value)}
         />
 
         <input

@@ -22,17 +22,20 @@ public class MyUserDetailsService implements org.springframework.security.core.u
 
     @PostConstruct
     private void createDefaultUsers(){
-        if(userRepo.findByEmail("Lasse74@mail.se") == null){
+        if(userRepo.findByUsername("Lasse74") == null){
             addUser(new UserEntity("Lasse74@mail.se", "Lasse74", "abc123"));
         }
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserEntity user = userRepo.findByEmail(email);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("loadUserByUsername: " + username);
+        UserEntity user = userRepo.findByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException(email);
+            System.out.println("User == null");
+            throw new UsernameNotFoundException(username);
         }
+        System.out.println("Returned: " + username);
         return toUserDetails(user); // Fix the user (cast UserEntity to userDetails
     }
 
@@ -48,13 +51,12 @@ public class MyUserDetailsService implements org.springframework.security.core.u
     }
 
     private UserDetails toUserDetails(UserEntity user) {
+        System.out.println("toUserDetails");
         // If you have a User entity you have to
         // use the userdetails User for this to work
         return org.springframework.security.core.userdetails.User
-                .withUsername(user.getEmail())
+                .withUsername(user.getUsername())
                 .password(user.getPassword())
                 .roles("USER").build();
     }
-
-
 }
