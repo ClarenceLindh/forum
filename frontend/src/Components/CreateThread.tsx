@@ -6,7 +6,7 @@ import { formatISO } from "date-fns";
 
 
 function CreateThread() {
-  const baseURL = "http://localhost:8080";
+  
 
   /*const{
 		user,
@@ -47,14 +47,10 @@ function CreateThread() {
 
     
   
-      const response = await fetch(baseURL + "/rest/thread", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          'Accept': 'application/json, text/plain, */*',
-          
-        },
-        body: threadDetails,
+      let response = await fetch( "/rest/thread", {
+        method: "post",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify( threadDetails ),
         mode: "no-cors",
       });
 
