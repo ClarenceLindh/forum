@@ -1,6 +1,7 @@
 package com.group1.forum.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -46,17 +47,36 @@ public class UserEntity {
 
     public UserEntity(String email) { this.email = email; }
 
-    public UserEntity(String email, String password) {
+    public UserEntity(String email, String username, String password) {
+        System.out.println("1");
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
+
+    public UserEntity(String username, String password) {
+        System.out.println("3");
+        this.username = username;
+        this.password = password;
+    }
+
+    public UserEntity(long id, String username, String email, String password, String role) {
+        System.out.println("2");
+        this.id = id;
+        this.username = username;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     public String getEmail() { return email;}
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
+    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }
@@ -70,6 +90,26 @@ public class UserEntity {
         this.threads = threads;
         this.blockedThreads = blockedThreads;
         this.threadModerators = threadModerators;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public long getId() {

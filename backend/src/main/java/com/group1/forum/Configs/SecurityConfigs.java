@@ -2,8 +2,10 @@ package com.group1.forum.Configs;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,7 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Configuration
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 @EnableWebSecurity
 public class SecurityConfigs extends WebSecurityConfigurerAdapter {
 
@@ -23,11 +25,12 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/", "/rest/**").permitAll()
-                .antMatchers("/auth/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/", "/rest/**", "/login").permitAll()
+                .antMatchers("/auth/**", "/login/").permitAll()
+                .antMatchers(HttpMethod.POST, "/", "/login").permitAll()
                 .and()
                 .formLogin()
-                .loginPage("/login").permitAll()
+                .loginPage("/login");
         ;
     }
 
@@ -36,5 +39,12 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
         auth
                 .userDetailsService(myUserDetailsService)
                 .passwordEncoder(myUserDetailsService.getEncoder());
+    }
+
+    // if using custom login:
+    @Bean("authenticationManager")
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 }

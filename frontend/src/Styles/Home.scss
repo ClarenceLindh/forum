@@ -1,15 +1,65 @@
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-color: rgb(46, 45, 45);
-  }
+
   
   code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
   }
   
+  .createThread{
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-top: 10vh;
+    width: 80vw;
+    height: 70vh;
+    position: relative;
+    background-color: rgb(66, 66, 68);
+    color: antiquewhite;
+    form{
+      position: absolute;
+      top: auto;
+      left: 10vw;
+      padding: 0vw;
+      
+      width: 60vw;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      
+    }
+  }
+  
+  
+  .headlineThread{
+    width: 60vw;
+  
+  }
+  .contentThread{
+    width: 60vw;
+    height: 40vh;
+    text-align: left;
+    vertical-align: top;
+  }
+  .topicList{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 5vh;
+  }
+  #topic{
+    margin-right: 5px;
+    background-color: rgb(105, 125, 126);
+    width: 12vw;
+    border: 5px solid rgb(75, 73, 73);
+    font-size: 2vh;
+  }
+  .submit{
+    position:relative;
+    width: 60vw;
+    background-color: cadetblue;
+  }
+  .submitThread{
+    position: absolute;
+    right: 0;
+    
+  }

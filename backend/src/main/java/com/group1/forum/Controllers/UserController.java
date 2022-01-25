@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @CrossOrigin
@@ -27,7 +28,13 @@ public class UserController {
 
     @GetMapping("/auth/users")
     public List<UserEntity> getAllUsers(){return userService.getAll();}
-}
+
+    @GetMapping("/auth/whoami")
+    public UserEntity whoAmI() {
+        return userService.whoAmI();
+    }
+
+    }
 
 
 
