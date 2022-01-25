@@ -3,6 +3,7 @@ package com.group1.forum.Services;
 import com.group1.forum.Entities.ThreadEntity;
 import com.group1.forum.Entities.UserEntity;
 import com.group1.forum.Repositories.ThreadRepo;
+import com.group1.forum.Repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,9 @@ public class ThreadService {
 
     @Autowired
     private ThreadRepo threadRepo;
+
+    @Autowired
+    private UserRepo userRepo;
 
     @Autowired
     private UserService userService;
@@ -36,10 +40,22 @@ public class ThreadService {
         if (loggedUser != null) {
             thread.setCreatorUserId(loggedUser);
             thread.setBlockedThreadStatus(false);
-            thread.setModerators((Set<UserEntity>) loggedUser);
             return threadRepo.save(thread);
         }
         return null;
     }
 
+    public ThreadEntity addModeratorToThread(long threadId, long userId) {
+        ThreadEntity thread = threadRepo.findById(threadId).get();
+        UserEntity user = userRepo.findById(userId).get();
+
+            thread.addModerator(user);
+
+            return threadRepo.save(thread);
+
+    }
+
+    public void deleteThreadById(long threadId) {
+        threadRepo.deleteById(threadId);
+    }
 }
