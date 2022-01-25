@@ -35,15 +35,16 @@ public class UserService {
     public UserEntity findCurrentUser() {
         // the login session is stored between page reloads,
         // and we can access the current authenticated user with this
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepo.findByEmail(email);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepo.findByUsername(username);
     }
 
-    public UserEntity customLogin(UserEntity user, HttpServletRequest req) {
+    public UserEntity login(UserEntity user, HttpServletRequest req) {
+        System.out.println("CustomLogin started");
         try {
             // Let Spring Security handle authentication of credentials
             UsernamePasswordAuthenticationToken authReq
-                    = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+                    = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
             Authentication auth = authManager.authenticate(authReq);
             // Add logged in user to sessions
             SecurityContext sc = SecurityContextHolder.getContext();
@@ -59,6 +60,7 @@ public class UserService {
     }
 
     public UserEntity register(UserEntity user) {
+        System.out.println("Register User" + user);
         System.out.println(user);
         return myUserDetailsService.addUser(user);
     }
@@ -67,8 +69,8 @@ public class UserService {
         // SecurityContextHolder.getContext() taps into the current session
         // getAuthentication() returns the current logged in user
         // getName() returns the logged in username (email in this case)
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepo.findByEmail(email);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepo.findByUsername(username);
     }
 
     public List<UserEntity> getAll() {return userRepo.findAll();}

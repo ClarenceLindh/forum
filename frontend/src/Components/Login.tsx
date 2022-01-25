@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "../Styles/Login.scss";
 
 const Login = () => {
-  const baseURL = "http://localhost:8080";
 
-  const [loginEmail, setLoginEmail] = useState<string>("");
+  const [loginUsername, setLoginUsername] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
 
   const [registerUsername, setRegisterUsername] = useState<string>("");
@@ -16,51 +15,53 @@ const Login = () => {
   const getUsers = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    const response = await fetch(baseURL + "/auth/users", {});
+    const response = await fetch("/auth/users", {});
     console.log(response);
   };
 
   const login = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    const loginCredentials: string =
-      "email=" +
-      encodeURIComponent(loginEmail) +
-      "&password=" +
-      encodeURIComponent(loginPassword);
-    console.log(loginCredentials);
 
-    const rawResponse = await fetch(baseURL + "/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      mode: "no-cors", // or not????
-      body: JSON.stringify(loginCredentials),
+    const credentials = 'username=' +
+      encodeURIComponent(loginUsername)
+      + '&password=' +
+      encodeURIComponent(loginPassword)
+
+    console.log(credentials);
+
+    let response = await fetch("/login", {
+      method: "post",
+      headers: {"Content-Type": "application/x-www-form-urlencoded"},
+      body: credentials,
+      mode: "no-cors", //  <3
     });
 
-    let response = await rawResponse.json();
-    console.log(response);
-
-    if (response.status === 403) {
-      console.log('Wrong username/password');
+    if (response.url.includes("error")) {
+      console.log("Wrong username/password");
     }
   };
 
   const register = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    const registerCredentials = {
+    const credentials = {
       username: registerUsername,
       email: registerEmail,
       password: registerPassword,
     };
 
-    const rawResponse = await fetch(baseURL + "/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(registerCredentials),
-    });
-    console.log(registerCredentials);
+    console.log(credentials);
+
+    try {
+      const response = await fetch("/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+    
   };
 
   return (
@@ -69,8 +70,8 @@ const Login = () => {
       <form onSubmit={login}>
         <input
           type="text"
-          placeholder="Email"
-          onChange={(e) => setLoginEmail(e.target.value)}
+          placeholder="Username"
+          onChange={(e) => setLoginUsername(e.target.value)}
         />
 
         <input
@@ -81,9 +82,6 @@ const Login = () => {
         />
         <button type="submit" onClick={login}>
           Login
-        </button>
-        <button type="submit" onClick={getUsers}>
-          getUsers
         </button>
       </form>
 
