@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
 import "../Styles/CreateTread.scss";
-import { timeStamp } from "console";
+//import { timeStamp } from "console";
 import { formatISO } from "date-fns";
 
 
@@ -13,6 +12,11 @@ function CreateThread() {
 		topics
 
 	}=props;*/
+  const topicsList = [
+    { id: 1, name: "sport" },
+    { id: 2, name: "music" },
+    { id: 3, name: "art" },
+  ];
 
   const [headL, setHeadL] = useState<string>("");
   const [content, setContent] = useState<string>("");
@@ -45,32 +49,19 @@ function CreateThread() {
       `headline: ${headL} content: ${content} topic: ${theTopic} date: ${today}`
     );*/
 
-    
-  
-      let response = await fetch( "/rest/thread", {
+    try{
+      const response = await fetch( "/rest/thread", {
         method: "post",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify( threadDetails ),
-        mode: "no-cors",
+        
       });
-
-      console.log(JSON.stringify(threadDetails));
-  
-      if (response.url.includes("error")) {
-        console.log("try again");
-      }
-    
-    
-	
-	   
+      console.log(JSON.stringify(response));
+    } catch (error) {
+      console.log(error);
+    }   
   
   };
-
-  const topicsList = [
-    { id: 1, name: "sport" },
-    { id: 2, name: "music" },
-    { id: 3, name: "art" },
-  ];
 
   return (
     <div className="createThread">
