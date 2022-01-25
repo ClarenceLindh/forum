@@ -63,6 +63,7 @@ public class ThreadService {
                     },
                 "title": "Mattråd",
                 "text": "Detta är nu en Mattråd"
+                "lastEdited": "2022-01-20T13:56:38.000+00:00"
                 }
          */
         return threadRepo.findById(threadId)
@@ -70,6 +71,7 @@ public class ThreadService {
                     thread.setTitle(editedThread.getTitle());
                     thread.setText(editedThread.getText());
                     thread.setTopicId(editedThread.getTopicId());
+                    thread.setLastEdited(editedThread.getLastEdited());
                     return threadRepo.save(thread);
                 });
     }
