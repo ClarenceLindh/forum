@@ -4,14 +4,8 @@ import "../Styles/CreateTread.scss";
 import { formatISO } from "date-fns";
 
 
-function CreateThread() {
+const CreateThread = () =>{
   
-
-  /*const{
-		user,
-		topics
-
-	}=props;*/
   const topicsList = [
     { id: 1, name: "sport" },
     { id: 2, name: "music" },
