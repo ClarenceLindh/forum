@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../Styles/CreateTread.scss";
 import { timeStamp } from "console";
+import { formatISO } from "date-fns";
+
 
 function CreateThread() {
   const baseURL = "http://localhost:8080";
@@ -15,44 +17,55 @@ function CreateThread() {
   const [headL, setHeadL] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [theTopic, setTopic] = useState<string>("");
-  const today = new Date();
+  const today = formatISO(new Date());
   //const time = new Time();
-  const theDate =
+/*  const theDate =
     today.getFullYear() +
-    "-" +
+    "-" + "0" +
     (today.getMonth() + 1) +
     "-" +
     today.getDate() +
-    "T" +
+    "T0" +
     today.getHours() +
     ":" +
     today.getMinutes() +
     ":" +
     today.getSeconds() +
     ".000+00:00";
-
+*/
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const threadDetails = {
-      topicId: { id: 1 },
+      topicId: { id: 1},
       title: headL,
       text: content,
-      //creationDate: "2022-01-24T09:02:15.000+00:00",
-      creationDate: theDate
+      creationDate: today
     };
-    alert(
-      `headline: ${headL} content: ${content} topic: ${theTopic} date: ${theDate}`
-    );
+   /* alert(
+      `headline: ${headL} content: ${content} topic: ${theTopic} date: ${today}`
+    );*/
 
     
-		 axios.post(baseURL + "/rest/thread", {
-			 method: "POST",
-			 headers: { "Content-Type": "application/json" },
-			 body: JSON.stringify(threadDetails),
-			 }).catch(error => console.log('Request failed:', error));
+  
+      const response = await fetch(baseURL + "/rest/thread", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          'Accept': 'application/json, text/plain, */*',
+          
+        },
+        body: threadDetails,
+        mode: "no-cors",
+      });
 
-			 console.log(JSON.stringify(threadDetails));
-			
+      console.log(JSON.stringify(threadDetails));
+  
+      if (response.url.includes("error")) {
+        console.log("try again");
+      }
+    
+    
+	
 	   
   
   };
