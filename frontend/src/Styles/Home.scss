@@ -67,3 +67,25 @@
   .main{
     color: white;
   }
+
+  .items{
+    padding: 2vh 2vw;
+    margin: 1vh 1vw;
+  }
+  .textItems{
+    padding: 4vh 4vw;
+    background-color: gray;
+    margin: 2vh 2vw;
+    text-align: center;
+    
+  }
+
+  .header{
+    display: flex;
+    justify-content: space-between;
+    margin: 2vh 2vw;
+  }
+  .categories{
+    display: flex;
+    margin: 1vh 1vw;
+  }
