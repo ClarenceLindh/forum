@@ -2,6 +2,7 @@ import "./Styles/App.scss";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./Components/Login";
 import Home from "./Components/Home";
+import ViewThread from "./Components/ViewThread";
 
 
 function App() {
@@ -14,6 +15,8 @@ function App() {
 
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/viewThread" element={<ViewThread />} />
+
           
          </Routes>
         </Router>
