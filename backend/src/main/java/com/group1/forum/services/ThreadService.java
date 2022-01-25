@@ -55,12 +55,21 @@ public class ThreadService {
     }
 
     public Optional<ThreadEntity> editThread(long threadId, ThreadEntity editedThread) {
-        UserEntity loggedUser = userService.whoAmI();
-
+        /*
+        JSON-example
+                {
+                    "topicId": {
+                        "id": 2
+                    },
+                "title": "Mattråd",
+                "text": "Detta är nu en Mattråd"
+                }
+         */
         return threadRepo.findById(threadId)
                 .map(thread -> {
                     thread.setTitle(editedThread.getTitle());
                     thread.setText(editedThread.getText());
+                    thread.setTopicId(editedThread.getTopicId());
                     return threadRepo.save(thread);
                 });
     }
