@@ -37,7 +37,7 @@ public class ThreadController {
         return threadService.addModeratorToThread(threadId, userId);
     }
 
-    @PutMapping("rest/thread{threadId}")
+    @PutMapping("rest/thread/{threadId}")
     public Optional<ThreadEntity> editThread(@PathVariable long threadId, @RequestBody ThreadEntity editedThread) {
         return threadService.editThread(threadId, editedThread);
     }

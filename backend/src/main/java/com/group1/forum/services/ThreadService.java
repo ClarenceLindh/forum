@@ -55,10 +55,12 @@ public class ThreadService {
     }
 
     public Optional<ThreadEntity> editThread(long threadId, ThreadEntity editedThread) {
+        UserEntity loggedUser = userService.whoAmI();
+
         return threadRepo.findById(threadId)
                 .map(thread -> {
-                    thread.setCreatorUserId(editedThread.getCreatorUserId());
-                    thread.setCreationDate(editedThread.getCreationDate());
+                    thread.setTitle(editedThread.getTitle());
+                    thread.setText(editedThread.getText());
                     return threadRepo.save(thread);
                 });
     }
