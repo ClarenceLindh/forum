@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "../Styles/Login.scss";
 
 const Login = () => {
@@ -21,22 +21,19 @@ const Login = () => {
 
   const login = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    let credentials = {
-      username: loginUsername,
-      password: loginPassword,
-    };
 
-    let newcredentials = JSON.stringify(credentials);
-    console.log(newcredentials);
+    const credentials = 'username=' +
+      encodeURIComponent(loginUsername)
+      + '&password=' +
+      encodeURIComponent(loginPassword)
 
-    const requestHeaders: HeadersInit = new Headers();
-    requestHeaders.append("Content-Type", "application/json");
+    console.log(credentials);
 
-    let response = await fetch("/api/login", {
+    let response = await fetch("/login", {
       method: "post",
-      headers: requestHeaders,
-      body: JSON.stringify(newcredentials),
-      mode: "no-cors",
+      headers: {"Content-Type": "application/x-www-form-urlencoded"},
+      body: credentials,
+      mode: "no-cors", //  <3
     });
 
     if (response.url.includes("error")) {
@@ -52,6 +49,8 @@ const Login = () => {
       password: registerPassword,
     };
 
+    console.log(credentials);
+
     try {
       const response = await fetch("/auth/register", {
         method: "POST",
@@ -62,7 +61,7 @@ const Login = () => {
     } catch (error) {
       console.log(error);
     }
-    console.log(credentials);
+    
   };
 
   return (
@@ -83,9 +82,6 @@ const Login = () => {
         />
         <button type="submit" onClick={login}>
           Login
-        </button>
-        <button type="submit" onClick={getUsers}>
-          getUsers
         </button>
       </form>
 
