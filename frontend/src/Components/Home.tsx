@@ -1,6 +1,6 @@
 import React, {  useState } from "react";
 import "../Styles/Home.scss";
-import Threads from "./Threads";
+import Threads from "./Threads/Threads";
 
 
 
