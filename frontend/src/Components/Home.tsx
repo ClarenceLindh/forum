@@ -1,12 +1,12 @@
 import React, {  useState } from "react";
 import "../Styles/Home.scss";
-import Threads from "./Threads/Threads";
+import ThreadList from "./Threads/ThreadList";
 
 
 
 const Home = () => {
  
-  const [threads, setThreads] = useState(['thread1', 'thread2'])
+  const [threads, setThreads] = useState([{id:1,name:'Todo1', complete:false }])
   
     return (
       <div className="main">
@@ -19,7 +19,9 @@ const Home = () => {
           </div>
         </header>
 
-      <Threads threadList={threads}/>
+        <ThreadList threadList={threads}/>
+
+    
     
 
       </div>
