@@ -1,41 +1,29 @@
-import React, { useEffect } from "react";
-import CreateThread from "./CreateThread";
+import React, {  useState } from "react";
 import "../Styles/Home.scss";
+import Threads from "./Threads";
 
-const topicsList = [{ topic: "sport" }, { topic: "music" }, { topic: "art" }];
-const List = [{ hmm: "test" }, { hmm: "test" }, { hmm: "test" }];
 
-class Home extends React.Component {
-  render() {
+
+const Home = () => {
+ 
+  const [threads, setThreads] = useState(['thread1', 'thread2'])
+  
     return (
       <div className="main">
+
         <header>
-          <div className="header">
+        <div className="header">
               <div></div>
             <h1>FORUM</h1>
             <h2>Sign in</h2>
           </div>
-
-          <div className="categories">
-            {topicsList.map(function (e) {
-              return <div id="topic">{e.topic}</div>;
-            })}
-          </div>
         </header>
 
-
-
-        <body>
-          <div className="items">
-            {List.map(function (e) {
-              return <div className="textItems">{e.hmm}</div>;
-            })}
-          </div>
-        </body>
-
+      <Threads threadList={threads}/>
+    
 
       </div>
     );
   }
-}
+
 export default Home;
