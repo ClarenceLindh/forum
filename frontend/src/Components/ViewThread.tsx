@@ -1,15 +1,17 @@
-import React, { useState } from "react";
-import { useParams } from "react-router";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import "../Styles/Thread.scss";
 
 function ViewThread() {
     const [comment, setComment] = useState("");
     const {threadId} = useParams();
 
-    const getThreadById = async (e: { preventDefault: () => void }) => {
-        e.preventDefault();
+    const getThreadById = async (e: { preventDefault: () => void; }) => {
+     e.preventDefault();
     
         // controller url: "/rest/thread/{threadId}"
-        const res = await fetch(`/rest/thread/${threadId}`, {});
+        const raw = await fetch(`/rest/thread/${threadId}`);
+        const res = await raw.json();
         console.log(res);
       };
 
