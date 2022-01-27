@@ -4,13 +4,14 @@ import "../Styles/Home.scss";
 
 const Home = () => {
 
-  const [allTopics, setAllTopics] = useState<any>([]);
+  const [allTopics, setAllTopics] = useState<any>();
   
   const getTopics = async() =>
   {    
-    const response = await fetch("/rest/topics/all-topics", {});
-    console.log(response);
+    const response = await fetch("/rest/topics/all-topics",{});
+    console.log(response.json());
     setAllTopics(response)
+    console.log(allTopics)
   };
 
   useEffect(() => {
