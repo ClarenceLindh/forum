@@ -7,3 +7,70 @@
   
 
   
+  
+  .headlineThread{
+    width: 60vw;
+  
+  }
+  .contentThread{
+    width: 60vw;
+    height: 40vh;
+    text-align: left;
+    vertical-align: top;
+  }
+  .topicList{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 5vh;
+  }
+  #topic{
+    margin-right: 5px;
+    background-color: rgb(105, 125, 126);
+    width: 12vw;
+    border: 5px solid rgb(75, 73, 73);
+    font-size: 2vh;
+  }
+  .submit{
+    position:relative;
+    width: 60vw;
+    background-color: cadetblue;
+  }
+  .submitThread{
+    position: absolute;
+    right: 0;
+    
+  }
+
+  // .main{
+  //   color: white;
+  // }
+
+  .items{
+    padding: 2vh 2vw;
+    margin: 1vh 1vw;
+  }
+  // .textItems{
+  //   padding: 4vh 4vw;
+  //   background-color: gray;
+  //   margin: 2vh 2vw;
+  //   text-align: center;
+    
+  // }
+
+  .header{
+    display: flex;
+    justify-content: space-between;
+    margin: 2vh 2vw;
+    color: rgba(255, 255, 255, 0.678);
+  }
+  .categories{
+    display: flex;
+    margin: 1vh 1vw;
+    color: rgba(255, 255, 255, 0.678);
+
+  }
+
+  body{
+    color: rgba(255, 255, 255, 0.671);
+  }
