@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./Components/Login";
 import Home from "./Components/Home";
 import { useEffect, useState } from "react";
+import CreateThread from "./Components/CreateThread";
+
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState<string>("");

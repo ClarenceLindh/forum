@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+
 @RestController
 public class ThreadController {
 
@@ -27,11 +28,25 @@ public class ThreadController {
         return threadService.getThreadById(threadId);
     }
 
-
-
     @PostMapping("/rest/thread")
     public ThreadEntity createThread(@RequestBody ThreadEntity thread) {
+        System.out.println("test 1");
         return threadService.createThread(thread);
+    }
+
+    @PutMapping("rest/thread/{threadId}/user/{userId}")
+    public ThreadEntity addModeratorToThread(@PathVariable long threadId, @PathVariable long userId) {
+        return threadService.addModeratorToThread(threadId, userId);
+    }
+
+    @PutMapping("rest/thread/{threadId}")
+    public Optional<ThreadEntity> editThread(@PathVariable long threadId, @RequestBody ThreadEntity editedThread) {
+        return threadService.editThread(threadId, editedThread);
+    }
+
+    @DeleteMapping("rest/thread/{threadId}")
+    public void deleteThreadById(@PathVariable long threadId) {
+        threadService.deleteThreadById(threadId);
     }
 }
 

@@ -38,12 +38,9 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(name = "thread_id"))
     Set<ThreadEntity> blockedThreads;
 
-    @ManyToMany
-    @JoinTable(
-            name = "thread_moderators",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "thread_id"))
-    Set<ThreadEntity> threadModerators;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "threadModerators")
+    private Set<ThreadEntity> threadModerators;
 
     public UserEntity() {
     }
@@ -81,8 +78,12 @@ public class UserEntity {
         this.password = password;
     }
 
-    public UserEntity(long id, Set<ThreadEntity> threads, Set<ThreadEntity> blockedThreads, Set<ThreadEntity> threadModerators) {
+    public UserEntity(long id, String username, String email, String password, String role, Set<ThreadEntity> threads, Set<ThreadEntity> blockedThreads, Set<ThreadEntity> threadModerators) {
         this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
         this.threads = threads;
         this.blockedThreads = blockedThreads;
         this.threadModerators = threadModerators;
@@ -133,7 +134,6 @@ public class UserEntity {
         this.blockedThreads = blockedThreads;
     }
 
-    @JsonIgnore
     public Set<ThreadEntity> getThreadModerators() {
         return threadModerators;
     }
