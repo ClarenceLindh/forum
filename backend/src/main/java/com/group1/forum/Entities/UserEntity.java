@@ -137,26 +137,6 @@ public class UserEntity {
         this.blockedThreads = blockedThreads;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public Set<ThreadEntity> getThreadModerators() {
         return threadModerators;
     }
