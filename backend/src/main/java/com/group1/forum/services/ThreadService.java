@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class ThreadService {
@@ -53,6 +52,28 @@ public class ThreadService {
 
             return threadRepo.save(thread);
 
+    }
+
+    public Optional<ThreadEntity> editThread(long threadId, ThreadEntity editedThread) {
+        /*
+        JSON-example
+                {
+                    "topicId": {
+                        "id": 2
+                    },
+                "title": "Mattråd",
+                "text": "Detta är nu en Mattråd"
+                "lastEdited": "2022-01-20T13:56:38.000+00:00"
+                }
+         */
+        return threadRepo.findById(threadId)
+                .map(thread -> {
+                    thread.setTitle(editedThread.getTitle());
+                    thread.setText(editedThread.getText());
+                    thread.setTopicId(editedThread.getTopicId());
+                    thread.setLastEdited(editedThread.getLastEdited());
+                    return threadRepo.save(thread);
+                });
     }
 
     public void deleteThreadById(long threadId) {
