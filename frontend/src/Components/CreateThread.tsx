@@ -4,7 +4,7 @@ import "../Styles/CreateTread.scss";
 import { formatISO } from "date-fns";
 
 
-const CreateThread = () => {
+const CreateThread = (allTopics:any) => {
   
   const topicsList = [
     { id: 1, name: "sport" },
@@ -43,6 +43,7 @@ const CreateThread = () => {
       `headline: ${headL} content: ${content} topic: ${theTopic} date: ${today}`
     );
     console.log(JSON.stringify(threadDetails))
+    console.log(allTopics);
 
     try{
       const response = await fetch( "/rest/thread", {
