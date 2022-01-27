@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin
+
 @RestController
 public class ThreadController {
 
@@ -31,6 +31,7 @@ public class ThreadController {
 
     @PostMapping("/rest/thread")
     public ThreadEntity createThread(@RequestBody ThreadEntity thread) {
+        System.out.println("test 1");
         return threadService.createThread(thread);
     }
 
