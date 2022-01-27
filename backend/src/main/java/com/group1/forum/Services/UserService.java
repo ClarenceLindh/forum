@@ -41,7 +41,7 @@ public class UserService {
     }
 
     public UserEntity register(UserEntity user) {
-        System.out.println("Register User" + user);
+        System.out.println("Register user" + user);
         System.out.println(user);
         return myUserDetailsService.addUser(user);
     }
