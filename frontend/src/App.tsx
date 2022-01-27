@@ -15,7 +15,7 @@ function App() {
 
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/viewThread" element={<ViewThread />} />
+            <Route path="/viewThread/:id" element={<ViewThread />} />
 
           
          </Routes>

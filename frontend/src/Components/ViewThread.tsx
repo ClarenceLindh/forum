@@ -1,13 +1,15 @@
 import React, { useState } from "react";
+import { useParams } from "react-router";
 
 function ViewThread() {
     const [comment, setComment] = useState("");
+    const {threadId} = useParams();
 
     const getThreadById = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
     
         // controller url: "/rest/thread/{threadId}"
-        const res = await fetch("/rest/thread/1", {});
+        const res = await fetch(`/rest/thread/${threadId}`, {});
         console.log(res);
       };
 
@@ -20,7 +22,7 @@ function ViewThread() {
             </div>
             <div className="threadContent">
                 <h3>CONTENT</h3>
-                <form onClick={getThreadById}>
+                <form>
                     <button onClick={getThreadById}>Get Thread</button>
                 </form>
             </div>
