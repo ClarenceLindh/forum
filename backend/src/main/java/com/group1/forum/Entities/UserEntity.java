@@ -51,20 +51,17 @@ public class UserEntity {
     public UserEntity(String email) { this.email = email; }
 
     public UserEntity(String email, String username, String password) {
-        System.out.println("1");
         this.email = email;
         this.username = username;
         this.password = password;
     }
 
     public UserEntity(String username, String password) {
-        System.out.println("3");
         this.username = username;
         this.password = password;
     }
 
     public UserEntity(long id, String username, String email, String password, String role) {
-        System.out.println("2");
         this.id = id;
         this.username = username;
         this.email = email;
