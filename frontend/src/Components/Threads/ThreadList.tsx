@@ -8,10 +8,12 @@ export default function ThreadList({threads}:{threads:any}) {
 
 
   return (
+<div>
 
-  threads.map((thread: { id: React.Key | null | undefined; })=>{
-    return <Thread key={thread.id} thread={thread}/>
-  })
-    
+  <h1>THREAD?</h1>
+ { threads.map((thread: {  })=>{
+    return <Thread  thread={thread}/>
+  })}
+    </div>
     )
 }
