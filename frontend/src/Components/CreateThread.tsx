@@ -1,36 +1,26 @@
 import React, { useState } from "react";
 import "../Styles/CreateTread.scss";
-//import { timeStamp } from "console";
 import { formatISO } from "date-fns";
 
-
-const CreateThread = (allTopics:any) => {
+/*type Props = {
+   
+    allTopics : [],
+    //viewCreateThread: boolean
+};*/
+const CreateThread= () =>  {
   
+
+  const [headL, setHeadL] = useState<string>("");
+  const [content, setContent] = useState<string>("");
+  const [theTopic, setTopic] = useState<string>("");
+  const today = formatISO(new Date());
+
   const topicsList = [
     { id: 1, name: "sport" },
     { id: 2, name: "music" },
     { id: 3, name: "art" },
   ];
 
-  const [headL, setHeadL] = useState<string>("");
-  const [content, setContent] = useState<string>("");
-  const [theTopic, setTopic] = useState<string>("");
-  const today = formatISO(new Date());
-  //const time = new Time();
-/*  const theDate =
-    today.getFullYear() +
-    "-" + "0" +
-    (today.getMonth() + 1) +
-    "-" +
-    today.getDate() +
-    "T0" +
-    today.getHours() +
-    ":" +
-    today.getMinutes() +
-    ":" +
-    today.getSeconds() +
-    ".000+00:00";
-*/
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const threadDetails = {
@@ -43,7 +33,7 @@ const CreateThread = (allTopics:any) => {
       `headline: ${headL} content: ${content} topic: ${theTopic} date: ${today}`
     );
     console.log(JSON.stringify(threadDetails))
-    console.log(allTopics);
+
 
     try{
       const response = await fetch( "/rest/thread", {
@@ -59,6 +49,7 @@ const CreateThread = (allTopics:any) => {
     }   
   
   };
+
 
   return (
     <div className="createThread">
@@ -92,6 +83,7 @@ const CreateThread = (allTopics:any) => {
       </form>
     </div>
   );
+ 
 }
 
 export default CreateThread;
