@@ -17,16 +17,21 @@ const Home = () => {
        // controller url: "/rest/thread/{threadId}"
        const raw = await fetch(`rest/threads/all-threads`);
        const res = await raw.json();
-       
+
         res.forEach((element: { id:any; name: string; complete: boolean; }) => {
           setThreads(threads=>[...threads,element])
-          console.log(threads);
          });
+
+         console.log(res)
      
       
      
   };
 
+
+     
+     
+  
 
   
   return (
