@@ -4,6 +4,7 @@ import React, {  useState } from "react";
 
 import Login from "./Components/Login";
 import Home from "./Components/Home";
+import ViewThread from "./Components/ViewThread";
 import CreateThread from "./Components/CreateThread";
 import ThreadList from "./Components/Threads/ThreadList";
 
@@ -19,6 +20,8 @@ function App() {
 
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/viewThread/:threadId" element={<ViewThread />} />
+
             <Route path="/create" element={<CreateThread />} />
             {/* <Route path="/thread" element={<ThreadList threads={threads} />} /> */}
           
