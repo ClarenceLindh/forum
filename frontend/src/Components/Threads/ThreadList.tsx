@@ -9,9 +9,13 @@ export default function ThreadList({threads}:{threads:any}) {
 
   return (
 
-  threads.map((thread: { id: React.Key | null | undefined; })=>{
-    return <Thread key={thread.id} thread={thread}/>
-  })
-    
+
+<div>
+ { threads.map((thread: {  },index:number)=>{
+    return <Thread key={index} thread={thread}/>
+  })}
+    </div>
     )
+
+
 }
