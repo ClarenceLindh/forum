@@ -79,4 +79,9 @@ public class ThreadService {
     public void deleteThreadById(long threadId) {
         threadRepo.deleteById(threadId);
     }
+
+
+    public List<ThreadEntity> getThreadByCreatorUserId(long creatorUserId) {
+        return threadRepo.findByCreatorUserId(creatorUserId);
+    }
 }

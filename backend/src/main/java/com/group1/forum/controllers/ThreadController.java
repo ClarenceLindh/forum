@@ -48,5 +48,12 @@ public class ThreadController {
     public void deleteThreadById(@PathVariable long threadId) {
         threadService.deleteThreadById(threadId);
     }
-}
 
+    // tobe checked begin
+    @GetMapping("/rest/threads/user/{creatorUserId}")
+    public List<ThreadEntity> getThreadByCreatorUserId(@PathVariable long creatorUserId)
+    {
+     return threadService.getThreadByCreatorUserId(creatorUserId)   ;
+    }
+// to be checked end
+}
