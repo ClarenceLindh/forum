@@ -7,16 +7,22 @@ import ThreadList from "./Threads/ThreadList";
 const Home = () => {
   const [threads, setThreads] = useState([{}])
   const topicsList=[{topic:"sport"},{topic:"music"},{topic:"art"}]
-   
+
+
 
 
   
-  const getThreads = async (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
+useEffect(()=>{
+
+
+  async function fetchData(){
+   
 
        // controller url: "/rest/thread/{threadId}"
        const raw = await fetch(`rest/threads/all-threads`);
        const res = await raw.json();
+       console.log(res)
+
 
         res.forEach((element: { id:any; name: string; complete: boolean; }) => {
           setThreads(threads=>[...threads,element])
@@ -26,7 +32,13 @@ const Home = () => {
      
       
      
+
   };
+
+  fetchData();
+
+},[])
+  
 
 
      
@@ -58,7 +70,6 @@ const Home = () => {
         </div>
 
         <div className="items">
-        <button onClick={getThreads}>Get Thread</button>
 
         <ThreadList threads={threads}/>
 

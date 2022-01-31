@@ -6,12 +6,13 @@ export default function Thread({ thread }: {thread: any}) {
   return (<div>
 
     <div>
-   Title: {thread.title}
+    {thread.title}
 
     </div>
 
     <div>
-   Text: {thread.text}
+   {thread.text}
+
 
     </div>
 
