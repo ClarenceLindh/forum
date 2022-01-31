@@ -19,6 +19,7 @@ public class UserEntity {
     @Column(name = "username")
     private String username;
 
+    @JsonIgnore
     @Column(name = "email")
     private String email;
 

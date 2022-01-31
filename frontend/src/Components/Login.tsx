@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../Styles/Login.scss";
 
-const Login = (loggedInUser:any) => {
+const Login = (loggedInUser: any) => {
   const navigate = useNavigate();
 
   const [loginUsername, setLoginUsername] = useState<string>("");
@@ -12,17 +12,17 @@ const Login = (loggedInUser:any) => {
   const [registerPassword, setRegisterPassword] = useState<string>("");
   const [registerEmail, setRegisterEmail] = useState<string>("");
 
-
   const getUsers = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log(loggedInUser);
-    
+
     const response = await fetch("/auth/users", {});
     console.log(response);
   };
 
   const login = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    loggedInUser = null;
 
     const credentials =
       "username=" +
@@ -37,34 +37,32 @@ const Login = (loggedInUser:any) => {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       mode: "no-cors", //  <3
       body: credentials,
-    })
-    .then(response => {
+    }).then(() => {
       whoAmI();
     });
   };
-  
+
   const whoAmI = async () => {
     let response = await fetch("/auth/whoami", {
       method: "get",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       mode: "no-cors", //  <3
     })
-    .then(response => response.json())
-    .then(response => { 
-      loggedInUser = response.username
-      console.log("setLoggedInUser: ", loggedInUser);
-    })
+      .then((response) => response.json())
+      .then((response) => {
+        loggedInUser = response;
+        console.log("setLoggedInUser: ", loggedInUser);
+      });
 
-    if (loggedInUser) {
-      alert("You logged in as " + loggedInUser);
+    if (loggedInUser = loginUsername) {
+      alert("You logged in as " + loginUsername);
       navigate("/");
-    } else {
+    } else if (loggedInUser !== loginUsername){
       alert("Wrong username/password");
       console.log("Wrong!");
     }
-  }
+  };
 
-  
   const register = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const credentials = {
@@ -84,7 +82,7 @@ const Login = (loggedInUser:any) => {
 
       console.log("Response", response);
 
-      if(response.status === 200) {
+      if (response.status === 200) {
         alert("Successfully registered");
         login(e);
       } else {

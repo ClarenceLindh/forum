@@ -39,6 +39,9 @@ const CreateThread = () => {
       text: content,
       creationDate: today
     };
+    setTimeout(() => {
+      console.log(threadDetails);
+    }, 2000);
     alert(
       `headline: ${headL} content: ${content} topic: ${theTopic} date: ${today}`
     );
