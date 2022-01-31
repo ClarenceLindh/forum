@@ -8,11 +8,14 @@ export default function ThreadList({threads}:{threads:any}) {
 
 
   return (
-<div>
 
- { threads.map((thread: {  })=>{
-    return <Thread  thread={thread}/>
+
+<div>
+ { threads.map((thread: {  },index:number)=>{
+    return <Thread key={index} thread={thread}/>
   })}
     </div>
     )
+
+
 }
