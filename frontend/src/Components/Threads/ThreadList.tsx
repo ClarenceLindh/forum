@@ -6,10 +6,8 @@ export default function ThreadList({threads}:{threads:any}) {
 
 
 
-
   return (
 <div>
-
  { threads.map((thread: {  })=>{
     return <Thread  thread={thread}/>
   })}
