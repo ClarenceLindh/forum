@@ -5,5 +5,26 @@
       monospace;
   }
   
+.main{
+  position: relative;
+  width:100vw;
+  height: 100vh;
+ 
+}  
 
+.footer{
+  position: absolute;
+  width: 100vw;
+  height: 10vh;
+  bottom: 0vh;
+  display: flex;
+  justify-content: center;
+  
+}
+
+#press{
+  width: 16vw;
+  height: 10vh;
+  font-size: 10vh;
+}
   
