@@ -3,24 +3,13 @@ import "../Styles/Home.scss";
 import ThreadList from "./Threads/ThreadList";
 
 const Home = (loggedInUser: any) => {
-  const test = true;
-  const [threads, setThreads] = useState([
-    { id: 1, name: "Todo1", complete: false },
-    { id: 1, name: "Todo2", complete: false },
-    { id: 1, name: "Todo3", complete: false },
-    { id: 1, name: "Todo4", complete: false },
-  ]);
+
   const topicsList = [{ topic: "sport" }, { topic: "music" }, { topic: "art" }];
-
-  return (
-    <div className="main">
-      <div className="main">
-        <CreateThread />
-      </div>
-
-const Home = () => {
   const [threads, setThreads] = useState([{}])
-  const topicsList=[{topic:"sport"},{topic:"music"},{topic:"art"}]
+ 
+ 
+ 
+ 
 
 
 
