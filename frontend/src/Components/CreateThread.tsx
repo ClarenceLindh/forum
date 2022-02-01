@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../Styles/CreateTread.scss";
-//import { timeStamp } from "console";
 import { formatISO } from "date-fns";
 
-const CreateThread = (topics: any, closeCT: (arg0: boolean) => void) => {
- 
+const CreateThread = (topics: any) => {
   const [headL, setHeadL] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [theTopic, setTopic] = useState<string>("");
@@ -26,13 +24,12 @@ const CreateThread = (topics: any, closeCT: (arg0: boolean) => void) => {
         body: JSON.stringify(threadDetails),
       });
       console.log(response);
-      //  closeCreateThread();
     } catch (error) {
       console.log(error);
     }
+    // reload the homepage after submit
     // eslint-disable-next-line no-lone-blocks
     window.location.reload();
-    //{closeCT(false)}
   };
 
   return (
