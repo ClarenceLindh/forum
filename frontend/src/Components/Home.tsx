@@ -37,6 +37,10 @@ const Home = (loggedInUser: any) => {
 
   useEffect(() => {
     fetchData();
+   
+  }, []);
+
+  useEffect(() => {
     if (allTopics.length === 0) {
       getTopics();
     }
