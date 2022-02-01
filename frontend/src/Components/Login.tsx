@@ -80,7 +80,7 @@ const Login = (loggedInUser: any) => {
 
     if (
       window.confirm(
-        "You are registered as " +
+        "You are registering as " +
           registerUsername +
           ". By clicking on OK you agree to the following user data policies: " +
           dataPolicy
@@ -106,7 +106,6 @@ const Login = (loggedInUser: any) => {
 
         if (response.status === 200) {
           alert("Successfully registered");
-          login(e);
         } else {
           alert("Something went wrong");
         }
