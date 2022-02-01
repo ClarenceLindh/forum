@@ -6,6 +6,26 @@
 
 }
 
+.threadTitle{
+    font-size: 5vh;
+    font-weight: bold;
+}
+
+.threadContent{
+    // text-align: start;
+    border: solid;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    background-color: grey;
+    padding: 3vh;
+    font-size: 1.7vh;
+}
+
+.comment{
+    width: 40%;
+    height: 15vh;
+}
+
 
 .box:first-child{
     display: none;
