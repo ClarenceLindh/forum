@@ -23,8 +23,12 @@ function App() {
           />
             <Route path="/viewThread/:threadId" element={<ViewThread />} />
             <Route path="/create" element={<CreateThread />} />
+        
+          
          </Routes>
         </Router>
+       
+      
     </div>
   );
 }

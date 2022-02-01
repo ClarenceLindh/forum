@@ -1,62 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../Styles/CreateTread.scss";
-//import { timeStamp } from "console";
 import { formatISO } from "date-fns";
 
-
-const CreateThread = () => {
-  
-  const topicsList = [
-    { id: 1, name: "sport" },
-    { id: 2, name: "music" },
-    { id: 3, name: "art" },
-  ];
-
+const CreateThread = (topics: any) => {
   const [headL, setHeadL] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [theTopic, setTopic] = useState<string>("");
   const today = formatISO(new Date());
-  //const time = new Time();
-/*  const theDate =
-    today.getFullYear() +
-    "-" + "0" +
-    (today.getMonth() + 1) +
-    "-" +
-    today.getDate() +
-    "T0" +
-    today.getHours() +
-    ":" +
-    today.getMinutes() +
-    ":" +
-    today.getSeconds() +
-    ".000+00:00";
-*/
+
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const threadDetails = {
-      topicId: { id: 1},
+      topicId: { id: 1 },
       title: headL,
       text: content,
-      creationDate: today
+      creationDate: today,
     };
-    alert(
-      `headline: ${headL} content: ${content} topic: ${theTopic} date: ${today}`
-    );
-    console.log(JSON.stringify(threadDetails))
 
-    try{
-      const response = await fetch( "/rest/thread", {
+    try {
+      const response = await fetch("/rest/thread", {
         method: "post",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify( threadDetails ),
-        
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(threadDetails),
       });
       console.log(response);
-      
     } catch (error) {
       console.log(error);
-    }   
-  
+    }
+    // reload the homepage after submit
+    // eslint-disable-next-line no-lone-blocks
+    window.location.reload();
   };
 
   return (
@@ -80,7 +53,7 @@ const CreateThread = () => {
 
         <div className="topicList">
           <select onChange={(e) => setTopic(e.target.value)} name="" id="">
-            {topicsList.map((index) => (
+            {topics.topics.map((index: any) => (
               <option value={index.id}>{index.name}</option>
             ))}
           </select>
@@ -91,6 +64,6 @@ const CreateThread = () => {
       </form>
     </div>
   );
-}
+};
 
 export default CreateThread;

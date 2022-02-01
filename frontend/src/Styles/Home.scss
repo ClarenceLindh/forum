@@ -1,10 +1,9 @@
+@import "App";
 
-  
-  code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-      monospace;
-  }
-  
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
 
   
   
@@ -74,3 +73,25 @@
   .body{
     color: rgba(255, 255, 255, 0.671);
   }
+.main {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.footer {
+  position: absolute;
+  width: 100vw;
+  height: 10vh;
+  bottom: 0vh;
+  display: flex;
+  justify-content: center;
+  background-color: $backgroundcolor2;
+}
+
+#press {
+  width: 16vw;
+  height: 10vh;
+  font-size: 9vh;
+  $backgroundcolor4: rgb(184, 184, 184);
+}
