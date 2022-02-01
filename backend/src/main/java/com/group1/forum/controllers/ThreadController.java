@@ -50,10 +50,9 @@ public class ThreadController {
     }
 
     // tobe checked begin
-    @GetMapping("/rest/threads/user/{creatorUserId}")
-    public List<ThreadEntity> getThreadByCreatorUserId(@PathVariable long creatorUserId)
-    {
-     return threadService.getThreadByCreatorUserId(creatorUserId)   ;
+    @GetMapping("/rest/threads/user/{creatorId}")
+    public List<ThreadEntity> getThreadByCreatorUserId(@PathVariable long creatorId) {
+     return threadService.getThreadByCreatorUserId(creatorId);
     }
 // to be checked end
 }

@@ -37,7 +37,7 @@ public class ThreadService {
     public ThreadEntity createThread(ThreadEntity thread) {
         UserEntity loggedUser = userService.whoAmI();
         if (loggedUser != null) {
-            thread.setCreatorUserId(loggedUser);
+            thread.setCreator(loggedUser);
             thread.setBlockedThreadStatus(false);
             return threadRepo.save(thread);
         }
@@ -81,7 +81,7 @@ public class ThreadService {
     }
 
 
-    public List<ThreadEntity> getThreadByCreatorUserId(long creatorUserId) {
-        return threadRepo.findByCreatorUserId(creatorUserId);
+    public List<ThreadEntity> getThreadByCreatorUserId(long creatorId) {
+        return threadRepo.findByCreatorId(creatorId);
     }
 }

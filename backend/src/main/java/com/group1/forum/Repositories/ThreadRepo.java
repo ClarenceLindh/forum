@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ThreadRepo extends JpaRepository<ThreadEntity, Long> {
-    List<ThreadEntity> findByCreatorUserId(long creatorUserId);
+    List<ThreadEntity> findByCreatorId(long creatorId);
 }
