@@ -20,7 +20,8 @@ public class ThreadService {
     private UserRepo userRepo;
 
     @Autowired
-    private UserService userService;
+    private com.group1.forum.Services.UserService userService; // Had to import???
+//     private UserService userService;
 
     public List<ThreadEntity> getAllThreads() {
         List<ThreadEntity> threads = threadRepo.findAll();
