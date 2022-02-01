@@ -49,7 +49,10 @@ function ViewThread() {
             </div>
             <div className="threadComment">
                 <h3>Comment here</h3>
-                <textarea value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Comment..." />
+                <textarea className="comment" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Comment..." />
+                <div>
+                    <button>Post</button>    
+                </div>
             </div>
             <br />
         </div>
