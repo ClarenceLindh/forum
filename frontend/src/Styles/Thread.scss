@@ -1,6 +1,9 @@
-.threadContainer{
-    text-align: center;
+.box{
     background-color: rgb(66, 66, 68);
+    margin: 2vh 2vw;
+    padding: 2vh 2vw;
+
+
 }
 
 .threadTitle{
@@ -22,3 +25,9 @@
     width: 40%;
     height: 15vh;
 }
+
+
+.box:first-child{
+    display: none;
+}
+

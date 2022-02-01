@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -39,28 +40,8 @@ public class UserService {
         return userRepo.findByUsername(username);
     }
 
-    public UserEntity login(UserEntity user, HttpServletRequest req) {
-        System.out.println("CustomLogin started");
-        try {
-            // Let Spring Security handle authentication of credentials
-            UsernamePasswordAuthenticationToken authReq
-                    = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
-            Authentication auth = authManager.authenticate(authReq);
-            // Add logged in user to sessions
-            SecurityContext sc = SecurityContextHolder.getContext();
-            sc.setAuthentication(auth);
-            // Set cookie to remember logged in user
-            HttpSession session = req.getSession(true);
-            session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, sc);
-        } catch(BadCredentialsException err) {
-            // throw error on bad credentials
-            throw new BadCredentialsException("Bad Credentials");
-        }
-        return findCurrentUser();
-    }
-
     public UserEntity register(UserEntity user) {
-        System.out.println("Register User" + user);
+        System.out.println("Register user" + user);
         System.out.println(user);
         return myUserDetailsService.addUser(user);
     }
