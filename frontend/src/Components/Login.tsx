@@ -5,6 +5,8 @@ import "../Styles/Login.scss";
 const Login = (loggedInUser: any) => {
   const navigate = useNavigate();
 
+  const dataPolicy ="*Policy here*";
+
   const [loginUsername, setLoginUsername] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
 
@@ -20,9 +22,12 @@ const Login = (loggedInUser: any) => {
     console.log(response);
   };
 
+  useEffect(() => {
+    getUsers({ preventDefault: () => {} });
+  }, []);
+
   const login = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    loggedInUser = null;
 
     const credentials =
       "username=" +
@@ -54,10 +59,10 @@ const Login = (loggedInUser: any) => {
         console.log("setLoggedInUser: ", loggedInUser);
       });
 
-    if (loggedInUser = loginUsername) {
+    if ((loggedInUser = loginUsername)) {
       alert("You logged in as " + loginUsername);
       navigate("/");
-    } else if (loggedInUser !== loginUsername){
+    } else if (loggedInUser !== loginUsername) {
       alert("Wrong username/password");
       console.log("Wrong!");
     }
@@ -73,23 +78,41 @@ const Login = (loggedInUser: any) => {
 
     console.log(credentials);
 
-    try {
-      const response = await fetch("/auth/register", {
-        method: "POST",
+    if (
+      window.confirm(
+        "You are registered as " +
+          registerUsername +
+          ". By clicking on OK you agree to the following user data policies: " +
+          dataPolicy
+      )
+    ) {
+      let response = await fetch("/auth/register", {
+        method: "post",
         headers: { "Content-Type": "application/json" },
+        mode: "no-cors", //  <3
         body: JSON.stringify(credentials),
+      }).then(() => {
+        whoAmI();
       });
 
-      console.log("Response", response);
+      try {
+        const response = await fetch("/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(credentials),
+        });
 
-      if (response.status === 200) {
-        alert("Successfully registered");
-        login(e);
-      } else {
-        alert("Something went wrong");
+        console.log("Response", response);
+
+        if (response.status === 200) {
+          alert("Successfully registered");
+          login(e);
+        } else {
+          alert("Something went wrong");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
