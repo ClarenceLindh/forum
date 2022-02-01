@@ -10,7 +10,8 @@ export default function Thread({ thread }: {thread: any}) {
   return (<div >
 
     <div>
-      <Link to={`/viewThread/${threadId}`}>
+      <div>{thread.id}</div>
+      <Link to={`/viewThread/${threadId}`} >
         {thread.title}
       </Link>
     </div>

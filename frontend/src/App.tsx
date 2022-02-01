@@ -10,7 +10,6 @@ import ThreadList from "./Components/Threads/ThreadList";
 
 
 function App() {
-  const [threads, setThreads] = useState([{id:1,name:'Todo1', complete:false },{id:1,name:'Todo2', complete:false },{id:1,name:'Todo3', complete:false },{id:1,name:'Todo4', complete:false },])
 
   return (
     <div className="App">
