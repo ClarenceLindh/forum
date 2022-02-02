@@ -2,9 +2,19 @@ import React, { useEffect, useState } from "react";
 import CreateThread from "./CreateThread";
 import "../Styles/Home.scss";
 import ThreadList from "./Threads/ThreadList";
+import { useNavigate } from "react-router-dom";
+import ReactDOM from "react-dom";
 
 const Home = (loggedInUser: any) => {
   const [threads, setThreads] = useState([{}]);
+  
+  function UserGreeting(props:any) {
+    return <h1>Welcome back!</h1>;
+  }
+  
+  function GuestGreeting(props:any) {
+    return <h1>Please sign up.</h1>;
+  }
 
   const [allTopics, setAllTopics] = React.useState<
     Array<{ id: any; name: string }>
@@ -21,6 +31,25 @@ const Home = (loggedInUser: any) => {
       console.log("error", error);
     }
   };
+
+  let navigate = useNavigate(); 
+  const routeChange = () =>{ 
+    let path = `/login`; 
+    navigate(path);}
+
+    function Greeting(props:any) {
+      const isLoggedIn = props.isLoggedIn;
+      if (isLoggedIn) {
+        return <UserGreeting />;
+      }
+      return <GuestGreeting />;
+    }
+
+    ReactDOM.render(
+      // Try changing to isLoggedIn={true}:
+      <Greeting isLoggedIn />,
+      document.getElementById('root')
+    );
 
   async function fetchData() {
     // controller url: "/rest/thread/{threadId}"
@@ -51,7 +80,7 @@ const Home = (loggedInUser: any) => {
       <div className="header">
         <div></div>
         <h1>Forum</h1>
-        <h2>Sign in</h2>
+        <h2 onClick={routeChange}>Sign in</h2>
       </div>
 
       <div className="body">
@@ -76,6 +105,7 @@ const Home = (loggedInUser: any) => {
           <ThreadList threads={threads} />
         </div>
       </div>
+      
     </div>
   );
 };
