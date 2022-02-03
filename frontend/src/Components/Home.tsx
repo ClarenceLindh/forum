@@ -72,8 +72,8 @@ useEffect(()=>{
           })}
         </div>
 
-        <div className="items">
-
+        <div className="items"> 
+          <h1>Test</h1>
         <ThreadList threads={threads}/>
 
         </div>
