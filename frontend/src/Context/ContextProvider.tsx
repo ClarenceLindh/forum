@@ -5,12 +5,9 @@ export const Context = createContext<any>({});
 const ContextProvider = (props: { children: any }) => {
   const [loggedInUser, setLoggedInUser] = useState<any>({});
 
-  useEffect(() => {
-    whoAmI();
-  }, []);
 
   const whoAmI = async () => {
-    let response = await fetch("/auth/whoami", {
+    await fetch("/auth/whoami", {
       method: "get",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       mode: "no-cors", //  <3
@@ -18,8 +15,10 @@ const ContextProvider = (props: { children: any }) => {
       .then((response) => response.json())
       .then((response) => {
         setLoggedInUser(response);
-        console.log("setLoggedInUser: ", loggedInUser);
-      });
+        console.log("loggedInUser: ", loggedInUser);
+      })
+      .catch((err) => console.log(err)
+      )
   };
 
   const values = {
