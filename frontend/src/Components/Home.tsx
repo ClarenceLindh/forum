@@ -1,28 +1,52 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import CreateThread from "./CreateThread";
 import "../Styles/Home.scss";
 import ThreadList from "./Threads/ThreadList";
 
 const Home = (loggedInUser: any) => {
-  const topicsList = [{ topic: "sport" }, { topic: "music" }, { topic: "art" }];
+
   const [threads, setThreads] = useState([{}]);
 
-  useEffect(() => {
-    async function fetchData() {
-      // controller url: "/rest/thread/{threadId}"
-      const raw = await fetch(`rest/threads/all-threads`);
-      const res = await raw.json();
-      console.log(res);
+  const [allTopics, setAllTopics] = React.useState<
+    Array<{ id: any; name: string }>
+  >([]);
 
-      res.forEach((element: { id: any; name: string; complete: boolean }) => {
-        setThreads((threads) => [...threads, element]);
-      });
+  const [showCT, setShowCT] = React.useState(false);
 
-      console.log(res);
+  const getTopics = async () => {
+    try {
+      const response = await fetch("/rest/topics/all-topics", {});
+      const json = await response.json();
+      setAllTopics(json);
+    } catch (error) {
+      console.log("error", error);
     }
+  };
 
+  async function fetchData() {
+    // controller url: "/rest/thread/{threadId}"
+    const raw = await fetch(`rest/threads/all-threads`);
+    const res = await raw.json();
+    console.log(res);
+
+    res.forEach((element: { id: any; name: string; complete: boolean }) => {
+      setThreads((threads) => [...threads, element]);
+    });
+
+    console.log(res);
+  }
+
+  useEffect(() => {
     fetchData();
+   
   }, []);
 
+  useEffect(() => {
+    if (allTopics.length === 0) {
+      getTopics();
+    }
+  }, [allTopics]);
+  
   return (
     <div className="main">
       <div className="header">
@@ -33,13 +57,20 @@ const Home = (loggedInUser: any) => {
 
       <div className="body">
         <div className="categories">
-          {topicsList.map(function (e, index) {
+          {allTopics.map(function (e, index) {
             return (
               <div id="topic" key={index}>
-                {e.topic}
+                {e.name}
               </div>
             );
           })}
+        </div>
+
+        {showCT ? <CreateThread topics={allTopics} /> : null}
+        <div className="footer">
+          <button onClick={() => setShowCT(true)} id="press">
+            +
+          </button>
         </div>
 
         <div className="items">
