@@ -9,11 +9,12 @@ public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String text;
 
     @ManyToOne
     @JoinColumn(name = "creator_id", nullable = false)
     private UserEntity creatorUserId;
+
+    private String text;
     private Date creationDate;
     private Date lastEdited;
 
