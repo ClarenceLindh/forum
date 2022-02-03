@@ -4,6 +4,7 @@ import "../Styles/Home.scss";
 import ThreadList from "./Threads/ThreadList";
 
 const Home = (loggedInUser: any) => {
+
   const [threads, setThreads] = useState([{}]);
 
   const [allTopics, setAllTopics] = React.useState<
@@ -45,7 +46,7 @@ const Home = (loggedInUser: any) => {
       getTopics();
     }
   }, [allTopics]);
-
+  
   return (
     <div className="main">
       <div className="header">

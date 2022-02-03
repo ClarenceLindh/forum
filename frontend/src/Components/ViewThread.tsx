@@ -4,6 +4,7 @@ import "../Styles/Thread.scss";
 import Thread from "./Threads/Thread";
 
 function ViewThread() {
+
     const [comment, setComment] = useState("");
     const {threadId} = useParams(); // 
     var [response] = useState<any>({});
@@ -36,6 +37,11 @@ function ViewThread() {
           */
     
 
+    // controller url: "/rest/thread/{threadId}"
+    const raw = await fetch(`/rest/thread/${threadId}`);
+    const res = await raw.json();
+    console.log(res);
+  };
 
     return (
         <div className="threadContainer">
@@ -59,4 +65,4 @@ function ViewThread() {
     )
 }
 
-export default ViewThread
+export default ViewThread;
