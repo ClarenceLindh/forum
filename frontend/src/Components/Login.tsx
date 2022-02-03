@@ -4,7 +4,7 @@ import { Context } from "../Context/ContextProvider";
 import "../Styles/Login.scss";
 
 const Login = () => {
-  const { loggedInUser, setLoggedInUser, whoAmI } = useContext(Context);
+  const { loggedInUser, whoAmI } = useContext(Context);
   const navigate = useNavigate();
 
   const dataPolicy = "*Policy here*";

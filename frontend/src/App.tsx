@@ -11,24 +11,6 @@ import ContextProvider, { Context } from "./Context/ContextProvider";
 function App() {
   const { loggedInUser, setLoggedInUser } = useContext(Context);
 
-  useEffect(() => {
-    whoAmI();
-    console.log("test", loggedInUser);
-  }, []);
-
-  const whoAmI = async () => {
-    let response = await fetch("/auth/whoami", {
-      method: "get",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      mode: "no-cors", //  <3
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        setLoggedInUser(response);
-        console.log("whoAmI setLoggedInUser: ", );
-      });
-  };
-
   return (
     <div className="App">
       <ContextProvider>
