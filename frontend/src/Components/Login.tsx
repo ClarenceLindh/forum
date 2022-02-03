@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Context } from "../Context/ContextProvider";
 import "../Styles/Login.scss";
 
-const Login = (loggedInUser: any) => {
+const Login = () => {
+  const { loggedInUser, setLoggedInUser, whoAmI } = useContext(Context);
   const navigate = useNavigate();
 
-  const dataPolicy ="*Policy here*";
+  const dataPolicy = "*Policy here*";
 
   const [loginUsername, setLoginUsername] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
@@ -44,28 +46,14 @@ const Login = (loggedInUser: any) => {
       body: credentials,
     }).then(() => {
       whoAmI();
+      if (loggedInUser.username === loginUsername) {
+        alert("You logged in as " + loginUsername);
+        navigate("/");
+      } else if (loggedInUser.username !== loginUsername) {
+        alert("Wrong username/password");
+        console.log("Wrong!");
+      }
     });
-  };
-
-  const whoAmI = async () => {
-    let response = await fetch("/auth/whoami", {
-      method: "get",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      mode: "no-cors", //  <3
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        loggedInUser = response;
-        console.log("setLoggedInUser: ", loggedInUser);
-      });
-
-    if ((loggedInUser = loginUsername)) {
-      alert("You logged in as " + loginUsername);
-      navigate("/");
-    } else if (loggedInUser !== loginUsername) {
-      alert("Wrong username/password");
-      console.log("Wrong!");
-    }
   };
 
   const register = async (e: { preventDefault: () => void }) => {
