@@ -2,15 +2,17 @@ import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Context } from "../Context/ContextProvider";
 import "../Styles/Thread.scss";
-import Thread from "./Threads/Thread";
 
-function ViewThread() {
+function ViewThread(topics: any) {
     const { loggedInUser, whoAmI } = useContext(Context)
 
     const [comment, setComment] = useState("");
     const { threadId } = useParams(); // 
     const [post, setPost] = useState<any>({})
     const [creator, setCreator] = useState<any>({})
+    const [editing, setEditing] = useState<boolean>(false)
+    const [editedTitle, setEditedTitle] = useState<string>(post.title)
+    const [editedText, setEditedText] = useState<string>(post.text)
 
     const getThreadById = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
@@ -22,9 +24,20 @@ function ViewThread() {
         setPost(res);
         setCreator(res.creatorUserId)
         console.log(res);
+    }
 
+    const handleEdit = () => {
+        console.log("Thread edited");
+        
+    }
 
-    };
+    const saveEdit = () => {
+        setEditing(false)
+    }
+
+    const cancelEdit = () => {
+        setEditing(false)
+    }
 
     useEffect(() => {
         getThreadById({
@@ -38,38 +51,76 @@ function ViewThread() {
 
     */
 
+    if (editing === false) {
+        return (
+            <div className="threadContainer">
+                <br />
+                <div className="threadTitle">
+                    {loggedInUser.id === creator.id ? (
+                        <div>
+                            {post.title} <button onClick={() => setEditing(true)}>edit</button>
+                        </div>
+                    ) : (
+                        <>
+                            {post.title}
+                        </>
+                    )
+                    }
 
-    return (
-        <div className="threadContainer">
-            <br />
-            <div className="threadTitle">
-                {loggedInUser.id === creator.id ? (
+                    <br />
+                </div>
+                <div className="threadContent">
+                    {post.text}
+                </div>
+                <div className="threadComment">
+                    <h3>Comment here</h3>
+                    <textarea className="comment" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Comment..." />
                     <div>
-                        {post.title} <button>edit</button>
-                        <h1>EDIT</h1>
+                        <button>Post</button>
                     </div>
-                ) : (
-                    <>
-                        {post.title}
-                    </>
-                )
-                }
-
+                </div>
                 <br />
             </div>
-            <div className="threadContent">
-                {post.text}
-            </div>
-            <div className="threadComment">
-                <h3>Comment here</h3>
-                <textarea className="comment" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Comment..." />
-                <div>
-                    <button>Post</button>
+        )
+    } else {
+        return (
+            <div className="threadContainer">
+                <br />
+                <form onSubmit={handleEdit}>
+                <div className="threadTitle">
+                <input
+                        className="threadTitle"
+                        type="text"
+                        defaultValue={post.title}
+                        value={editedTitle}
+                        onChange={(e) => setEditedTitle(e.target.value)}
+                    />
+                    <button onClick={saveEdit}>Save</button>
+                    <button onClick={cancelEdit}>Cancel</button>
+
+                    <br />
                 </div>
+                <div className="threadContent">
+                <textarea
+                        className="threadContent"
+                        defaultValue={post.text}
+                        value={editedText}
+                        onChange={(e) => setEditedText(e.target.value)}
+                    />
+                </div>
+                </form>
+
+                <div className="threadComment">
+                    <h3>Comment here</h3>
+                    <textarea className="comment" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Comment..." />
+                    <div>
+                        <button>Post</button>
+                    </div>
+                </div>
+                <br />
             </div>
-            <br />
-        </div>
-    )
+        )
+    }
 }
 
 export default ViewThread;
