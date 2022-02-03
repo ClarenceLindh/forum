@@ -1,14 +1,15 @@
 import "./Styles/App.scss";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import React from "react";
+import React, { useContext } from "react";
 import Login from "./Components/Login";
 import Home from "./Components/Home";
 import ViewThread from "./Components/ViewThread";
 import { useEffect, useState } from "react";
 import CreateThread from "./Components/CreateThread";
+import ContextProvider, { Context } from "./Context/ContextProvider";
 
 function App() {
-  const [loggedInUser, setLoggedInUser] = useState<any>({});
+  const { loggedInUser, setLoggedInUser } = useContext(Context);
 
   useEffect(() => {
     whoAmI();
@@ -24,23 +25,25 @@ function App() {
       .then((response) => response.json())
       .then((response) => {
         setLoggedInUser(response);
-        console.log("whoAmI setLoggedInUser: ", loggedInUser);
+        console.log("whoAmI setLoggedInUser: ", );
       });
   };
 
   return (
     <div className="App">
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home loggedInUser={loggedInUser} />} />
-          <Route
-            path="/login"
-            element={<Login loggedInUser={loggedInUser} />}
-          />
-          <Route path="/viewThread/:threadId" element={<ViewThread />} />
-          <Route path="/create" element={<CreateThread />} />
-        </Routes>
-      </Router>
+      <ContextProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home/>} />
+            <Route
+              path="/login"
+              element={<Login/>}
+            />
+            <Route path="/viewThread/:threadId" element={<ViewThread />} />
+            <Route path="/create" element={<CreateThread />} />
+          </Routes>
+        </Router>
+      </ContextProvider>
     </div>
   );
 }
