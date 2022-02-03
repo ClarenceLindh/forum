@@ -5,6 +5,7 @@ import ThreadList from "./Threads/ThreadList";
 import { useNavigate } from "react-router-dom";
 
 const Home = (loggedInUser: any) => {
+
   const [threads, setThreads] = useState([{}]);
   
   function UserGreeting() {
@@ -74,7 +75,7 @@ const Home = (loggedInUser: any) => {
       getTopics();
     }
   }, [allTopics]);
-
+  
   return (
     <div className="main">
       <div className="header">

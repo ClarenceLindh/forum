@@ -1,9 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Context } from "../Context/ContextProvider";
 import "../Styles/Login.scss";
 
-const Login = (loggedInUser:any) => {
+const Login = () => {
+  const { loggedInUser, whoAmI } = useContext(Context);
   const navigate = useNavigate();
+
+  const dataPolicy = "*Policy here*";
 
   const [loginUsername, setLoginUsername] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
@@ -12,14 +16,17 @@ const Login = (loggedInUser:any) => {
   const [registerPassword, setRegisterPassword] = useState<string>("");
   const [registerEmail, setRegisterEmail] = useState<string>("");
 
-
   const getUsers = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log(loggedInUser);
-    
+
     const response = await fetch("/auth/users", {});
     console.log(response);
   };
+
+  useEffect(() => {
+    getUsers({ preventDefault: () => {} });
+  }, []);
 
   const login = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -37,34 +44,18 @@ const Login = (loggedInUser:any) => {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       mode: "no-cors", //  <3
       body: credentials,
-    })
-    .then(response => {
+    }).then(() => {
       whoAmI();
+      if (loggedInUser.username === loginUsername) {
+        alert("You logged in as " + loginUsername);
+        navigate("/");
+      } else if (loggedInUser.username !== loginUsername) {
+        alert("Wrong username/password");
+        console.log("Wrong!");
+      }
     });
   };
-  
-  const whoAmI = async () => {
-    let response = await fetch("/auth/whoami", {
-      method: "get",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      mode: "no-cors", //  <3
-    })
-    .then(response => response.json())
-    .then(response => { 
-      loggedInUser = response.username
-      console.log("setLoggedInUser: ", loggedInUser);
-    })
 
-    if (loggedInUser) {
-      alert("You logged in as " + loggedInUser);
-      navigate("/");
-    } else {
-      alert("Wrong username/password");
-      console.log("Wrong!");
-    }
-  }
-
-  
   const register = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const credentials = {
@@ -75,23 +66,40 @@ const Login = (loggedInUser:any) => {
 
     console.log(credentials);
 
-    try {
-      const response = await fetch("/auth/register", {
-        method: "POST",
+    if (
+      window.confirm(
+        "You are registering as " +
+          registerUsername +
+          ". By clicking on OK you agree to the following user data policies: " +
+          dataPolicy
+      )
+    ) {
+      let response = await fetch("/auth/register", {
+        method: "post",
         headers: { "Content-Type": "application/json" },
+        mode: "no-cors", //  <3
         body: JSON.stringify(credentials),
+      }).then(() => {
+        whoAmI();
       });
 
-      console.log("Response", response);
+      try {
+        const response = await fetch("/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(credentials),
+        });
 
-      if(response.status === 200) {
-        alert("Successfully registered");
-        login(e);
-      } else {
-        alert("Something went wrong");
+        console.log("Response", response);
+
+        if (response.status === 200) {
+          alert("Successfully registered");
+        } else {
+          alert("Something went wrong");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
