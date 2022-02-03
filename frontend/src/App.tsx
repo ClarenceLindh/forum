@@ -30,7 +30,6 @@ function App() {
 
   return (
     <div className="App">
-      <div>{loggedInUser.username}</div>
       <Router>
         <Routes>
           <Route path="/" element={<Home loggedInUser={loggedInUser} />} />
