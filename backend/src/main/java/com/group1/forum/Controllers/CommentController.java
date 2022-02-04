@@ -1,14 +1,16 @@
 package com.group1.forum.Controllers;
 
 import com.group1.forum.Entities.CommentEntity;
-import com.group1.forum.services.CommentService;
+import com.group1.forum.Services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@RestController
 public class CommentController {
     @Autowired
     private CommentService commentService;
@@ -18,6 +20,8 @@ public class CommentController {
         return commentService.createComment(comment);
     }
 
-    @GetMapping("rest/thread/all-comments")
-    public List<CommentEntity> getAllComments() {return commentService.getAllComments();}
+    @GetMapping("/rest/threads/all-comments")
+    public List<CommentEntity> getAllComments() {
+        return commentService.getAllComments();
+    }
 }
