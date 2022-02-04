@@ -5,7 +5,6 @@ import { formatISO } from "date-fns";
 
 
 function ViewThread() {
-    const [commentId, setCommentId] = useState<any>({})
     const [comment, setComment] = useState<any>({});
     const commentDate = formatISO(new Date());
     const { threadId } = useParams(); // 
@@ -31,7 +30,6 @@ function ViewThread() {
         e.preventDefault();
 
         const commentDetails = {
-            commentId: commentId,
             date: commentDate,
             text: comment,
             //   creator_id: {}

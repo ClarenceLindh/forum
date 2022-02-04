@@ -1,5 +1,7 @@
 package com.group1.forum.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -35,6 +37,9 @@ public class ThreadEntity {
             joinColumns = @JoinColumn(name = "thread_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<UserEntity> threadModerators;
+
+    @OneToMany(mappedBy = "threadId")
+    private Set<CommentEntity> comments;
 
     public ThreadEntity() {
     }
@@ -130,6 +135,15 @@ public class ThreadEntity {
 
     public void setThreadModerators(Set<UserEntity> threadModerators) {
         this.threadModerators = threadModerators;
+    }
+
+    @JsonIgnore
+    public Set<CommentEntity> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<CommentEntity> comments) {
+        this.comments = comments;
     }
 
     @Override

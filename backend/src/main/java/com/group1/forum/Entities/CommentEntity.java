@@ -14,19 +14,15 @@ public class CommentEntity {
     @JoinColumn(name = "creator_id", nullable = false)
     private UserEntity creatorUserId;
 
+    @ManyToOne
+    @JoinColumn(name = "thread_id", nullable = false)
+    private ThreadEntity threadId;
+
     private String text;
     private Date creationDate;
     private Date lastEdited;
 
     public CommentEntity() {
-    }
-
-    public CommentEntity(long id, String text, UserEntity creatorUserId, Date creationDate, Date lastEdited) {
-        this.id = id;
-        this.text = text;
-        this.creatorUserId = creatorUserId;
-        this.creationDate = creationDate;
-        this.lastEdited = lastEdited;
     }
 
     public long getId() {
@@ -37,20 +33,28 @@ public class CommentEntity {
         this.id = id;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
     public UserEntity getCreatorUserId() {
         return creatorUserId;
     }
 
     public void setCreatorUserId(UserEntity creatorUserId) {
         this.creatorUserId = creatorUserId;
+    }
+
+    public ThreadEntity getThreadId() {
+        return threadId;
+    }
+
+    public void setThreadId(ThreadEntity threadId) {
+        this.threadId = threadId;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     public Date getCreationDate() {
@@ -73,8 +77,9 @@ public class CommentEntity {
     public String toString() {
         return "CommentEntity{" +
                 "id=" + id +
-                ", text='" + text + '\'' +
                 ", creatorUserId=" + creatorUserId +
+                ", threadId=" + threadId +
+                ", text='" + text + '\'' +
                 ", creationDate=" + creationDate +
                 ", lastEdited=" + lastEdited +
                 '}';

@@ -1,10 +1,13 @@
 package com.group1.forum.services;
 
 import com.group1.forum.Entities.CommentEntity;
+import com.group1.forum.Entities.ThreadEntity;
 import com.group1.forum.Entities.UserEntity;
 import com.group1.forum.Repositories.CommentRepo;
 import com.group1.forum.Repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 public class CommentService {
     @Autowired
@@ -23,5 +26,12 @@ public class CommentService {
             return commentRepo.save(comment);
         }
         return null;
+    }
+
+    public List<CommentEntity> getAllComments() {
+
+        return commentRepo.findAll();
+
+        // should be something like: return threadRepository.getALlThreads();
     }
 }
