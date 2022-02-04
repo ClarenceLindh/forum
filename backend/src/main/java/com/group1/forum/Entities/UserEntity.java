@@ -28,7 +28,7 @@ public class UserEntity {
     @Column(name = "role")
     private String role;
 
-    @OneToMany(mappedBy = "creatorUserId")
+    @OneToMany(mappedBy = "creator")
     private Set<ThreadEntity> threads;
 
     @ManyToMany
