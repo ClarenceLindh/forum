@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "../Styles/Thread.scss";
 import Thread from "./Threads/Thread";
@@ -9,6 +9,11 @@ function ViewThread() {
     const {threadId} = useParams(); // 
     var [response] = useState<any>({});
     const [post, setPost] = useState<any>({})
+    const dropDownRef = useRef(null);
+    const[isActive, setIsActive] = useState(false);
+    const onClick = () => setIsActive(!isActive);
+
+    
  
     const getThreadById = async (e: { preventDefault: () => void; }) => {
      e.preventDefault();
@@ -35,13 +40,8 @@ function ViewThread() {
           Object.keys(data).map((obj, i) => {       return (         <div>           {data[obj].name}         </div>
 
           */
-    
+            
 
-    // controller url: "/rest/thread/{threadId}"
-    const raw = await fetch(`/rest/thread/${threadId}`);
-    const res = await raw.json();
-    console.log(res);
-  };
 
     return (
         <div className="threadContainer">
@@ -57,7 +57,17 @@ function ViewThread() {
                 <h3>Comment here</h3>
                 <textarea className="comment" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Comment..." />
                 <div>
-                    <button>Post</button>    
+                <button>Post</button>  
+                <div className="menu-container">
+                    <button onClick={onClick} className="menu-trigger">
+                    <span>Settings</span>
+                    </button>
+                    <nav ref={dropDownRef} className={`menu ${isActive ? 'active' : 'inactive'}`}>
+                        <ul>
+                            <li>Delete Account!!!</li>
+                        </ul>
+                    </nav>
+                 </div>
                 </div>
             </div>
             <br />

@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import CreateThread from "./CreateThread";
 import "../Styles/Home.scss";
 import ThreadList from "./Threads/ThreadList";
+import { useNavigate } from "react-router-dom";
+
 
 const Home = (loggedInUser: any) => {
-
+  const navigate = useNavigate();
   const [threads, setThreads] = useState([{}]);
 
   const [allTopics, setAllTopics] = React.useState<
@@ -46,13 +48,19 @@ const Home = (loggedInUser: any) => {
       getTopics();
     }
   }, [allTopics]);
+
+  const handleLogin = () => {
+    navigate("/login");
+  }
+  
+
   
   return (
     <div className="main">
       <div className="header">
         <div></div>
         <h1>Forum</h1>
-        <h2>Sign in</h2>
+        <button type="button" onClick={handleLogin}>Sign in</button>
       </div>
 
       <div className="body">
