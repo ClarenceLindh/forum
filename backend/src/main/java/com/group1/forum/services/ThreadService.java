@@ -36,7 +36,9 @@ public class ThreadService {
 
     public ThreadEntity createThread(ThreadEntity thread) {
         UserEntity loggedUser = userService.whoAmI();
+        System.out.println("create thread started");
         if (loggedUser != null) {
+            System.out.println("logged in backend");
             thread.setCreatorUserId(loggedUser);
             thread.setBlockedThreadStatus(false);
             return threadRepo.save(thread);

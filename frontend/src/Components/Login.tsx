@@ -46,6 +46,8 @@ const Login = () => {
       body: credentials,
     }).then(() => {
       whoAmI();
+      console.log(loginUsername);
+      console.log(loggedInUser.username);
       if (loggedInUser.username === loginUsername) {
         alert("You logged in as " + loginUsername);
         navigate("/");

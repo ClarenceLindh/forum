@@ -10,6 +10,7 @@ const CreateThread = (topics: any) => {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    console.log("handleSubmit");
     const threadDetails = {
       topicId: { id: 1 },
       title: headL,
@@ -18,6 +19,7 @@ const CreateThread = (topics: any) => {
     };
 
     try {
+      console.log("try");
       const response = await fetch("/rest/thread", {
         method: "post",
         headers: { "Content-Type": "application/json" },
@@ -27,9 +29,10 @@ const CreateThread = (topics: any) => {
     } catch (error) {
       console.log(error);
     }
+    console.log(threadDetails);
     // reload the homepage after submit
     // eslint-disable-next-line no-lone-blocks
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (
