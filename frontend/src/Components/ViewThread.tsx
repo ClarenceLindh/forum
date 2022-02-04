@@ -13,6 +13,7 @@ function ViewThread(topics: any) {
     const [editing, setEditing] = useState<boolean>(false)
     const [editedTitle, setEditedTitle] = useState<string>(post.title)
     const [editedText, setEditedText] = useState<string>(post.text)
+    const [topic, setTopic] = useState<any>({})
 
     const getThreadById = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
@@ -23,20 +24,56 @@ function ViewThread(topics: any) {
 
         setPost(res);
         setCreator(res.creatorUserId)
+        setTopic(res.topicId)
         console.log(res);
     }
 
-    const handleEdit = () => {
-        console.log("Thread edited");
-        
-    }
+    const saveEdit = async () => {
+        if (editedTitle === undefined) {
+            setEditedTitle(post.title)
+        }
+        if (editedText === undefined) {
+            setEditedText(post.text)
+        }
+        if ((editedTitle === undefined && editedText === undefined) || (editedTitle === post.title && editedText === post.text)) {
+            setEditing(false)
+        } else {
+            const requestOptions = {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    topicId: {
+                        id: topic.id
+                    },
+                    title: editedTitle,
+                    text: editedText,
+                    lastEdited: "2022-01-20T13:56:38.000+00:00"
+                })
+            };
+            await fetch(`/rest/thread/${threadId}`, requestOptions)
+                .then(async response => {
+                    const data = await response.json();
 
-    const saveEdit = () => {
-        setEditing(false)
+                    // check for error response
+                    if (!response.ok) {
+                        // get error message from body or default to response status
+                        const error = (data && data.message) || response.status;
+                        return Promise.reject(error);
+                    }
+                })
+                .catch(error => {
+                    console.error('There was an error!', error);
+                });
+        }
     }
 
     const cancelEdit = () => {
         setEditing(false)
+    }
+
+    const checkStates = () => {
+        console.log(editedTitle);
+        console.log(editedText);
     }
 
     useEffect(() => {
@@ -86,28 +123,29 @@ function ViewThread(topics: any) {
         return (
             <div className="threadContainer">
                 <br />
-                <form onSubmit={handleEdit}>
-                <div className="threadTitle">
-                <input
-                        className="threadTitle"
-                        type="text"
-                        defaultValue={post.title}
-                        value={editedTitle}
-                        onChange={(e) => setEditedTitle(e.target.value)}
-                    />
-                    <button onClick={saveEdit}>Save</button>
-                    <button onClick={cancelEdit}>Cancel</button>
+                <button onClick={checkStates}>TESt</button>
 
-                    <br />
-                </div>
-                <div className="threadContent">
-                <textarea
-                        className="threadContent"
-                        defaultValue={post.text}
-                        value={editedText}
-                        onChange={(e) => setEditedText(e.target.value)}
-                    />
-                </div>
+                <form onSubmit={saveEdit}>
+                    <div className="threadTitle">
+                        <input
+                            className="threadTitle"
+                            type="text"
+                            defaultValue={post.title}
+                            value={editedTitle}
+                            onChange={(e) => setEditedTitle(e.target.value)}
+                        />
+                        <button onClick={saveEdit}>Save</button>
+                        <button onClick={cancelEdit}>Cancel</button>
+                        <br />
+                    </div>
+                    <div className="threadContent">
+                        <textarea
+                            className="threadContent"
+                            defaultValue={post.text}
+                            value={editedText}
+                            onChange={(e) => setEditedText(e.target.value)}
+                        />
+                    </div>
                 </form>
 
                 <div className="threadComment">
