@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import "../Styles/Thread.scss";
 import { formatISO } from "date-fns";
-
+import "../Styles/Thread.scss";
 
 function ViewThread() {
     const [comment, setComment] = useState<any>({});
     const commentDate = formatISO(new Date());
     const { threadId } = useParams(); // 
     var [response] = useState<any>({});
-    const [post, setPost] = useState<any>({})
 
+    const [post, setPost] = useState<any>({})
+    const [activateComment, setActivateComment] = React.useState(false)
 
     const getThreadById = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
@@ -45,7 +45,8 @@ function ViewThread() {
             })
             const result = response.json();
             console.log("this is result: ", result);
-            setComment(result);
+            console.log("this is commentDetails: ", commentDetails)
+            setComment(commentDetails);
 
         } catch (error) {
             return error;
@@ -74,14 +75,22 @@ function ViewThread() {
             </div>
             <br />
             <div className="commentView">
-                <h3>Comment view</h3>
+                <div className="commentResult">
+                    <div>
+                        {comment.text}
+                    </div>
+
+                </div>
+                <br />
             </div>
             <br />
             <div className="threadComment">
                 <h3>Comment here</h3>
                 <form>
                     <textarea className="comment" onChange={(e) => setComment(e.target.value)} placeholder="Comment..." />
-                    <button onClick={postComment}>Post</button>
+                    <div className="postBtn" >
+                        <button onClick={postComment}>Post</button>
+                    </div>
                 </form>
 
 
