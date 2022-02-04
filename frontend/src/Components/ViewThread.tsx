@@ -61,21 +61,22 @@ function ViewThread() {
             <div className="threadTitle">  
                 {post.title}
             <br />
-            </div>
-            <div className="threadContent">
-                {post.text}                       
-            </div>
-            <div className="threadComment">
-                <h3>Comment here</h3>
-                <textarea className="comment" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Comment..." />
-                <div>
-                    <button>Post</button>
                     {author.id == loggedInUser.id ? (      
                     <button onClick={deleteThreadById}>Delete</button>
                     ) : (
                         <></>
                     )
                 }     
+            </div>
+            <div className="threadContent">
+                {post.text}                       
+            </div>
+            <a>creator: {author.username}</a>
+            <div className="threadComment">
+                <h3>Comment here</h3>
+                <textarea className="comment" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Comment..." />
+                <div>
+                    <button>Post</button>
                     
                 </div>
             </div>
