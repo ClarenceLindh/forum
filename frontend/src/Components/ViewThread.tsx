@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, {useContext, useState, useEffect } from "react";
+import { Context } from "../Context/ContextProvider";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import "../Styles/Thread.scss";
 import Thread from "./Threads/Thread";
 
 function ViewThread() {
+    
+    const { loggedInUser, whoAmI } = useContext(Context);
     const navigate = useNavigate();
     const [comment, setComment] = useState("");
     const {threadId} = useParams(); // 
     var [response] = useState<any>({});
     const [post, setPost] = useState<any>({})
+    const [author, setAuthor] = useState<any>({})
  
     const getThreadById = async (e: { preventDefault: () => void; }) => {
      e.preventDefault();
@@ -20,6 +24,7 @@ function ViewThread() {
         response = res;
 
         setPost(res);
+        setAuthor(res.creatorUserId);
         
         console.log('this is response: ', response);
         console.log(res);
@@ -34,7 +39,8 @@ function ViewThread() {
     }, [threadId]);
       
     let deleteThreadById = async ()=> {
-        if (window.confirm("are you sure you want to delete " + post.title ) == true){
+       if(author.id == loggedInUser.id) 
+       { if (window.confirm("are you sure you want to delete " + post.title ) == true){
         try{
             let response = await fetch(`/rest/thread/${threadId}`, {method: 'DELETE'})
             console.log(response.status)
@@ -44,7 +50,11 @@ function ViewThread() {
         }}else{
             alert("you cancled the delete")
         }
-      }     
+    }else{
+        alert("only " + author.username + " or admin is allowed to delete " + post.title)
+    }
+      }
+        
     return (
         <div className="threadContainer">
             <br />
@@ -60,12 +70,19 @@ function ViewThread() {
                 <textarea className="comment" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Comment..." />
                 <div>
                     <button>Post</button>
-                    <button onClick={deleteThreadById}>Delete</button>     
+                    {author.id == loggedInUser.id ? (      
+                    <button onClick={deleteThreadById}>Delete</button>
+                    ) : (
+                        <></>
+                    )
+                }     
+                    
                 </div>
             </div>
             <br />
         </div>
     )
 }
+
 
 export default ViewThread;
