@@ -1,22 +1,51 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CreateThread from "./CreateThread";
 import "../Styles/Home.scss";
 import ThreadList from "./Threads/ThreadList";
 import { useNavigate } from "react-router-dom";
+import { Context } from "../Context/ContextProvider";
 
-const Home = (loggedInUser: any) => {
+
+const Home = () => {
+
+  const { loggedInUser, whoAmI } = useContext(Context);
 
   const [threads, setThreads] = useState([{}]);
+
+
+
+  /////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
+
+
+  function Greeting() {
+    console.log("loggedinUser", loggedInUser)
+    if (Object.keys(loggedInUser).length===0 && loggedInUser.constructor ===Object) {
+      console.log(" logged out")
+
+      return <GuestGreeting />;}
+     
+    else{
+
+      console.log(" logged in")
+      return <UserGreeting />;
+    
+  }
+}
+
   
   function UserGreeting() {
     return <h1>Welcome back!</h1>;
   }
   
   function GuestGreeting() {
-    console.log("vad e detta",loggedInUser)
     return <h2 onClick={routeChange}>Sign in</h2>
   }
 
+  
+
+  /////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
   const [allTopics, setAllTopics] = React.useState<
     Array<{ id: any; name: string }>
   >([]);
@@ -38,13 +67,7 @@ const Home = (loggedInUser: any) => {
     let path = `/login`; 
     navigate(path);}
 
-    function Greeting(props:any) {
-      const isLoggedIn = props.isLoggedIn;
-      if (props===true) {
-        return <UserGreeting />;
-      }
-      return <GuestGreeting />;
-    }
+  
 
     // ReactDOM.render(
     //   // Try changing to isLoggedIn={true}:
@@ -82,7 +105,7 @@ const Home = (loggedInUser: any) => {
         <div></div>
         <h1>Forum</h1>
         <div>
-  {Greeting(loggedInUser)}
+  {Greeting()}
 </div>
         
       </div>
