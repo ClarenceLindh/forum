@@ -30,9 +30,11 @@ function ViewThread() {
         e.preventDefault();
 
         const commentDetails = {
-            date: commentDate,
+            threadId: {
+                id: threadId
+            },
             text: comment,
-            //   creator_id: {}
+            creationDate: commentDate
         }
 
         try {
@@ -41,9 +43,9 @@ function ViewThread() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(commentDetails)
             })
-            // const result = response.json();
-            console.log("this is result: ", response);
-            setComment(response);
+            const result = response.json();
+            console.log("this is result: ", result);
+            setComment(result);
 
         } catch (error) {
             return error;
@@ -58,12 +60,7 @@ function ViewThread() {
             }
         });
     }, [threadId]);
-    /*
-    Object.keys(data).map((obj, i) => {       return (         <div>           {data[obj].name}         </div>
-
-    */
-
-
+   
 
     return (
         <div className="threadContainer">
