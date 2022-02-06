@@ -21,21 +21,39 @@ const Home = () => {
   function Greeting() {
     console.log("loggedinUser", loggedInUser)
     if (Object.keys(loggedInUser).length===0 && loggedInUser.constructor ===Object) {
-      console.log(" logged out")
-
       return <GuestGreeting />;}
-     
     else{
-
-      console.log(" logged in")
       return <UserGreeting />;
     
   }
 }
+////////////////////////////////////////
+const logout=async(e:{preventDefault:()=>void})=> {
+  e.preventDefault()
+  // tell backend to forget us
+  console.log("logout work");  
+  let response = await fetch("/logout", {
+    method: "post",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    mode: "no-cors", //  <3
+  }).then(() => {
+    whoAmI();
+   
+  });
+
+  window.location.reload()
+
+}
+  
+/////////////////////////////////////////////
 
   
+
+
+
+//////////////////////////////////////////////
   function UserGreeting() {
-    return <h1>Welcome back!</h1>;
+    return <div><h3>Welcome back {loggedInUser.username}!</h3> <button onClick={logout}>logout</button></div>
   }
   
   function GuestGreeting() {
