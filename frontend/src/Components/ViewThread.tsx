@@ -4,13 +4,14 @@ import { formatISO } from "date-fns";
 import "../Styles/Thread.scss";
 
 function ViewThread() {
+    const [loggedInUser, setLoggedInUser] = useState<any>({});
     const [comment, setComment] = useState<any>({});
     const commentDate = formatISO(new Date());
     const { threadId } = useParams(); // 
     var [response] = useState<any>({});
 
     const [post, setPost] = useState<any>({})
-    const [activateComment, setActivateComment] = React.useState(false)
+    // const [activateComment, setActivateComment] = React.useState(false)
 
     const getThreadById = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
@@ -43,7 +44,7 @@ function ViewThread() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(commentDetails)
             })
-            const result = response.json();
+            const result = response;
             console.log("this is result: ", result);
             console.log("this is commentDetails: ", commentDetails)
             setComment(commentDetails);
@@ -52,6 +53,15 @@ function ViewThread() {
             return error;
         }
     }
+    const whoAmI = async () => {
+        let response = await fetch("/auth/whoami", {
+          method: "get",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          mode: "no-cors", //  <3
+        })
+        console.log('WHO? ', response.json())
+        setLoggedInUser(response);
+      }
 
 
     useEffect(() => {
@@ -61,7 +71,11 @@ function ViewThread() {
             }
         });
     }, [threadId]);
-   
+
+    useEffect(() => {
+        whoAmI();
+    }, [threadId])
+    
 
     return (
         <div className="threadContainer">
@@ -77,7 +91,12 @@ function ViewThread() {
             <div className="commentView">
                 <div className="commentResult">
                     <div>
+                        {loggedInUser.username}
+                        <br />
                         {comment.text}
+                        <br />
+                        {/* need "cleaner" format */}
+                        {comment.creationDate}
                     </div>
 
                 </div>
