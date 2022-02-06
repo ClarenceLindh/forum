@@ -7,6 +7,7 @@ import ViewThread from "./Components/ViewThread";
 import { useEffect, useState } from "react";
 import CreateThread from "./Components/CreateThread";
 import ContextProvider, { Context } from "./Context/ContextProvider";
+import Footer from "./Components/Footer";
 
 function App() {
   const { loggedInUser, setLoggedInUser } = useContext(Context);
@@ -26,6 +27,7 @@ function App() {
           </Routes>
         </Router>
       </ContextProvider>
+      <div id="footer"><Footer/></div>
     </div>
   );
 }
