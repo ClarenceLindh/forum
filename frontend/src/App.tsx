@@ -27,7 +27,7 @@ function App() {
           </Routes>
         </Router>
       </ContextProvider>
-      <div id="footer"><Footer/></div>
+     
     </div>
   );
 }

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import CreateThread from "./CreateThread";
 import "../Styles/Home.scss";
 import ThreadList from "./Threads/ThreadList";
+import Footer from "./Footer";
+
 
 const Home = (loggedInUser: any) => {
 
@@ -77,6 +79,7 @@ const Home = (loggedInUser: any) => {
           <ThreadList threads={threads} />
         </div>
       </div>
+      <div id="footer"><Footer/></div>
     </div>
   );
 };
