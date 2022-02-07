@@ -5,7 +5,7 @@ import "../Styles/Thread.scss";
 
 function ViewThread() {
     const [loggedInUser, setLoggedInUser] = useState<any>({});
-    const [comment, setComment] = useState<any>({});
+    const [comment, setComment] = useState<any>([]);
     const commentDate = formatISO(new Date());
     const { threadId } = useParams(); // 
     var [response] = useState<any>({});
@@ -53,13 +53,16 @@ function ViewThread() {
             return error;
         }
     }
+    
     const whoAmI = async () => {
+        console.log('WE ARE HERE')
         let response = await fetch("/auth/whoami", {
           method: "get",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          headers: { "Content-Type": "application/json" },
           mode: "no-cors", //  <3
         })
         console.log('WHO? ', response.json())
+        
         setLoggedInUser(response);
       }
 
@@ -89,8 +92,7 @@ function ViewThread() {
             </div>
             <br />
             <div className="commentView">
-                <div className="commentResult">
-                    <div>
+                    <div className="commentResult">
                         {loggedInUser.username}
                         <br />
                         {comment.text}
@@ -98,8 +100,6 @@ function ViewThread() {
                         {/* need "cleaner" format */}
                         {comment.creationDate}
                     </div>
-
-                </div>
                 <br />
             </div>
             <br />
