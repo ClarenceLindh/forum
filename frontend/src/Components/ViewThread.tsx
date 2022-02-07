@@ -5,7 +5,7 @@ import "../Styles/Thread.scss";
 
 function ViewThread() {
     const [loggedInUser, setLoggedInUser] = useState<any>({});
-    const [comment, setComment] = useState<any>([]);
+    const [comment, setComment] = useState<any>([{}]);
     const commentDate = formatISO(new Date());
     const { threadId } = useParams(); // 
     var [response] = useState<any>({});
@@ -23,8 +23,6 @@ function ViewThread() {
 
         console.log('this is response: ', response);
         console.log(res);
-
-
     };
 
     const postComment = async (e: { preventDefault: () => void }) => {
@@ -53,7 +51,7 @@ function ViewThread() {
             return error;
         }
     }
-    
+
     const whoAmI = async () => {
         console.log('WE ARE HERE')
         let response = await fetch("/auth/whoami", {
