@@ -34,7 +34,16 @@ public class UserController {
         return userService.whoAmI();
     }
 
+    @PutMapping("/rest/users/{id}")
+    public UserEntity updateUser(@PathVariable long id, @RequestBody UserEntity user) {
+        return userService.updateById(id, user);
     }
+
+    }
+
+
+
+
 
 
 
