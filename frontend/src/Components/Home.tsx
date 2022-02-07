@@ -3,6 +3,7 @@ import CreateThread from "./CreateThread";
 import "../Styles/Home.scss";
 import ThreadList from "./Threads/ThreadList";
 import Footer from "./Footer";
+import { Link } from 'react-router-dom';
 
 
 const Home = (loggedInUser: any) => {
@@ -13,7 +14,7 @@ const Home = (loggedInUser: any) => {
     Array<{ id: any; name: string }>
   >([]);
 
-  const [showCT, setShowCT] = React.useState(false);
+  
 
   const getTopics = async () => {
     try {
@@ -68,12 +69,6 @@ const Home = (loggedInUser: any) => {
           })}
         </div>
 
-        {showCT ? <CreateThread topics={allTopics} /> : null}
-        <div className="footer">
-          <button onClick={() => setShowCT(true)} id="press">
-            +
-          </button>
-        </div>
 
         <div className="items">
           <ThreadList threads={threads} />

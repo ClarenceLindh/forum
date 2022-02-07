@@ -1,12 +1,36 @@
 import React, { useEffect, useState } from "react";
 import "../Styles/CreateTread.scss";
 import { formatISO } from "date-fns";
+import { useNavigate } from "react-router-dom";
+import Footer from "./Footer";
 
-const CreateThread = (topics: any) => {
+
+const CreateThread = () => {
   const [headL, setHeadL] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [theTopic, setTopic] = useState<string>("");
   const today = formatISO(new Date());
+  const [allTopics, setAllTopics] = React.useState<
+  Array<{ id: any; name: string }>
+>([]);
+const navigate = useNavigate();
+
+
+const getTopics = async () => {
+  try {
+    const response = await fetch("/rest/topics/all-topics", {});
+    const json = await response.json();
+    setAllTopics(json);
+  } catch (error) {
+    console.log("error", error);
+  }
+};
+
+useEffect(() => {
+  if (allTopics.length === 0) {
+    getTopics();
+  }
+}, [allTopics]);
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -24,12 +48,13 @@ const CreateThread = (topics: any) => {
         body: JSON.stringify(threadDetails),
       });
       console.log(response);
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
     // reload the homepage after submit
     // eslint-disable-next-line no-lone-blocks
-    window.location.reload();
+   // window.location.reload();
   };
 
   return (
@@ -53,7 +78,7 @@ const CreateThread = (topics: any) => {
 
         <div className="topicList">
           <select onChange={(e) => setTopic(e.target.value)} name="" id="">
-            {topics.topics.map((index: any) => (
+            {allTopics.map((index: any) => (
               <option value={index.id}>{index.name}</option>
             ))}
           </select>
@@ -62,6 +87,7 @@ const CreateThread = (topics: any) => {
           <input className="submitThread" type="submit" value="Submit" />
         </div>
       </form>
+      <div id="footer"><Footer/></div>
     </div>
   );
 };
