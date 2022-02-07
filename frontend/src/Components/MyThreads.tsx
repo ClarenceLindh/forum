@@ -29,11 +29,14 @@ const MyThreads = () => {
     }
   };
 */
+
+
   async function fetchMyThreads() {
-    whoAmI();
-    const raw = await fetch(`rest/threads/all-threads`);
+   // whoAmI();
+   // const raw = await fetch(`rest/threads/all-threads`);
+    const raw = await fetch(`/rest/threads/user/1`);
     const res = await raw.json();
-    console.log("user"+loggedInUser.creatorUserId.id);
+    console.log("user   "+loggedInUser.creatorUserId);
 
     res.forEach((element: { id: any; name: string; complete: boolean }) => {
       //if(loggedInUser==element.creatorUserId.id)
