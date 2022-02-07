@@ -65,6 +65,8 @@ function ViewThread() {
         } catch (error) {
             return error;
         }
+
+        window.location.reload();
     }
 
     const whoAmI = async () => {
