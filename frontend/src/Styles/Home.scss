@@ -79,19 +79,22 @@ code {
   height: 100vh;
 }
 
-.footer {
-  position: absolute;
-  width: 100vw;
+#footer{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
   height: 10vh;
-  bottom: 0vh;
-  display: flex;
-  justify-content: center;
-  background-color: $backgroundcolor2;
-}
-
-#press {
-  width: 16vw;
-  height: 10vh;
-  font-size: 9vh;
-  $backgroundcolor4: rgb(184, 184, 184);
-}
+  background-color: $backgroundcolor4;
+ }
+ .inFooter{
+ display: flex;
+ justify-content: space-between;
+ font-size: 5vh;
+ padding-top: 1vh;
+ padding-left: 2vw;
+ padding-right: 2vw;
+ background-color:$backgroundcolor4;
+ 
+ }
+   
+   
