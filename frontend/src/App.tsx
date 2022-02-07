@@ -4,6 +4,7 @@ import React, { useContext } from "react";
 import Login from "./Components/Login";
 import Home from "./Components/Home";
 import ViewThread from "./Components/ViewThread";
+import MyThreads from "./Components/MyThreads";
 import { useEffect, useState } from "react";
 import CreateThread from "./Components/CreateThread";
 import ContextProvider, { Context } from "./Context/ContextProvider";
@@ -23,6 +24,7 @@ function App() {
               element={<Login/>}
             />
             <Route path="/viewThread/:threadId" element={<ViewThread />} />
+            <Route path="/myThread" element={<MyThreads />} />
             <Route path="/create" element={<CreateThread />} />
           </Routes>
         </Router>

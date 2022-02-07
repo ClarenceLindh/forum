@@ -9,7 +9,7 @@ const Footer = () => {
       
     <Link to={{pathname:'/'}}>Home</Link>
     <Link to={{pathname:'/create'}}>+</Link>
-      
+    <Link to={{pathname:'/myThread'}}>MyThreads</Link> 
       <div>My treads</div>
     </div>
   );
