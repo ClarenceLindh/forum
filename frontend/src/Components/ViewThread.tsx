@@ -99,7 +99,6 @@ function ViewThread() {
 
     return (
         <div className="threadContainer">
-            <br />
             <div className="threadTitle">
                 {post.title}
                 <br />
@@ -108,23 +107,10 @@ function ViewThread() {
                 {post.text}
             </div>
             <br />
-            <div className="commentView">
 
             <div className="comments">
                 <CommentList comments={comments} />
-            </div>
-                    <div className="commentResult">
-                        {loggedInUser.username}
-                        <br />
-                        {comment.text}
-                        <br />
-                        {/* need "cleaner" format */}
-                        {comment.creationDate}
-                    </div>
-                <br />
-            </div>
-            <br />
-            <div className="threadComment">
+                <div className="threadComment">
                 <h3>Comment here</h3>
                 <form>
                     <textarea className="comment" onChange={(e) => setComment(e.target.value)} placeholder="Comment..." />
@@ -136,6 +122,10 @@ function ViewThread() {
 
 
             </div>
+            </div>
+                <br />
+            <br />
+            
             <br />
         </div>
     )
