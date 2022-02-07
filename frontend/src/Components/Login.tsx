@@ -37,7 +37,7 @@ const Login = () => {
       "&password=" +
       encodeURIComponent(loginPassword);
 
-    console.log(credentials);
+    
 
     let response = await fetch("/login", {
       method: "post",
@@ -62,6 +62,7 @@ const Login = () => {
       username: registerUsername,
       email: registerEmail,
       password: registerPassword,
+      role: "ROLE_USER"
     };
 
     console.log(credentials);
