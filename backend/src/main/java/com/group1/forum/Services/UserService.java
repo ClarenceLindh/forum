@@ -67,6 +67,7 @@ public class UserService {
             user.setId(id);
             user.setPassword(userFromDB.getPassword());
             user.setEmail(userFromDB.getEmail());
+            user.setUsername(userFromDB.getUsername());
             return userRepo.save(user);
         }
         return null;
