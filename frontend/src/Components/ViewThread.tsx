@@ -21,7 +21,7 @@ function ViewThread() {
     response = res;
 
     setPost(res);
-    setAuthor(res.creatorUserId);
+    setAuthor(res.creator);
 
     console.log("this is response: ", response);
     console.log(res);
@@ -48,6 +48,11 @@ function ViewThread() {
       alert("you canceled the delete");
     }
   };
+
+  let getThreadCreatorByClick = () => {
+    console.log(author.id);
+    
+ };
 
   let deleteAccountByClick = async () => {
     const accountInfo = {
@@ -79,10 +84,18 @@ function ViewThread() {
   };
   return (
     <div className="threadContainer">
-      <br />
-      <div className="threadTitle">
-        {post.title}
-        <br />
+            <br />
+            <div className="threadTitle">  
+                {post.title} {author.role === "ROLE_DELETED" ? (
+                    <div>
+                      Started by deletedUser
+                    </div>
+                ): (
+                    <div>
+                Started by {author.username}
+                    </div>
+                )}
+            <br />
       </div>
       <div className="threadContent">{post.text}</div>
       <div className="threadComment">
@@ -99,7 +112,7 @@ function ViewThread() {
           <div className="dropdown">
             <span>Settings</span>
             <div className="dropdown-content">
-              <button >Block Account</button>
+              <button onClick={getThreadCreatorByClick}>Block Account</button>
               <button onClick={deleteAccountByClick}>Delete Account</button>
             </div>
           </div>
