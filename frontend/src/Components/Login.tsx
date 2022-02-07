@@ -49,7 +49,7 @@ const Login = () => {
       if (loggedInUser.username === loginUsername) {
         alert("You logged in as " + loginUsername);
         navigate("/");
-      } else if (loggedInUser.username !== loginUsername) {
+      } else if (loggedInUser.username !== loginUsername || loggedInUser.role === "ROLE_DELETED") {
         alert("Wrong username/password");
         console.log("Wrong!");
       }
