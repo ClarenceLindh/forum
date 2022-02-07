@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import "../../Styles/Comment.scss"; 
 
 export default function Comment({ comment }: {comment: any}) {
 
@@ -13,7 +14,8 @@ export default function Comment({ comment }: {comment: any}) {
 {/* <div>
   <button><Link  className='linkButton' to={`/viewThread/${threadId}`} >Go to thread</Link></button>
 </div> */}
-<br /><br /> <br />
+<br />
+<br />
 {comment.creationDate}
   </div>
   

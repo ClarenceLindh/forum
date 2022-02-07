@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { formatISO } from "date-fns";
 import "../Styles/Thread.scss";
+import CommentList from "./Comments/CommentList";
 
 function ViewThread() {
     const [loggedInUser, setLoggedInUser] = useState<any>({});
-    const [comment, setComment] = useState<any>([{}]);
+    const [comments, setComments] = useState([{}])
+    const [comment, setComment] = useState<any>({});
     const commentDate = formatISO(new Date());
     const { threadId } = useParams(); // 
     var [response] = useState<any>({});
@@ -24,6 +26,19 @@ function ViewThread() {
         console.log('this is response: ', response);
         console.log(res);
     };
+
+    async function getAllComments() {
+        const raw = await fetch(`/rest/threads/all-comments`);
+        const res = await raw.json();
+        console.log(res);
+
+        res.forEach((element: {}) => {
+            setComments((comments) => [...comments, element]);
+          });
+      
+          console.log('getAllComments?', res);
+        }
+
 
     const postComment = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
@@ -76,6 +91,10 @@ function ViewThread() {
     useEffect(() => {
         whoAmI();
     }, [threadId])
+
+    useEffect(() => {
+        getAllComments();
+    }, []);
     
 
     return (
@@ -90,6 +109,10 @@ function ViewThread() {
             </div>
             <br />
             <div className="commentView">
+
+            <div className="comments">
+                <CommentList comments={comments} />
+            </div>
                     <div className="commentResult">
                         {loggedInUser.username}
                         <br />
