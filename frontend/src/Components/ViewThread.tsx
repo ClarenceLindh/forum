@@ -1,3 +1,4 @@
+import { formatISO } from "date-fns";
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Context } from "../Context/ContextProvider";
@@ -6,6 +7,7 @@ import "../Styles/Thread.scss";
 function ViewThread(topics: any) {
     const { loggedInUser, whoAmI } = useContext(Context)
 
+    const today = formatISO(new Date());
     const [comment, setComment] = useState("");
     const { threadId } = useParams(); // 
     const [post, setPost] = useState<any>({})
@@ -47,7 +49,7 @@ function ViewThread(topics: any) {
                     },
                     title: editedTitle,
                     text: editedText,
-                    lastEdited: "2022-01-20T13:56:38.000+00:00"
+                    lastEdited: today
                 })
             };
             await fetch(`/rest/thread/${threadId}`, requestOptions)
