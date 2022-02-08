@@ -14,6 +14,7 @@ function ViewThread() {
   const [post, setPost] = useState<any>({});
   const [modId, setModId] = useState<any>("");
   const [modUsername, setModUsername] = useState<any>("");
+  const [creator, setCreator] = useState<any>(false);
 
   const getThreadById = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -28,6 +29,24 @@ function ViewThread() {
     console.log("this is response: ", response);
     console.log(res);
   };
+  
+  const checkIfCreator = async () => {
+    try {
+      if (
+        post.creatorUserId.id !== undefined &&
+        loggedInUser.id !== undefined &&
+        post.creatorUserId.id === loggedInUser.id
+      ) {
+        setCreator(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    checkIfCreator();
+  }, [post]);
 
   useEffect(() => {
     getThreadById({ preventDefault: () => {} });
@@ -56,17 +75,14 @@ function ViewThread() {
 
     if (
       window.confirm(
-        `Are you sure you want to add ` + modUsername + " as a moderator?"
+        `Are you sure you want to add ` + modId + " as a moderator?"
       )
     ) {
       try {
         console.log(modId);
-        let response = await fetch(
-          `/rest/thread/${threadId}/user/${modId}`,
-          {
-            method: "POST",
-          }
-        );
+        let response = await fetch(`/rest/thread/${threadId}/user/${modId}`, {
+          method: "POST",
+        });
         console.log("addModerator response", response);
       } catch (error) {
         alert("error try later");
@@ -82,15 +98,17 @@ function ViewThread() {
         <br />
       </div>
       <div className="threadContent">{post.text}</div>
+        {creator ? (
+          <form onSubmit={(e) => addModerator(e)}>
+            <input
+              type="text"
+              placeholder="Username"
+              onChange={(e) => setModId(e.target.value)}
+            />
+            <button>Add Moderator</button>
+          </form>
+        ) : null}
       <div className="threadComment">
-        <form onSubmit={(e) => addModerator(e)}>
-          <input
-            type="text"
-            placeholder="Username"
-            onChange={(e) => setModId(e.target.value)}
-          />
-          <button>Add Moderator</button>
-        </form>
         <h3>Comment here</h3>
         <textarea
           className="comment"
