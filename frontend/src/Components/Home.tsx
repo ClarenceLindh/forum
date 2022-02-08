@@ -10,6 +10,8 @@ import Footer from "./Footer";
 const Home = (loggedInUser: any) => {
   const navigate = useNavigate();
 
+  const [showCT, setShowCT ] = useState(false);
+
   const [threads, setThreads] = useState([{}]);
 
   const [allTopics, setAllTopics] = React.useState<

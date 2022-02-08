@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Context } from "../Context/ContextProvider";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Context } from "../Context/ContextProvider";
