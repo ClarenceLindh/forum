@@ -1,20 +1,22 @@
-import React, {useContext, useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../Context/ContextProvider";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { Context } from "../Context/ContextProvider";
 import "../Styles/Thread.scss";
 import Thread from "./Threads/Thread";
 
 function ViewThread() {
-    
+  const navigate = useNavigate();
+  const [comment, setComment] = useState("");
+  const { threadId } = useParams(); //
+  var [response] = useState<any>({});
+  const [post, setPost] = useState<any>({});
+  const [modId, setModId] = useState<any>("");
+  const [modUsername, setModUsername] = useState<any>("");
+  const [creator, setCreator] = useState<any>(false);
     const { loggedInUser, whoAmI } = useContext(Context);
-    const navigate = useNavigate();
-    const [comment, setComment] = useState("");
-    const {threadId} = useParams(); // 
-    var [response] = useState<any>({});
-    const [post, setPost] = useState<any>({})
     const [author, setAuthor] = useState<any>({})
- 
     const getThreadById = async (e: { preventDefault: () => void; }) => {
      e.preventDefault();
     
@@ -25,19 +27,14 @@ function ViewThread() {
 
         setPost(res);
         setAuthor(res.creatorUserId);
-        
         console.log('this is response: ', response);
         console.log(res);
-       
 
       };
-      
       useEffect( () => {
         getThreadById({preventDefault: () => {
-            
         }});
     }, [threadId]);
-      
     let deleteThreadById = async ()=> {
        if(author.id == loggedInUser.id) 
        { if (window.confirm("are you sure you want to delete " + post.title ) == true){
@@ -54,7 +51,43 @@ function ViewThread() {
         alert("only " + author.username + " or admin is allowed to delete " + post.title)
     }
       }
-        
+  const checkIfCreator = async () => {
+    try {
+      if (
+        post.creatorUserId.id !== undefined &&
+        loggedInUser.id !== undefined &&
+        post.creatorUserId.id === loggedInUser.id
+      ) {
+        setCreator(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    checkIfCreator();
+  }, [post]);
+
+  const addModerator = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+
+    if (
+      window.confirm(
+        `Are you sure you want to add ` + modId + " as a moderator?"
+      )
+    ) {
+      try {
+        console.log(modId);
+        let response = await fetch(`/rest/thread/${threadId}/user/${modId}`, {
+          method: "POST",
+        });
+        console.log("addModerator response", response);
+      } catch (error) {
+        alert("error try later");
+      }
+    }
+  };
     return (
         <div className="threadContainer">
             <br />
@@ -68,9 +101,17 @@ function ViewThread() {
                     )
                 }     
             </div>
-            <div className="threadContent">
-                {post.text}                       
-            </div>
+      <div className="threadContent">{post.text}</div>
+        {creator ? (
+          <form onSubmit={(e) => addModerator(e)}>
+            <input
+              type="text"
+              placeholder="Username"
+              onChange={(e) => setModId(e.target.value)}
+            />
+            <button>Add Moderator</button>
+          </form>
+        ) : null}
             <a>creator: {author.username}</a>
             <div className="threadComment">
                 <h3>Comment here</h3>
@@ -78,11 +119,11 @@ function ViewThread() {
                 <div>
                     <button>Post</button>
                     
-                </div>
-            </div>
-            <br />
         </div>
-    )
+      </div>
+      <br />
+    </div>
+  );
 }
 
 

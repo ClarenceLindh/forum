@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import CreateThread from "./CreateThread";
 import "../Styles/Home.scss";
 import ThreadList from "./Threads/ThreadList";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import Footer from "./Footer";
-import { Link } from 'react-router-dom';
 
 
 const Home = (loggedInUser: any) => {
+  const navigate = useNavigate();
 
   const [threads, setThreads] = useState([{}]);
 
@@ -41,7 +43,6 @@ const Home = (loggedInUser: any) => {
 
   useEffect(() => {
     fetchData();
-   
   }, []);
 
   useEffect(() => {
@@ -49,13 +50,16 @@ const Home = (loggedInUser: any) => {
       getTopics();
     }
   }, [allTopics]);
-  
+
   return (
     <div className="main">
       <div className="header">
-        <div></div>
-        <h1>Forum</h1>
-        <h2>Sign in</h2>
+        <Link className="link" to="/">
+          <h1>Forum</h1>
+        </Link>
+        <Link className="link" to="/login">
+          <h2>Sign in</h2>
+        </Link>
       </div>
 
       <div className="body">
@@ -69,6 +73,12 @@ const Home = (loggedInUser: any) => {
           })}
         </div>
 
+        {showCT ? <CreateThread topics={allTopics} thread={threads} /> : null}
+        <div className="footer">
+          <button onClick={() => setShowCT(true)} id="press">
+            +
+          </button>
+        </div>
 
         <div className="items">
           <ThreadList threads={threads} />

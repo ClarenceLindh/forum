@@ -34,8 +34,9 @@ public class ThreadController {
         return threadService.createThread(thread);
     }
 
-    @PutMapping("rest/thread/{threadId}/user/{userId}")
+    @PostMapping("rest/thread/{threadId}/user/{userId}")
     public ThreadEntity addModeratorToThread(@PathVariable long threadId, @PathVariable long userId) {
+        System.out.println("ThreadId: " + threadId + "userId" + userId );
         return threadService.addModeratorToThread(threadId, userId);
     }
 
