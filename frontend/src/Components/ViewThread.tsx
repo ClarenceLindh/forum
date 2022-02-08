@@ -102,7 +102,7 @@ function ViewThread() {
       );
     }
   };
-  
+
   let blockThread = async () => {
     if (loggedInUser.role == "ROLE_ADMIN") {
       if (
@@ -156,7 +156,7 @@ function ViewThread() {
           <form onSubmit={(e) => addModerator(e)}>
             <input
               type="text"
-              placeholder="Username"
+              placeholder="User ID"
               onChange={(e) => setModId(e.target.value)}
             />
             <button>Add Moderator</button>
