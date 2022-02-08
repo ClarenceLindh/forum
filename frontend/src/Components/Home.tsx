@@ -71,7 +71,7 @@ const Home = (loggedInUser: any) => {
           })}
         </div>
 
-        {showCT ? <CreateThread topics={allTopics} /> : null}
+        {showCT ? <CreateThread topics={allTopics} thread={threads} /> : null}
         <div className="footer">
           <button onClick={() => setShowCT(true)} id="press">
             +

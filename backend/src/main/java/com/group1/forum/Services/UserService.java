@@ -5,20 +5,11 @@ import com.group1.forum.Entities.UserEntity;
 import com.group1.forum.Repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
-
-import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
 @Service
 public class UserService {
@@ -55,5 +46,13 @@ public class UserService {
     }
 
     public List<UserEntity> getAll() {return userRepo.findAll();}
+
+
+
+    public List<UserEntity> getIdByUsername(String username) {
+        System.out.println(userRepo.findIdByUsername(username));
+        return userRepo.findIdByUsername(username);
+    }
+
 
 }

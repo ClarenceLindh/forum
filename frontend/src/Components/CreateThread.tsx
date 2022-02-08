@@ -19,20 +19,17 @@ const CreateThread = (topics: any) => {
     };
 
     try {
-      console.log("try");
       const response = await fetch("/rest/thread", {
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(threadDetails),
       });
-      console.log(response);
+      console.log("Response", response);
     } catch (error) {
       console.log(error);
     }
     console.log(threadDetails);
-    // reload the homepage after submit
-    // eslint-disable-next-line no-lone-blocks
-    // window.location.reload();
+    window.location.reload();
   };
 
   return (
