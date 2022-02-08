@@ -32,7 +32,7 @@ const Home = (loggedInUser: any) => {
 
   async function fetchData() {
     // controller url: "/rest/thread/{threadId}"
-    const raw = await fetch(`rest/threads/all-threads`);
+    const raw = await fetch(`/rest/threads/all-unblocked-threads`);
     const res = await raw.json();
     console.log(res);
 

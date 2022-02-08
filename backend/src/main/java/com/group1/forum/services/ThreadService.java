@@ -24,10 +24,12 @@ public class ThreadService {
 
     public List<ThreadEntity> getAllThreads() {
         List<ThreadEntity> threads = threadRepo.findAll();
-
         return threads;
 
         // should be something like: return threadRepository.getALlThreads();
+    }
+    public List<ThreadEntity> getAllUnblockedThreads(){
+        return threadRepo.findByBlockedThreadStatusFalse();
     }
 
     public Optional<ThreadEntity> getThreadById(long threadId) {
@@ -73,6 +75,7 @@ public class ThreadService {
                     thread.setText(editedThread.getText());
                     thread.setTopicId(editedThread.getTopicId());
                     thread.setLastEdited(editedThread.getLastEdited());
+                    thread.setBlockedThreadStatus(editedThread.isBlockedThreadStatus());
                     return threadRepo.save(thread);
                 });
     }

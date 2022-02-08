@@ -22,6 +22,8 @@ public class ThreadController {
         return threadService.getAllThreads();
     }
 
+    @GetMapping("/rest/threads/all-unblocked-threads")
+    public List<ThreadEntity> getAllUnblockedThreads() { return threadService.getAllUnblockedThreads();}
     // GET BY THREAD BY ID
     @GetMapping("/rest/thread/{threadId}")
     public Optional<ThreadEntity> getThreadById(@PathVariable long threadId) {
