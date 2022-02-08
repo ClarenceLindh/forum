@@ -27,12 +27,13 @@ function ViewThread() {
         console.log(res);
     };
 
+    // /rest/threads/all-comments
     async function getAllComments() {
-        const raw = await fetch(`/rest/threads/all-comments`);
+        const raw = await fetch(`/rest/thread/comments/${threadId}`);
         const res = await raw.json();
-        console.log(res);
+        console.log('All comments on Thread: ', res);
 
-        res.forEach((element: {}) => {
+        res.forEach((element: {res: any}) => {
             setComments((comments) => [...comments, element]);
           });
       
@@ -76,7 +77,7 @@ function ViewThread() {
           headers: { "Content-Type": "application/json" },
           mode: "no-cors", //  <3
         })
-        console.log('WHO? ', response.json())
+        console.log('WHO? ', response)
         
         setLoggedInUser(response);
       }
@@ -112,7 +113,6 @@ function ViewThread() {
 
             <div className="comments">
                 <CommentList comments={comments} />
-                <div className="threadComment">
                 <h3>Comment here</h3>
                 <form>
                     <textarea className="comment" onChange={(e) => setComment(e.target.value)} placeholder="Comment..." />
@@ -120,10 +120,6 @@ function ViewThread() {
                         <button onClick={postComment}>Post</button>
                     </div>
                 </form>
-
-
-
-            </div>
             </div>
                 <br />
             <br />

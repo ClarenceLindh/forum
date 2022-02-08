@@ -15,7 +15,7 @@ public class CommentEntity {
     private UserEntity creatorUserId;
 
     @ManyToOne
-    @JoinColumn(name = "thread_id", nullable = false)
+    @JoinColumn(name = "threadId", nullable = false)
     private ThreadEntity threadId;
 
     private String text;

@@ -23,8 +23,8 @@ public class CommentController {
         return commentService.getAllComments();
     }
 
-    @GetMapping("/rest/threads/comment/{threadId}")
-    public Optional<CommentEntity> getCommentsOnThreadId(@PathVariable long threadId) {
+    @GetMapping("/rest/thread/comments/{threadId}")
+    public List<CommentEntity> getCommentsOnThreadId(@PathVariable long threadId) {
         return commentService.getCommentsOnThreadId(threadId);
     }
 }

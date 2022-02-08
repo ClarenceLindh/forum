@@ -34,8 +34,8 @@ public class CommentService {
         return commentRepo.findAll();
     }
 
-    public Optional<CommentEntity> getCommentsOnThreadId(long threadId) {
-        return commentRepo.findById(threadId);
+    public List<CommentEntity> getCommentsOnThreadId(long threadId) {
+        return commentRepo.findAllById(threadId);
     }
 
 }
