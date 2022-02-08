@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CreateThread from "./CreateThread";
 import "../Styles/Home.scss";
 import ThreadList from "./Threads/ThreadList";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
+import { Context } from "../Context/ContextProvider";
 import { Link } from "react-router-dom";
 import Footer from "./Footer";
 
@@ -10,10 +11,65 @@ import Footer from "./Footer";
 const Home = (loggedInUser: any) => {
   const navigate = useNavigate();
 
+  const { loggedInUser, whoAmI } = useContext(Context);
   const [showCT, setShowCT ] = useState(false);
-
   const [threads, setThreads] = useState([{}]);
 
+const [allTopics, setAllTopics] = React.useState<
+    Array<{ id: any; name: string }>
+  >([]);
+
+
+  /////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
+
+
+  function Greeting() {
+    console.log("loggedinUser", loggedInUser)
+    if (Object.keys(loggedInUser).length===0 && loggedInUser.constructor ===Object) {
+      return <GuestGreeting />;}
+    else{
+      return <UserGreeting />;
+    
+  }
+}
+////////////////////////////////////////
+const logout=async(e:{preventDefault:()=>void})=> {
+  e.preventDefault()
+  // tell backend to forget us
+  console.log("logout work");  
+  let response = await fetch("/logout", {
+    method: "post",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    mode: "no-cors", //  <3
+  }).then(() => {
+    whoAmI();
+   
+  });
+
+  window.location.reload()
+
+}
+  
+/////////////////////////////////////////////
+
+  
+
+
+
+//////////////////////////////////////////////
+  function UserGreeting() {
+    return <div><h3>Welcome back {loggedInUser.username}!</h3> <button onClick={logout}>logout</button></div>
+  }
+  
+  function GuestGreeting() {
+    return <h2 onClick={routeChange}>Sign in</h2>
+  }
+
+  
+
+  /////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
   const [allTopics, setAllTopics] = React.useState<
     Array<{ id: any; name: string }>
   >([]);
@@ -29,6 +85,19 @@ const Home = (loggedInUser: any) => {
       console.log("error", error);
     }
   };
+
+  let navigate = useNavigate(); 
+  const routeChange = () =>{ 
+    let path = `/login`; 
+    navigate(path);}
+
+  
+
+    // ReactDOM.render(
+    //   // Try changing to isLoggedIn={true}:
+    //   <Greeting isLoggedIn={false} />,
+    //   document.getElementById('root')
+    // );
 
   async function fetchData() {
     // controller url: "/rest/thread/{threadId}"
@@ -56,12 +125,12 @@ const Home = (loggedInUser: any) => {
   return (
     <div className="main">
       <div className="header">
-        <Link className="link" to="/">
-          <h1>Forum</h1>
-        </Link>
-        <Link className="link" to="/login">
-          <h2>Sign in</h2>
-        </Link>
+        <div></div>
+        <h1>Forum</h1>
+        <div>
+  {Greeting()}
+</div>
+        
       </div>
 
       <div className="body">
