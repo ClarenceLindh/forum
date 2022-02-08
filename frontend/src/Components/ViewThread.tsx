@@ -45,9 +45,9 @@ function ViewThread() {
 const checkIfCreator = async () => {
     try {
       if (
-        post.creatorUserId.id !== undefined &&
+        post.creator.id !== undefined &&
         loggedInUser.id !== undefined &&
-        post.creatorUserId.id === loggedInUser.id
+        post.creator.id === loggedInUser.id
       ) {
         setCreator(true);
       }
@@ -146,7 +146,9 @@ const checkIfCreator = async () => {
                 }          
             </div>
             <div className="threadContent">
-              {creator ? (
+                {post.text}                       
+            </div>
+            {creator ? (
           <form onSubmit={(e) => addModerator(e)}>
             <input
               type="text"
@@ -156,8 +158,6 @@ const checkIfCreator = async () => {
             <button>Add Moderator</button>
           </form>
         ) : null}
-                {post.text}                       
-            </div>
             <a>creator: {author.username}</a>
             <div className="threadComment">
                 <h3>Comment here</h3>
@@ -197,7 +197,10 @@ const checkIfCreator = async () => {
                 <textarea className="comment" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Comment..." />
                 <div>
                   <button>Post</button>     
-        </div>       
+                  </div>
+            </div>
+            <br />
+        </div>
     )
 }else if(post.blockedThreadStatus === true){
     return(
@@ -209,10 +212,13 @@ const checkIfCreator = async () => {
     )
 }else{
     return(
-        <h1>test</h1>
+        <>
+        <h1>PAGE DOESNT EXIT 404 ERROR</h1>
+        <button><Link  className='linkButton' to={"/"} >CLICK ON ME TO GO HOME</Link></button>
+        </>
     )
+    }
+
 }
 
-
-}
 export default ViewThread;
