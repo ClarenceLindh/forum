@@ -67,7 +67,7 @@ function ViewThread() {
             return error;
         }
 
-        window.location.reload();
+        // window.location.reload();
     }
 
     const whoAmI = async () => {
@@ -91,13 +91,13 @@ function ViewThread() {
         });
     }, [threadId]);
 
-    useEffect(() => {
-        whoAmI();
-    }, [threadId])
+    // useEffect(() => {
+    //     whoAmI();
+    // }, [threadId])
 
     useEffect(() => {
         getAllComments();
-    }, []);
+    }, [threadId]);
     
 
     return (

@@ -31,6 +31,10 @@ public class UserEntity {
     @OneToMany(mappedBy = "creatorUserId")
     private Set<ThreadEntity> threads;
 
+    @OneToMany(mappedBy = "creatorUserId")
+    private Set<CommentEntity> comments;
+
+
     @ManyToMany
     @JoinTable(
             name = "threadbans_user",
