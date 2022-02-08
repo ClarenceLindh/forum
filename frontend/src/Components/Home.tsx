@@ -8,16 +8,14 @@ import { Link } from "react-router-dom";
 import Footer from "./Footer";
 
 
-const Home = (loggedInUser: any) => {
+const Home = () => {
   const navigate = useNavigate();
 
   const { loggedInUser, whoAmI } = useContext(Context);
   const [showCT, setShowCT ] = useState(false);
   const [threads, setThreads] = useState([{}]);
 
-const [allTopics, setAllTopics] = React.useState<
-    Array<{ id: any; name: string }>
-  >([]);
+
 
 
   /////////////////////////////////////////////////////
@@ -86,7 +84,7 @@ const logout=async(e:{preventDefault:()=>void})=> {
     }
   };
 
-  let navigate = useNavigate(); 
+  
   const routeChange = () =>{ 
     let path = `/login`; 
     navigate(path);}
