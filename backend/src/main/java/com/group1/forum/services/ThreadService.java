@@ -84,4 +84,5 @@ public class ThreadService {
     public List<ThreadEntity> getThreadsByCreatorUserId(long creatorId) {
         return threadRepo.findByCreatorId(creatorId);
     }
+    
 }
