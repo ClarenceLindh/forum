@@ -52,10 +52,6 @@ function ViewThread() {
     }
   };
 
-  let getThreadCreatorByClick = () => {
-    console.log(author.id);
-    
- };
 
   let deleteAccountByClick = async () => {
     const accountInfo = {
@@ -116,7 +112,6 @@ function ViewThread() {
           <div className="dropdown">
             <span>Settings</span>
             <div className="dropdown-content">
-              <button onClick={getThreadCreatorByClick}>Block Account</button>
               <button onClick={deleteAccountByClick}>Delete Account</button>
             </div>
           </div>):(
