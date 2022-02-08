@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { Context } from "../Context/ContextProvider";
 import "../Styles/Thread.scss";
 import Thread from "./Threads/Thread";
+
 
 function ViewThread() {
   const navigate = useNavigate();
@@ -11,6 +13,7 @@ function ViewThread() {
   var [response] = useState<any>({});
   const [post, setPost] = useState<any>({});
   const [author, setAuthor] = useState<any>({});
+  const { loggedInUser, whoAmI } = useContext(Context);
 
   const getThreadById = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -109,13 +112,17 @@ function ViewThread() {
         <div>
           <button>Post</button>
           <button onClick={deleteThreadById}>Delete</button>
+          {loggedInUser.role === "ROLE_ADMIN" ? (
           <div className="dropdown">
             <span>Settings</span>
             <div className="dropdown-content">
               <button onClick={getThreadCreatorByClick}>Block Account</button>
               <button onClick={deleteAccountByClick}>Delete Account</button>
             </div>
-          </div>
+          </div>):(
+            <div></div>
+          )} 
+          
         </div>
       </div>
       <br />
