@@ -38,6 +38,7 @@ public class ThreadService {
 
     public ThreadEntity createThread(ThreadEntity thread) {
         UserEntity loggedUser = userService.whoAmI();
+        System.out.println("create thread started");
         if (loggedUser != null) {
             thread.setCreator(loggedUser);
             thread.setBlockedThreadStatus(false);

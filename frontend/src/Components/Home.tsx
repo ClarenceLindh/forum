@@ -2,8 +2,15 @@ import React, { useEffect, useState } from "react";
 import CreateThread from "./CreateThread";
 import "../Styles/Home.scss";
 import ThreadList from "./Threads/ThreadList";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
+import Footer from "./Footer";
+
 
 const Home = (loggedInUser: any) => {
+  const navigate = useNavigate();
+
+  const [showCT, setShowCT ] = useState(false);
 
   const [threads, setThreads] = useState([{}]);
 
@@ -11,7 +18,7 @@ const Home = (loggedInUser: any) => {
     Array<{ id: any; name: string }>
   >([]);
 
-  const [showCT, setShowCT] = React.useState(false);
+  
 
   const getTopics = async () => {
     try {
@@ -38,7 +45,6 @@ const Home = (loggedInUser: any) => {
 
   useEffect(() => {
     fetchData();
-   
   }, []);
 
   useEffect(() => {
@@ -46,13 +52,16 @@ const Home = (loggedInUser: any) => {
       getTopics();
     }
   }, [allTopics]);
-  
+
   return (
     <div className="main">
       <div className="header">
-        <div></div>
-        <h1>Forum</h1>
-        <h2>Sign in</h2>
+        <Link className="link" to="/">
+          <h1>Forum</h1>
+        </Link>
+        <Link className="link" to="/login">
+          <h2>Sign in</h2>
+        </Link>
       </div>
 
       <div className="body">
@@ -66,7 +75,7 @@ const Home = (loggedInUser: any) => {
           })}
         </div>
 
-        {showCT ? <CreateThread topics={allTopics} /> : null}
+        {showCT ? <CreateThread topics={allTopics} thread={threads} /> : null}
         <div className="footer">
           <button onClick={() => setShowCT(true)} id="press">
             +
@@ -77,6 +86,7 @@ const Home = (loggedInUser: any) => {
           <ThreadList threads={threads} />
         </div>
       </div>
+      <div id="footer"><Footer/></div>
     </div>
   );
 };

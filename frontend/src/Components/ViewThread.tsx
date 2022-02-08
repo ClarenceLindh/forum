@@ -1,3 +1,4 @@
+
 import React, {useContext, useState, useEffect } from "react";
 import { Context } from "../Context/ContextProvider";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,18 +10,18 @@ import { formatISO } from "date-fns";
 
 
 function ViewThread() {
-    
+  const navigate = useNavigate();
+  const [comment, setComment] = useState("");
+  const { threadId } = useParams(); //
+  var [response] = useState<any>({});
+  const [post, setPost] = useState<any>({});
+  const [modId, setModId] = useState<any>("");
+  const [modUsername, setModUsername] = useState<any>("");
+  const [creator, setCreator] = useState<any>(false);
     const { loggedInUser, whoAmI } = useContext(Context);
-    const navigate = useNavigate();
-    const [comment, setComment] = useState("");
-    const {threadId} = useParams(); // 
-    var [response] = useState<any>({});
-    const [post, setPost] = useState<any>({})
     const [author, setAuthor] = useState<any>({})
     const [topic, setTopic] = useState<any>({})
     const today = formatISO(new Date());
-
- 
     const getThreadById = async (e: { preventDefault: () => void; }) => {
      e.preventDefault();
     
@@ -32,19 +33,52 @@ function ViewThread() {
         setTopic(res.topicId)
         setPost(res);
         setAuthor(res.creator);
-        
         console.log('this is response: ', response);
         console.log(res);
-       
 
       };
-      
       useEffect( () => {
+        
         getThreadById({preventDefault: () => {
-           
         }});
     }, [threadId]);
-       
+const checkIfCreator = async () => {
+    try {
+      if (
+        post.creatorUserId.id !== undefined &&
+        loggedInUser.id !== undefined &&
+        post.creatorUserId.id === loggedInUser.id
+      ) {
+        setCreator(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    checkIfCreator();
+  }, [post]);
+
+  const addModerator = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+
+    if (
+      window.confirm(
+        `Are you sure you want to add ` + modId + " as a moderator?"
+      )
+    ) {
+      try {
+        console.log(modId);
+        let response = await fetch(`/rest/thread/${threadId}/user/${modId}`, {
+          method: "POST",
+        });
+        console.log("addModerator response", response);
+      } catch (error) {
+        alert("error try later");
+      }
+    }
+  };
     let deleteThreadById = async ()=> {
        if(author.id == loggedInUser.id) 
        { if (window.confirm("are you sure you want to delete " + post.title ) == true){
@@ -89,6 +123,7 @@ function ViewThread() {
     }else{
         alert("only admin is allowed to block threads")
     }
+        
 }  
         
     if(post.blockedThreadStatus === false) {return (
@@ -111,6 +146,16 @@ function ViewThread() {
                 }          
             </div>
             <div className="threadContent">
+              {creator ? (
+          <form onSubmit={(e) => addModerator(e)}>
+            <input
+              type="text"
+              placeholder="Username"
+              onChange={(e) => setModId(e.target.value)}
+            />
+            <button>Add Moderator</button>
+          </form>
+        ) : null}
                 {post.text}                       
             </div>
             <a>creator: {author.username}</a>
@@ -127,7 +172,6 @@ function ViewThread() {
     )
 }else if(loggedInUser.role == "ROLE_ADMIN" && post.blockedThreadStatus === true){
     return(
-        
         <div className="threadContainer">
             <br />
             <div className="threadTitle">  
@@ -146,24 +190,15 @@ function ViewThread() {
                     )
                 }          
             </div>
-            <div className="threadContent">
-                {post.text}                       
-            </div>
+      <div className="threadContent">{post.text}</div>
             <a>creator: {author.username}</a>
             <div className="threadComment">
                 <h3>Comment here</h3>
                 <textarea className="comment" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Comment..." />
                 <div>
-                    <button>Post</button>
-                    
-                </div>
-            </div>
-            <br />
-        </div>
-        
-        
+                  <button>Post</button>     
+        </div>       
     )
-    
 }else if(post.blockedThreadStatus === true){
     return(
         <>
