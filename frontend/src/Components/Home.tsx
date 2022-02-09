@@ -12,59 +12,29 @@ const Home = () => {
   const navigate = useNavigate();
 
   const { loggedInUser, whoAmI } = useContext(Context);
-  const [showCT, setShowCT ] = useState(false);
+  const [showCT, setShowCT] = useState(false);
   const [threads, setThreads] = useState([{}]);
 
 
 
+  ////////////////////////////////////////
+  const logout = async (e: { preventDefault: () => void }) => {
+    e.preventDefault()
+    // tell backend to forget us
+    console.log("logout work");
+    let response = await fetch("/logout", {
+      method: "post",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      mode: "no-cors", //  <3
+    }).then(() => {
+      whoAmI();
 
-  /////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////
+    });
 
+    window.location.reload()
 
-  function Greeting() {
-    console.log("loggedinUser", loggedInUser)
-    if (Object.keys(loggedInUser).length===0 && loggedInUser.constructor ===Object) {
-      return <GuestGreeting />;}
-    else{
-      return <UserGreeting />;
-    
-  }
-}
-////////////////////////////////////////
-const logout=async(e:{preventDefault:()=>void})=> {
-  e.preventDefault()
-  // tell backend to forget us
-  console.log("logout work");  
-  let response = await fetch("/logout", {
-    method: "post",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    mode: "no-cors", //  <3
-  }).then(() => {
-    whoAmI();
-   
-  });
-
-  window.location.reload()
-
-}
-  
-/////////////////////////////////////////////
-
-  
-
-
-
-//////////////////////////////////////////////
-  function UserGreeting() {
-    return <div><h3>Welcome back {loggedInUser.username}!</h3> <button onClick={logout}>logout</button></div>
-  }
-  
-  function GuestGreeting() {
-    return <h2 onClick={routeChange}>Sign in</h2>
   }
 
-  
 
   /////////////////////////////////////////////////////
   ////////////////////////////////////////////////////
@@ -72,7 +42,7 @@ const logout=async(e:{preventDefault:()=>void})=> {
     Array<{ id: any; name: string }>
   >([]);
 
-  
+
 
   const getTopics = async () => {
     try {
@@ -84,18 +54,12 @@ const logout=async(e:{preventDefault:()=>void})=> {
     }
   };
 
-  
-  const routeChange = () =>{ 
-    let path = `/login`; 
-    navigate(path);}
 
-  
-
-    // ReactDOM.render(
-    //   // Try changing to isLoggedIn={true}:
-    //   <Greeting isLoggedIn={false} />,
-    //   document.getElementById('root')
-    // );
+  // ReactDOM.render(
+  //   // Try changing to isLoggedIn={true}:
+  //   <Greeting isLoggedIn={false} />,
+  //   document.getElementById('root')
+  // );
 
   async function fetchData() {
     // controller url: "/rest/thread/{threadId}"
@@ -106,8 +70,6 @@ const logout=async(e:{preventDefault:()=>void})=> {
     res.forEach((element: { id: any; name: string; complete: boolean }) => {
       setThreads((threads) => [...threads, element]);
     });
-
-    console.log(res);
   }
 
   useEffect(() => {
@@ -126,9 +88,16 @@ const logout=async(e:{preventDefault:()=>void})=> {
         <div></div>
         <h1>Forum</h1>
         <div>
-  {Greeting()}
-</div>
-        
+          {Object.keys(loggedInUser).length === 0 && loggedInUser.constructor === Object ? (
+            <h2 onClick={() => { navigate("/login") }}>Sign in</h2>
+          ) : (
+            <div>
+              <h3>Welcome back {loggedInUser.username}!</h3>
+              <button onClick={logout}>logout</button>
+            </div>
+          )
+          }
+        </div>
       </div>
 
       <div className="body">
@@ -153,7 +122,7 @@ const logout=async(e:{preventDefault:()=>void})=> {
           <ThreadList threads={threads} />
         </div>
       </div>
-      <div id="footer"><Footer/></div>
+      <div id="footer"><Footer /></div>
     </div>
   );
 };
