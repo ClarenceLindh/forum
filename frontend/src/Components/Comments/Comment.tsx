@@ -15,6 +15,7 @@ export default function Comment({ comment }: {comment: any}) {
   <button><Link  className='linkButton' to={`/viewThread/${threadId}`} >Go to thread</Link></button>
 </div> */}
 <br />
+{comment.username}
 <br />
 {comment.creationDate}
   </div>

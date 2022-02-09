@@ -18,7 +18,7 @@ public class CommentService {
     private UserRepo userRepo;
 
     @Autowired
-    private UserService userService; // Had to import???
+    private UserService userService;
 
     public CommentEntity createComment(CommentEntity comment) {
         UserEntity loggedUser = userService.whoAmI();

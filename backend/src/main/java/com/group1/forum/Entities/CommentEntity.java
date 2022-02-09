@@ -25,6 +25,15 @@ public class CommentEntity {
     public CommentEntity() {
     }
 
+    public CommentEntity(long id, UserEntity commenter, ThreadEntity thread, String text, Date creationDate, Date lastEdited) {
+        this.id = id;
+        this.commenter = commenter;
+        this.thread = thread;
+        this.text = text;
+        this.creationDate = creationDate;
+        this.lastEdited = lastEdited;
+    }
+
     public long getId() {
         return id;
     }

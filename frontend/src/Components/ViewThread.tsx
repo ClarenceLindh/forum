@@ -5,7 +5,7 @@ import "../Styles/Thread.scss";
 import CommentList from "./Comments/CommentList";
 
 function ViewThread() {
-    const [loggedInUser, setLoggedInUser] = useState<any>({});
+    const [commentUser, setCommentUser] = useState<any>({});
     const [comments, setComments] = useState([{}])
     const [comment, setComment] = useState<any>({});
     const commentDate = formatISO(new Date());
@@ -49,6 +49,7 @@ function ViewThread() {
                 id: threadId
             },
             text: comment,
+            username: commentUser,
             creationDate: commentDate
         }
 
@@ -58,7 +59,7 @@ function ViewThread() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(commentDetails)
             })
-            const result = response;
+            const result = response.json();
             console.log("this is result: ", result);
             console.log("this is commentDetails: ", commentDetails)
             setComment(commentDetails);
@@ -67,7 +68,7 @@ function ViewThread() {
             return error;
         }
 
-        // window.location.reload();
+        window.location.reload();
     }
 
     const whoAmI = async () => {
@@ -76,10 +77,12 @@ function ViewThread() {
           method: "get",
           headers: { "Content-Type": "application/json" },
           mode: "no-cors", //  <3
+        }).then(response => response.json())
+        .then(response => { 
+         const userComment = response.username
+          console.log("User that commented: ", userComment);
+          setCommentUser(userComment);
         })
-        console.log('WHO? ', response)
-        
-        setLoggedInUser(response);
       }
 
 
@@ -91,9 +94,9 @@ function ViewThread() {
         });
     }, [threadId]);
 
-    // useEffect(() => {
-    //     whoAmI();
-    // }, [threadId])
+    useEffect(() => {
+        whoAmI();
+    }, [])
 
     useEffect(() => {
         getAllComments();
