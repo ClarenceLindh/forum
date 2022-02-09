@@ -13,7 +13,7 @@ public class ThreadEntity {
 
     @ManyToOne
     @JoinColumn(name = "creator_id", nullable = false)
-    private UserEntity creatorUserId;
+    private UserEntity creator;
 
     @ManyToOne
     @JoinColumn(name = "topicId", nullable = false)
@@ -39,9 +39,9 @@ public class ThreadEntity {
     public ThreadEntity() {
     }
 
-    public ThreadEntity(long id, UserEntity creatorUserId, TopicEntity topicId, String title, String text, Date creationDate, Date lastEdited, Set<UserEntity> bannedUsers, boolean blockedThreadStatus, Set<UserEntity> threadModerators) {
+    public ThreadEntity(long id, UserEntity creator, TopicEntity topicId, String title, String text, Date creationDate, Date lastEdited, Set<UserEntity> bannedUsers, boolean blockedThreadStatus, Set<UserEntity> threadModerators) {
         this.id = id;
-        this.creatorUserId = creatorUserId;
+        this.creator = creator;
         this.topicId = topicId;
         this.title = title;
         this.text = text;
@@ -60,12 +60,12 @@ public class ThreadEntity {
         this.id = id;
     }
 
-    public UserEntity getCreatorUserId() {
-        return creatorUserId;
+    public UserEntity getCreator() {
+        return creator;
     }
 
-    public void setCreatorUserId(UserEntity creatorUserId) {
-        this.creatorUserId = creatorUserId;
+    public void setCreator(UserEntity creator) {
+        this.creator = creator;
     }
 
     public TopicEntity getTopicId() {
@@ -136,7 +136,7 @@ public class ThreadEntity {
     public String toString() {
         return "ThreadEntity{" +
                 "id=" + id +
-                ", creatorUserId=" + creatorUserId +
+                ", creator=" + creator +
                 ", topicId=" + topicId +
                 ", title='" + title + '\'' +
                 ", text='" + text + '\'' +
@@ -152,3 +152,4 @@ public class ThreadEntity {
         threadModerators.add(user);
     }
 }
+

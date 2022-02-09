@@ -5,10 +5,8 @@ import com.group1.forum.Configs.MyUserDetailsService;
 import com.group1.forum.Entities.UserEntity;
 import com.group1.forum.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @CrossOrigin
@@ -29,12 +27,17 @@ public class UserController {
     @GetMapping("/auth/users")
     public List<UserEntity> getAllUsers(){return userService.getAll();}
 
+    @GetMapping("/rest/user/{username}")
+    public UserEntity getIdByUsername(@PathVariable String username) {
+        return (UserEntity) userService.getIdByUsername(username);
+    }
+
     @GetMapping("/auth/whoami")
     public UserEntity whoAmI() {
         return userService.whoAmI();
     }
 
-    }
+}
 
 
 

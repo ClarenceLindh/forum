@@ -28,7 +28,7 @@ public class UserEntity {
     @Column(name = "role")
     private String role;
 
-    @OneToMany(mappedBy = "creatorUserId")
+    @OneToMany(mappedBy = "creator")
     private Set<ThreadEntity> threads;
 
     @ManyToMany
@@ -45,7 +45,15 @@ public class UserEntity {
     public UserEntity() {
     }
 
+    public UserEntity(long id) {
+        this.id = id;
+    }
+
+
+
     public UserEntity(String email) { this.email = email; }
+
+
 
     public UserEntity(String email, String username, String password) {
         this.email = email;
@@ -65,6 +73,8 @@ public class UserEntity {
         this.password = password;
         this.role = role;
     }
+
+
 
     public String getEmail() { return email;}
 

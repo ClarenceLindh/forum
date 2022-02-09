@@ -7,18 +7,15 @@ const ContextProvider = (props: { children: any }) => {
 
 
   const whoAmI = async () => {
-    await fetch("/auth/whoami", {
-      method: "get",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      mode: "no-cors", //  <3
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        setLoggedInUser(response);
-        console.log("loggedInUser: ", loggedInUser);
-      })
-      .catch((err) => console.log(err)
-      )
+    let response = await fetch("/auth/whoami");
+    try {
+      response = await response.json();
+      setLoggedInUser(response);
+      console.log(response);
+    }
+    catch {
+      console.log("Not authorized");
+    }
   };
 
   const values = {
