@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CommentService {
@@ -24,7 +23,7 @@ public class CommentService {
     public CommentEntity createComment(CommentEntity comment) {
         UserEntity loggedUser = userService.whoAmI();
         if (loggedUser != null) {
-            comment.setCreatorUserId(loggedUser);
+            comment.setCommenterId(loggedUser);
             return commentRepo.save(comment);
         }
         return null;

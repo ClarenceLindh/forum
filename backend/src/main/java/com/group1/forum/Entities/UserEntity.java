@@ -31,7 +31,7 @@ public class UserEntity {
     @OneToMany(mappedBy = "creatorUserId")
     private Set<ThreadEntity> threads;
 
-    @OneToMany(mappedBy = "creatorUserId")
+    @OneToMany(mappedBy = "commenterId")
     private Set<CommentEntity> comments;
 
 
@@ -92,6 +92,11 @@ public class UserEntity {
         this.blockedThreads = blockedThreads;
         this.threadModerators = threadModerators;
     }
+
+    public UserEntity(Set<CommentEntity> comments) {
+        this.comments = comments;
+    }
+    
 
     public String getUsername() {
         return username;

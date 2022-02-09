@@ -44,7 +44,7 @@ public class ThreadEntity {
     public ThreadEntity() {
     }
 
-    public ThreadEntity(long id, UserEntity creatorUserId, TopicEntity topicId, String title, String text, Date creationDate, Date lastEdited, Set<UserEntity> bannedUsers, boolean blockedThreadStatus, Set<UserEntity> threadModerators) {
+    public ThreadEntity(long id, UserEntity creatorUserId, TopicEntity topicId, String title, String text, Date creationDate, Date lastEdited, Set<UserEntity> bannedUsers, boolean blockedThreadStatus, Set<UserEntity> threadModerators, Set<CommentEntity> comments) {
         this.id = id;
         this.creatorUserId = creatorUserId;
         this.topicId = topicId;
@@ -55,6 +55,7 @@ public class ThreadEntity {
         this.bannedUsers = bannedUsers;
         this.blockedThreadStatus = blockedThreadStatus;
         this.threadModerators = threadModerators;
+        this.comments = comments;
     }
 
     public long getId() {
@@ -159,6 +160,7 @@ public class ThreadEntity {
                 ", bannedUsers=" + bannedUsers +
                 ", blockedThreadStatus=" + blockedThreadStatus +
                 ", threadModerators=" + threadModerators +
+                ", comments=" + comments +
                 '}';
     }
 

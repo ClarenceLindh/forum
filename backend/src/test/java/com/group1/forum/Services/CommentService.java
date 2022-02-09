@@ -1,7 +1,6 @@
 package com.group1.forum.Services;
 
 import com.group1.forum.Entities.CommentEntity;
-import com.group1.forum.Entities.ThreadEntity;
 import com.group1.forum.Entities.UserEntity;
 import com.group1.forum.Repositories.CommentRepo;
 import com.group1.forum.Repositories.UserRepo;
@@ -25,7 +24,7 @@ public class CommentService {
     public CommentEntity createComment(CommentEntity comment) {
         UserEntity loggedUser = userService.whoAmI();
         if (loggedUser != null) {
-            comment.setCreatorUserId(loggedUser);
+            comment.setCommenterId(loggedUser);
             return commentRepo.save(comment);
         }
         return null;
