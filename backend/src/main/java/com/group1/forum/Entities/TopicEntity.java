@@ -18,7 +18,7 @@ public class TopicEntity {
     @Column(name = "name", nullable=false)
     private String name;
 
-    @OneToMany(mappedBy = "topicId")
+    @OneToMany(mappedBy = "topic")
     private Set<ThreadEntity> threads;
 
     public TopicEntity() {

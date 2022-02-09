@@ -12,11 +12,11 @@ public class CommentEntity {
 
     @ManyToOne
     @JoinColumn(name = "commenter_id", nullable = false)
-    private UserEntity commenterId;
+    private UserEntity commenter;
 
     @ManyToOne
     @JoinColumn(name = "thread_id", nullable = false)
-    private ThreadEntity threadId;
+    private ThreadEntity thread;
 
     private String text;
     private Date creationDate;
@@ -33,20 +33,20 @@ public class CommentEntity {
         this.id = id;
     }
 
-    public UserEntity getCommenterId() {
-        return commenterId;
+    public UserEntity getCommenter() {
+        return commenter;
     }
 
-    public void setCommenterId(UserEntity commenterId) {
-        this.commenterId = commenterId;
+    public void setCommenter(UserEntity commenter) {
+        this.commenter = commenter;
     }
 
-    public ThreadEntity getThreadId() {
-        return threadId;
+    public ThreadEntity getThread() {
+        return thread;
     }
 
-    public void setThreadId(ThreadEntity threadId) {
-        this.threadId = threadId;
+    public void setThread(ThreadEntity thread) {
+        this.thread = thread;
     }
 
     public String getText() {
@@ -77,8 +77,8 @@ public class CommentEntity {
     public String toString() {
         return "CommentEntity{" +
                 "id=" + id +
-                ", creatorUserId=" + commenterId +
-                ", threadId=" + threadId +
+                ", commenter=" + commenter +
+                ", thread=" + thread +
                 ", text='" + text + '\'' +
                 ", creationDate=" + creationDate +
                 ", lastEdited=" + lastEdited +

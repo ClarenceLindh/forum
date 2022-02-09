@@ -13,7 +13,6 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-
     //Add Authority to UserEntity and cast entity to userDetails
 
     @Column(name = "username")
@@ -28,10 +27,10 @@ public class UserEntity {
     @Column(name = "role")
     private String role;
 
-    @OneToMany(mappedBy = "creatorUserId")
+    @OneToMany(mappedBy = "creator")
     private Set<ThreadEntity> threads;
 
-    @OneToMany(mappedBy = "commenterId")
+    @OneToMany(mappedBy = "commenter")
     private Set<CommentEntity> comments;
 
 
@@ -70,6 +69,18 @@ public class UserEntity {
         this.role = role;
     }
 
+    public UserEntity(long id, String username, String email, String password, String role, Set<ThreadEntity> threads, Set<CommentEntity> comments, Set<ThreadEntity> blockedThreads, Set<ThreadEntity> threadModerators) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.threads = threads;
+        this.comments = comments;
+        this.blockedThreads = blockedThreads;
+        this.threadModerators = threadModerators;
+    }
+
     public String getEmail() { return email;}
 
     @JsonIgnore
@@ -81,22 +92,6 @@ public class UserEntity {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public UserEntity(long id, String username, String email, String password, String role, Set<ThreadEntity> threads, Set<ThreadEntity> blockedThreads, Set<ThreadEntity> threadModerators) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.threads = threads;
-        this.blockedThreads = blockedThreads;
-        this.threadModerators = threadModerators;
-    }
-
-    public UserEntity(Set<CommentEntity> comments) {
-        this.comments = comments;
-    }
-    
 
     public String getUsername() {
         return username;
@@ -135,6 +130,15 @@ public class UserEntity {
         this.threads = threads;
     }
 
+    @JsonIgnore
+    public Set<CommentEntity> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<CommentEntity> comments) {
+        this.comments = comments;
+    }
+
     public Set<ThreadEntity> getBlockedThreads() {
         return blockedThreads;
     }
@@ -160,6 +164,7 @@ public class UserEntity {
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
                 ", threads=" + threads +
+                ", comments=" + comments +
                 ", blockedThreads=" + blockedThreads +
                 ", threadModerators=" + threadModerators +
                 '}';

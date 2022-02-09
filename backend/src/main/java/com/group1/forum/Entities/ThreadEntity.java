@@ -15,11 +15,11 @@ public class ThreadEntity {
 
     @ManyToOne
     @JoinColumn(name = "creator_id", nullable = false)
-    private UserEntity creatorUserId;
+    private UserEntity creator;
 
     @ManyToOne
-    @JoinColumn(name = "topicId", nullable = false)
-    private TopicEntity topicId;
+    @JoinColumn(name = "topic_id", nullable = false)
+    private TopicEntity topic;
 
     private String title;
     private String text;
@@ -38,16 +38,16 @@ public class ThreadEntity {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<UserEntity> threadModerators;
 
-    @OneToMany(mappedBy = "threadId")
+    @OneToMany(mappedBy = "thread")
     private Set<CommentEntity> comments;
 
     public ThreadEntity() {
     }
 
-    public ThreadEntity(long id, UserEntity creatorUserId, TopicEntity topicId, String title, String text, Date creationDate, Date lastEdited, Set<UserEntity> bannedUsers, boolean blockedThreadStatus, Set<UserEntity> threadModerators, Set<CommentEntity> comments) {
+    public ThreadEntity(long id, UserEntity creator, TopicEntity topic, String title, String text, Date creationDate, Date lastEdited, Set<UserEntity> bannedUsers, boolean blockedThreadStatus, Set<UserEntity> threadModerators, Set<CommentEntity> comments) {
         this.id = id;
-        this.creatorUserId = creatorUserId;
-        this.topicId = topicId;
+        this.creator = creator;
+        this.topic = topic;
         this.title = title;
         this.text = text;
         this.creationDate = creationDate;
@@ -66,20 +66,20 @@ public class ThreadEntity {
         this.id = id;
     }
 
-    public UserEntity getCreatorUserId() {
-        return creatorUserId;
+    public UserEntity getCreator() {
+        return creator;
     }
 
-    public void setCreatorUserId(UserEntity creatorUserId) {
-        this.creatorUserId = creatorUserId;
+    public void setCreator(UserEntity creator) {
+        this.creator = creator;
     }
 
-    public TopicEntity getTopicId() {
-        return topicId;
+    public TopicEntity getTopic() {
+        return topic;
     }
 
-    public void setTopicId(TopicEntity topicId) {
-        this.topicId = topicId;
+    public void setTopic(TopicEntity topic) {
+        this.topic = topic;
     }
 
     public String getTitle() {
@@ -151,8 +151,8 @@ public class ThreadEntity {
     public String toString() {
         return "ThreadEntity{" +
                 "id=" + id +
-                ", creatorUserId=" + creatorUserId +
-                ", topicId=" + topicId +
+                ", creator=" + creator +
+                ", topic=" + topic +
                 ", title='" + title + '\'' +
                 ", text='" + text + '\'' +
                 ", creationDate=" + creationDate +

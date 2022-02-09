@@ -38,7 +38,7 @@ public class ThreadService {
     public ThreadEntity createThread(ThreadEntity thread) {
         UserEntity loggedUser = userService.whoAmI();
         if (loggedUser != null) {
-            thread.setCreatorUserId(loggedUser);
+            thread.setCreator(loggedUser);
             thread.setBlockedThreadStatus(false);
             return threadRepo.save(thread);
         }
@@ -71,7 +71,7 @@ public class ThreadService {
                 .map(thread -> {
                     thread.setTitle(editedThread.getTitle());
                     thread.setText(editedThread.getText());
-                    thread.setTopicId(editedThread.getTopicId());
+                    thread.setTopic(editedThread.getTopic());
                     thread.setLastEdited(editedThread.getLastEdited());
                     return threadRepo.save(thread);
                 });

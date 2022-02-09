@@ -18,12 +18,12 @@ public class CommentService {
     private UserRepo userRepo;
 
     @Autowired
-    private com.group1.forum.Services.UserService userService; // Had to import???
+    private UserService userService; // Had to import???
 
     public CommentEntity createComment(CommentEntity comment) {
         UserEntity loggedUser = userService.whoAmI();
         if (loggedUser != null) {
-            comment.setCommenterId(loggedUser);
+            comment.setCommenter(loggedUser);
             return commentRepo.save(comment);
         }
         return null;
@@ -34,7 +34,7 @@ public class CommentService {
     }
 
     public List<CommentEntity> getCommentsOnThreadId(long threadId) {
-        return commentRepo.findAllById(threadId);
+        return commentRepo.findByThreadId(threadId);
     }
 
 }
