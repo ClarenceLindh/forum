@@ -18,6 +18,10 @@ const ContextProvider = (props: { children: any }) => {
     }
   };
 
+  useEffect(() => {
+    whoAmI()
+  }, [])
+
   const values = {
     loggedInUser,
     setLoggedInUser,
