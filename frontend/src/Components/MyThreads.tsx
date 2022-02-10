@@ -17,7 +17,7 @@ const MyThreads = () => {
     const res = await raw.json();
 
     res.forEach((element: { id: any; name: string; complete: boolean }) => {
-      //if(loggedInUser==element.creatorUserId.id)
+      
       setThreads((threads) => [...threads, element]);
     });
   }
