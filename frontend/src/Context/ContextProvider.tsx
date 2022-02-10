@@ -5,9 +5,6 @@ export const Context = createContext<any>({});
 const ContextProvider = (props: { children: any }) => {
   const [loggedInUser, setLoggedInUser] = useState<any>({});
 
-  useEffect(() => {
-    whoAmI();
-  }, []);
 
   const whoAmI = async () => {
     let response = await fetch("/auth/whoami");
@@ -20,6 +17,10 @@ const ContextProvider = (props: { children: any }) => {
       console.log("Not authorized");
     }
   };
+
+  useEffect(() => {
+    whoAmI()
+  }, [])
 
   const values = {
     loggedInUser,
