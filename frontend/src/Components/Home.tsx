@@ -11,30 +11,14 @@ import Footer from "./Footer";
 const Home = () => {
   const navigate = useNavigate();
 
-  const { loggedInUser, whoAmI } = useContext(Context);
+  const { loggedInUser, whoAmI,logout } = useContext(Context);
   const [showCT, setShowCT] = useState(false);
   const [threads, setThreads] = useState([{}]);
 
 
 
   ////////////////////////////////////////
-  const logout = async (e: { preventDefault: () => void }) => {
-    e.preventDefault()
-    // tell backend to forget us
-    console.log("logout work");
-    let response = await fetch("/logout", {
-      method: "post",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      mode: "no-cors", //  <3
-    }).then(() => {
-      whoAmI();
-
-    });
-
-    window.location.reload()
-
-  }
-
+ 
 
   /////////////////////////////////////////////////////
   ////////////////////////////////////////////////////

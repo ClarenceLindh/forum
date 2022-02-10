@@ -4,17 +4,26 @@ import { Context } from "../Context/ContextProvider";
 import "../Styles/Login.scss";
 
 const Login = () => {
-  const { loggedInUser, whoAmI } = useContext(Context);
+  const { loggedInUser, whoAmI, logout } = useContext(Context);
   const navigate = useNavigate();
 
   const dataPolicy = "*Policy here*";
 
   const [loginUsername, setLoginUsername] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
+  const [blockedAccs, setBlockedAccs] = useState<any>([]);
 
   const [registerUsername, setRegisterUsername] = useState<string>("");
   const [registerPassword, setRegisterPassword] = useState<string>("");
   const [registerEmail, setRegisterEmail] = useState<string>("");
+
+  const getBlockedAcc = async () => {
+    let response = await fetch("/auth/blockedAcc");
+    
+      response = await response.json();
+      setBlockedAccs(response);
+      console.log(response);
+  };
 
   const getUsers = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -26,6 +35,7 @@ const Login = () => {
 
   useEffect(() => {
     getUsers({ preventDefault: () => {} });
+    getBlockedAcc();
   }, []);
 
   const login = async (e: { preventDefault: () => void }) => {
@@ -46,15 +56,15 @@ const Login = () => {
       body: credentials,
     }).then(() => {
       whoAmI();
-      console.log("fsdfsd", loggedInUser)
-      if (loggedInUser.username === loginUsername) {
+      if (blockedAccs.find((blockedAcc: { username: string; }) => blockedAcc.username === loginUsername)){
+        alert("User is deleted")
+        logout();
+      } else if (loggedInUser.username === loginUsername) {
         alert("You logged in as " + loginUsername);
         navigate("/");
-      } else if (loggedInUser.username !== loginUsername) {
+      } else if(loggedInUser.username !== loginUsername) {
         alert("Wrong username/password");
         console.log("Wrong!");
-      } else if (loggedInUser.username === "ROLE_DELETED"){
-        alert("User is deleted")
       }
     });
   };
