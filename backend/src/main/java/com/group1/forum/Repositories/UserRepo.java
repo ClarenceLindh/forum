@@ -11,7 +11,7 @@ import java.util.List;
 public interface UserRepo extends JpaRepository<UserEntity, Long> {
     UserEntity findByEmail(String email);
     UserEntity findByUsername(String username);
-    UserEntity findByBlocked();
+   List<UserEntity> findByBlockedTrue();
     // UserEntity findByUsernameLike(String username);
     // UserEntity findIdByUsername(String username);
 

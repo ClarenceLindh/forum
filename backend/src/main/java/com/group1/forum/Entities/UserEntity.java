@@ -32,7 +32,7 @@ public class UserEntity {
     @OneToMany(mappedBy = "creator")
     private Set<ThreadEntity> threads;
 
-    @Column(name="blcoked")
+    @Column(name="blocked")
     private Boolean blocked;
 
     @ManyToMany
@@ -77,6 +77,14 @@ public class UserEntity {
         this.password = password;
         this.role = role;
     }
+
+    public UserEntity( String username, String email, String password, Boolean blocked) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.blocked = blocked;
+    }
+
     public UserEntity(long id, String username, String email, String password, String role, Set<ThreadEntity> threads, Set<ThreadEntity> blockedThreads, Set<ThreadEntity> threadModerators) {
         this.id = id;
         this.username = username;
@@ -98,6 +106,7 @@ public class UserEntity {
         this.blockedThreads = blockedThreads;
         this.threadModerators = threadModerators;
     }
+
 
     public String getEmail() { return email;}
 

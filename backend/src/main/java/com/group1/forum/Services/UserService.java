@@ -47,7 +47,7 @@ public class UserService {
 
 
 
-    public List<UserEntity> blockedAcc(){return userRepo.findByBlocked();}
+    public List<UserEntity> blockedAcc(){return userRepo.findByBlockedTrue();}
 
     public UserEntity whoAmI() {
         // SecurityContextHolder.getContext() taps into the current session
