@@ -51,11 +51,8 @@ public class ThreadService {
     public ThreadEntity addModeratorToThread(long threadId, long userId) {
         ThreadEntity thread = threadRepo.findById(threadId).get();
         UserEntity user = userRepo.findById(userId).get();
-
-            thread.addModerator(user);
-
-            return threadRepo.save(thread);
-
+        thread.addModerator(user);
+        return threadRepo.save(thread);
     }
 
     public Optional<ThreadEntity> editThread(long threadId, ThreadEntity editedThread) {
@@ -89,4 +86,8 @@ public class ThreadService {
     public List<ThreadEntity> getThreadsByCreatorUserId(long creatorId) {
         return threadRepo.findByCreatorId(creatorId);
     }
+
+    /*public void deleteModeratorOfThread(long threadId, long userId) {
+        threadRepo.findDistinctByThreadIdAndUserId(threadId, userId);
+    }*/
 }

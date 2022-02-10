@@ -42,6 +42,12 @@ public class ThreadController {
         return threadService.addModeratorToThread(threadId, userId);
     }
 
+    /*@DeleteMapping("rest/thread/{threadId}/user/{userId}")
+    public void deleteModeratorToThread(@PathVariable long threadId, @PathVariable long userId) {
+        System.out.println("Delete Moderator: " + threadId + "userId" + userId );
+        threadService.deleteModeratorOfThread(threadId, userId);
+    }*/
+
     @PutMapping("rest/thread/{threadId}")
     public Optional<ThreadEntity> editThread(@PathVariable long threadId, @RequestBody ThreadEntity editedThread) {
         return threadService.editThread(threadId, editedThread);
