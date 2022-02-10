@@ -25,6 +25,7 @@ public class UserService {
     @Resource(name="authenticationManager")
     private AuthenticationManager authManager;
 
+
     public UserEntity findCurrentUser() {
         // the login session is stored between page reloads,
         // and we can access the current authenticated user with this
@@ -44,6 +45,10 @@ public class UserService {
         return user.orElse(null);
     }
 
+
+
+    public List<UserEntity> blockedAcc(){return userRepo.findByBlocked();}
+
     public UserEntity whoAmI() {
         // SecurityContextHolder.getContext() taps into the current session
         // getAuthentication() returns the current logged in user
@@ -59,6 +64,7 @@ public class UserService {
             user.setPassword(userFromDB.getPassword());
             user.setEmail(userFromDB.getEmail());
             user.setUsername(userFromDB.getUsername());
+            user.setBlocked(userFromDB.getBlocked());
             return userRepo.save(user);
         }
         return null;

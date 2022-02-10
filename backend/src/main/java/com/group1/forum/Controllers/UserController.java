@@ -37,6 +37,11 @@ public class UserController {
         return userService.whoAmI();
     }
 
+    @GetMapping("/auth/blockedAcc")
+    public List<UserEntity> blockedAcc() {
+        return userService.blockedAcc();
+    }
+
 
     @PutMapping("/rest/users/{id}")
     public UserEntity updateUser(@PathVariable long id, @RequestBody UserEntity user) {

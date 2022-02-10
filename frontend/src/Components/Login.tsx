@@ -46,13 +46,14 @@ const Login = () => {
       body: credentials,
     }).then(() => {
       whoAmI();
+      console.log("fsdfsd", loggedInUser)
       if (loggedInUser.username === loginUsername) {
         alert("You logged in as " + loginUsername);
         navigate("/");
       } else if (loggedInUser.username !== loginUsername) {
         alert("Wrong username/password");
         console.log("Wrong!");
-      } else if (loggedInUser.role === "ROLE_DELETED"){
+      } else if (loggedInUser.username === "ROLE_DELETED"){
         alert("User is deleted")
       }
     });
