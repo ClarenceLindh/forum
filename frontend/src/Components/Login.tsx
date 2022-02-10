@@ -22,6 +22,7 @@ const Login = () => {
 
     const response = await fetch("/auth/users", {});
     console.log(response);
+    
   };
 
   useEffect(() => {
@@ -45,15 +46,20 @@ const Login = () => {
       mode: "no-cors", //  <3
       body: credentials,
     }).then(() => {
+      
       whoAmI();
       if (loggedInUser.username === loginUsername) {
+        console.log("right!", loggedInUser.username);
+        console.log("right!", loginUsername);
         alert("You logged in as " + loginUsername);
         navigate("/");
-      } else if (loggedInUser.username !== loginUsername) {
-        alert("Wrong username/password");
-        console.log("Wrong!");
-      } else if (loggedInUser.role === "ROLE_DELETED"){
+      }else if (loggedInUser.role === "ROLE_DELETED"){
         alert("User is deleted")
+      }else  {
+        alert("Wrong username/password");
+        console.log("Wrong!", loggedInUser.username);
+        console.log("wrong!", loginUsername);
+
       }
     });
   };
