@@ -37,7 +37,7 @@ const Login = () => {
       "&password=" +
       encodeURIComponent(loginPassword);
 
-    console.log(credentials);
+    
 
     let response = await fetch("/login", {
       method: "post",
@@ -52,6 +52,8 @@ const Login = () => {
       } else if (loggedInUser.username !== loginUsername) {
         alert("Wrong username/password");
         console.log("Wrong!");
+      } else if (loggedInUser.role === "ROLE_DELETED"){
+        alert("User is deleted")
       }
     });
   };
@@ -62,6 +64,7 @@ const Login = () => {
       username: registerUsername,
       email: registerEmail,
       password: registerPassword,
+      role: "ROLE_USER"
     };
 
     console.log(credentials);

@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
+
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Context } from "../Context/ContextProvider";
 import "../Styles/Thread.scss";
 import { formatISO } from "date-fns";
+
 
 function ViewThread() {
   const navigate = useNavigate();
@@ -149,6 +151,35 @@ function ViewThread() {
         " or admin is allowed to delete " +
         post.title
       );
+    }
+  };
+    
+    let deleteAccountByClick = async () => {
+    const accountInfo = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        role: "ROLE_DELETED",
+      }),
+    };
+    if (
+      window.confirm("are you sure you want to delete " + author.username) ==
+      true
+    ) {
+      try {
+        await fetch(`/rest/users/${author.id}`, accountInfo).then(
+          async (response) => {
+            const data = await response.json();
+          }
+        );
+        if (response.status == 200) navigate("/");
+      } catch (error) {
+        alert("error, try later");
+      }
+    } else {
+      alert("you canceled the delete");
     }
   };
 
@@ -301,6 +332,16 @@ function ViewThread() {
           />
           <div>
             <button>Post</button>
+            <button onClick={deleteThreadById}>Delete</button>
+          {loggedInUser.role === "ROLE_ADMIN" ? (
+          <div className="dropdown">
+            <span>Settings</span>
+            <div className="dropdown-content">
+              <button onClick={deleteAccountByClick}>Delete Account</button>
+            </div>
+          </div>):(
+            <div></div>
+          )} 
           </div>
         </div>
         <br />
@@ -329,6 +370,6 @@ function ViewThread() {
       </>
     );
   }
-}
+
 
 export default ViewThread;
