@@ -45,7 +45,7 @@ function ViewThread() {
         e.preventDefault();
 
         const commentDetails = {
-            threadId: {
+            thread: {
                 id: threadId
             },
             text: comment,

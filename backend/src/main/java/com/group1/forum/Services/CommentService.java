@@ -29,6 +29,15 @@ public class CommentService {
         return null;
     }
 
+    /* public List<CommentEntity> getCommentsOnThread() {
+        ThreadEntity thread = threadService.getAllThreads();
+        List<CommentEntity> comments = new ArrayList<>();
+        if (thread != null) {
+            comments = thread.getThreadById();
+        }
+        return comments;
+    } */
+
     public List<CommentEntity> getAllComments() {
         return commentRepo.findAll();
     }

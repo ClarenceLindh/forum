@@ -11,7 +11,7 @@ const CreateThread = (topics: any) => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const threadDetails = {
-      topicId: { id: 1 },
+      topic: { id: 1 },
       title: headL,
       text: content,
       creationDate: today,
