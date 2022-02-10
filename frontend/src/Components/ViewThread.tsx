@@ -21,14 +21,10 @@ function ViewThread() {
   const [editing, setEditing] = useState<boolean>(false);
   const [editedTitle, setEditedTitle] = useState<string>();
   const [editedText, setEditedText] = useState<string>();
-  const [threadModerators, setThreadModerators] = useState<any>([
-    { id: 1, username: "test1" },
-    { id: 2, username: "test2" },
-  ]);
+  const [threadModerators, setThreadModerators] = useState<any>([]);
 
   const getThreadById = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-
     // controller url: "/rest/thread/{threadId}"
     const raw = await fetch(`/rest/thread/${threadId}`);
     const res = await raw.json();
@@ -39,6 +35,7 @@ function ViewThread() {
     setAuthor(res.creator);
     setEditedTitle(res.title);
     setEditedText(res.text);
+    setThreadModerators(res.threadModerators)
     console.log("this is response: ", response);
     console.log(res);
   };
@@ -232,6 +229,20 @@ function ViewThread() {
     //   alert("error try later");
     // }
   };
+
+  const fetchModerators = async () => {
+    try {
+
+      let response = await fetch(`/rest/thread/${threadId}/moderators`);
+      let data = await response.json();
+      console.log("fetchModerators response", response);
+      console.log("fetchModerators data", data);
+      setThreadModerators(data);
+    } catch (error) {
+      alert("error try later");
+    }
+  };
+
 
   if (post.blockedThreadStatus === false) {
     return (

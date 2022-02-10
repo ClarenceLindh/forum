@@ -25,10 +25,29 @@ code {
   }
   #topic{
     margin-right: 5px;
-    background-color: rgb(105, 125, 126);
-    width: 12vw;
-    border: 5px solid rgb(75, 73, 73);
+    background-color: $buttoncolor;
     font-size: 2vh;
+    background-color: $backgroundcolor3;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    &:hover {
+      background-color: $backgroundcolor4;
+      color: black;
+      transform: scale(1.03);
+      transition: 100ms ease all;
+    }
+    &:active {
+      transition: 50ms ease all;
+      background-color: $backgroundcolor3;
+      transform: scale(1);
+    }
   }
   .submit{
     position:relative;

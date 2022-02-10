@@ -1,7 +1,19 @@
+@import "App";
+
 .box{
-    background-color: rgb(66, 66, 68);
+    background-color: $backgroundcolor2;
     margin: 2vh 2vw;
     padding: 2vh 2vw;
+    &:hover {
+        background-color: $buttonhovercolor;
+        transform: scale(1.01);
+        transition: 100ms ease all;
+      }
+      &:active {
+        transition: 50ms ease all;
+        background-color: $buttonactivecolor;
+        transform: scale(1);
+      }
 
 
 }
@@ -9,6 +21,7 @@
 .threadContainer{
     text-align: center;
     background-color: rgb(66, 66, 68);
+    margin: 10px;
 }
 
 .threadTitle{
