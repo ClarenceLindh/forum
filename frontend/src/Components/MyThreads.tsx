@@ -57,13 +57,14 @@ const MyThreads = () => {
         </div>
 
         <div className="body">
-          <div id="myThread">
-            {" "}
+          <div id="myThreads">
             <h2>My Threads</h2>
           </div>
+
           <div className="items">
             <ThreadList threads={threads} />
           </div>
+          
         </div>
         <div id="footer">
           <Footer />

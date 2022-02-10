@@ -371,5 +371,5 @@ function ViewThread() {
     );
   }
 
-
+}
 export default ViewThread;

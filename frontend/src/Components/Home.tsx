@@ -111,18 +111,14 @@ const Home = () => {
           })}
         </div>
 
-        {showCT ? <CreateThread topics={allTopics} thread={threads} /> : null}
-        <div className="footer">
-          <button onClick={() => setShowCT(true)} id="press">
-            +
-          </button>
-        </div>
-
         <div className="items">
           <ThreadList threads={threads} />
         </div>
+
       </div>
-      <div id="footer"><Footer /></div>
+      <div id="footer">
+        <Footer />
+        </div>
     </div>
   );
 };
