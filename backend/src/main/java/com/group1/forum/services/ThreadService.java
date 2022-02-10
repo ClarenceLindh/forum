@@ -55,6 +55,15 @@ public class ThreadService {
         return threadRepo.save(thread);
     }
 
+    public ThreadEntity banUserFromThread(long threadId, long userId) {
+        ThreadEntity thread = threadRepo.findById(threadId).get();
+        UserEntity user = userRepo.findById(userId).get();
+
+        thread.banUser(user);
+
+        return threadRepo.save(thread);
+    }
+
     public Optional<ThreadEntity> editThread(long threadId, ThreadEntity editedThread) {
         /*
         JSON-example
@@ -92,6 +101,15 @@ public class ThreadService {
         UserEntity user = userRepo.findById(userId).get();
 
         thread.removeModerator(user);
+
+        threadRepo.save(thread);
+    }
+
+    public void unbanUserFromThread(long threadId, long userId) {
+        ThreadEntity thread = threadRepo.findById(threadId).get();
+        UserEntity user = userRepo.findById(userId).get();
+
+        thread.unbanUser(user);
 
         threadRepo.save(thread);
     }

@@ -32,12 +32,9 @@ public class UserEntity {
     @OneToMany(mappedBy = "creator")
     private Set<ThreadEntity> threads;
 
-    @ManyToMany
-    @JoinTable(
-            name = "threadbans_user",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "thread_id"))
-    Set<ThreadEntity> blockedThreads;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "threadBans")
+    public Set<ThreadEntity> threadBans;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "threadModerators")
@@ -89,14 +86,14 @@ public class UserEntity {
         this.password = password;
     }
 
-    public UserEntity(long id, String username, String email, String password, String role, Set<ThreadEntity> threads, Set<ThreadEntity> blockedThreads, Set<ThreadEntity> threadModerators) {
+    public UserEntity(long id, String username, String email, String password, String role, Set<ThreadEntity> threads, Set<ThreadEntity> threadBans, Set<ThreadEntity> threadModerators) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
         this.threads = threads;
-        this.blockedThreads = blockedThreads;
+        this.threadBans = threadBans;
         this.threadModerators = threadModerators;
     }
 
@@ -137,12 +134,12 @@ public class UserEntity {
         this.threads = threads;
     }
 
-    public Set<ThreadEntity> getBlockedThreads() {
-        return blockedThreads;
+    public Set<ThreadEntity> getThreadBans() {
+        return threadBans;
     }
 
-    public void setBlockedThreads(Set<ThreadEntity> blockedThreads) {
-        this.blockedThreads = blockedThreads;
+    public void setThreadBans(Set<ThreadEntity> threadBans) {
+        this.threadBans = threadBans;
     }
 
     public Set<ThreadEntity> getThreadModerators() {
@@ -162,7 +159,7 @@ public class UserEntity {
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
                 ", threads=" + threads +
-                ", blockedThreads=" + blockedThreads +
+                ", threadBans=" + threadBans +
                 ", threadModerators=" + threadModerators +
                 '}';
     }

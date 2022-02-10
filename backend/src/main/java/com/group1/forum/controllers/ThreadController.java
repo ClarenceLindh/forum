@@ -48,6 +48,16 @@ public class ThreadController {
         threadService.deleteModeratorOfThread(threadId, userId);
     }
 
+    @PostMapping("rest/thread/{threadId}/ban/user/{userId}")
+    public ThreadEntity banUserFromThread(@PathVariable long threadId, @PathVariable long userId) {
+        return threadService.banUserFromThread(threadId, userId);
+    }
+
+    @DeleteMapping("rest/thread/{threadId}/ban/user/{userId}")
+    public void unbanUserFromThread(@PathVariable long threadId, @PathVariable long userId) {
+        threadService.unbanUserFromThread(threadId, userId);
+    }
+
     @PutMapping("rest/thread/{threadId}")
     public Optional<ThreadEntity> editThread(@PathVariable long threadId, @RequestBody ThreadEntity editedThread) {
         return threadService.editThread(threadId, editedThread);
