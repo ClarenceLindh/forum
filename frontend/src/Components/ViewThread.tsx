@@ -280,7 +280,15 @@ function ViewThread() {
             <button>Add Moderator</button>
           </form>
         ) : null}
-        <a>creator: {author.username}</a>
+        <a>{author.role === "ROLE_DELETED" ? (
+                    <div>
+                      Started by deletedUser
+                    </div>
+                ): (
+                    <div>
+                Started by {author.username}
+                    </div>
+                )}</a>
         <div className="threadComment">
           <h3>Comment here</h3>
           <textarea
@@ -291,6 +299,16 @@ function ViewThread() {
           />
           <div>
             <button>Post</button>
+            <button onClick={deleteThreadById}>Delete</button>
+          {loggedInUser.role === "ROLE_ADMIN" ? (
+          <div className="dropdown">
+            <span>Settings</span>
+            <div className="dropdown-content">
+              <button onClick={deleteAccountByClick}>Delete Account</button>
+            </div>
+          </div>):(
+            <div></div>
+          )} 
           </div>
         </div>
         <br />
@@ -370,6 +388,6 @@ function ViewThread() {
       </>
     );
   }
-
+}
 
 export default ViewThread;
