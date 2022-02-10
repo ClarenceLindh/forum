@@ -5,10 +5,9 @@ import Login from "./Components/Login";
 import Home from "./Components/Home";
 import ViewThread from "./Components/ViewThread";
 import MyThreads from "./Components/MyThreads";
-import { useEffect, useState } from "react";
 import CreateThread from "./Components/CreateThread";
-import ContextProvider, { Context } from "./Context/ContextProvider";
-import Footer from "./Components/Footer";
+import ContextProvider from "./Context/ContextProvider";
+import BannedUsers from "./Components/BannedUsers";
 
 function App() {
 
@@ -23,6 +22,7 @@ function App() {
               element={<Login/>}
             />
             <Route path="/viewThread/:threadId" element={<ViewThread />} />
+            <Route path="/thread/bannedusers/:threadId" element={<BannedUsers />}></Route>
             <Route path="/myThread" element={<MyThreads />} />
             <Route path="/create" element={<CreateThread />} />
           </Routes>
