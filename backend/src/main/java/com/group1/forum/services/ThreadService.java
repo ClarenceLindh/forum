@@ -103,8 +103,8 @@ public class ThreadService {
         ThreadEntity thread = threadRepo.findById(threadId).get();
         UserEntity user = userRepo.findById(userId).get();
 
-        thread.banUser(user);
+        thread.unbanUser(user);
 
-        threadRepo.delete(thread);
+        threadRepo.save(thread);
     }
 }

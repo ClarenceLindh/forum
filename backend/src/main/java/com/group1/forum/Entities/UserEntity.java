@@ -33,7 +33,7 @@ public class UserEntity {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "threadBans")
-    private Set<ThreadEntity> threadBans;
+    public Set<ThreadEntity> threadBans;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "threadModerators")
