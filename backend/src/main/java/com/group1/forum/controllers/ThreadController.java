@@ -42,7 +42,7 @@ public class ThreadController {
         return threadService.addModeratorToThread(threadId, userId);
     }
 
-    @PutMapping("rest/thread/{threadId}/ban/user/{userId}")
+    @PostMapping("rest/thread/{threadId}/ban/user/{userId}")
     public ThreadEntity banUserFromThread(@PathVariable long threadId, @PathVariable long userId) {
         return threadService.banUserFromThread(threadId, userId);
     }
