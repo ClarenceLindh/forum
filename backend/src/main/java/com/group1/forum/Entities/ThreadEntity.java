@@ -151,5 +151,9 @@ public class ThreadEntity {
     public void addModerator(UserEntity user) {
         threadModerators.add(user);
     }
+
+    public void removeModerator(UserEntity user) {
+        threadModerators.remove(user);
+    }
 }
 

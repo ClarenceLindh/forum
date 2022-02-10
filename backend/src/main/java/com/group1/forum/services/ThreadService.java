@@ -87,7 +87,12 @@ public class ThreadService {
         return threadRepo.findByCreatorId(creatorId);
     }
 
-    /*public void deleteModeratorOfThread(long threadId, long userId) {
-        threadRepo.findDistinctByThreadIdAndUserId(threadId, userId);
-    }*/
+    public void deleteModeratorOfThread(long threadId, long userId) {
+        ThreadEntity thread = threadRepo.findById(threadId).get();
+        UserEntity user = userRepo.findById(userId).get();
+
+        thread.removeModerator(user);
+
+        threadRepo.save(thread);
+    }
 }
