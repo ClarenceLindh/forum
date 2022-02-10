@@ -11,8 +11,11 @@ const Home = () => {
   const navigate = useNavigate();
 
   const { loggedInUser, whoAmI } = useContext(Context);
-  const [showCT, setShowCT] = useState(false);
+  //const [showCT, setShowCT] = useState(false);
   const [threads, setThreads] = useState([{}]);
+  const [activeTopic, setActiveTopic] = useState("")
+
+
 
   ////////////////////////////////////////
   const logout = async (e: { preventDefault: () => void }) => {
@@ -73,6 +76,16 @@ const Home = () => {
     }
   }, [allTopics]);
 
+  const handleClick = (e:any) => {
+    const byTopic = e
+    console.log("ämne " ,byTopic)
+
+    const filterThreads = threads.filter(function(thread){
+      return thread.topicId.name == "music";})
+    setThreads(filterThreads)
+
+  }
+
   return (
     <div>
       <div className="main">
@@ -102,14 +115,14 @@ const Home = () => {
           <div className="categories">
             {allTopics.map(function (e, index) {
               return (
-                <div id="topic" key={index}>
+                <button id="topic" key={index} value="sport" onClick={() => handleClick(e.name)} >
                   {e.name}
-                </div>
+                </button>
+
               );
             })}
           </div>
 
-          {showCT ? <CreateThread topics={allTopics} thread={threads} /> : null}
 
           <div className="items">
             <ThreadList threads={threads} />
