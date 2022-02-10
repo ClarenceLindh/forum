@@ -123,6 +123,7 @@ function ViewThread() {
           method: "POST",
         });
         console.log("addModerator response", response);
+        window.location.reload();
       } catch (error) {
         alert("error try later");
       }
@@ -225,6 +226,7 @@ function ViewThread() {
         method: "DELETE",
       });
       console.log("removeModerator response", response);
+      window.location.reload();
     } catch (error) {
       alert("error try later");
     }
