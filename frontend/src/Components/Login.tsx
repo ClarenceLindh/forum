@@ -7,7 +7,11 @@ const Login = () => {
   const { loggedInUser, whoAmI } = useContext(Context);
   const navigate = useNavigate();
 
-  const dataPolicy = "*Policy here*";
+  const dataPolicy =
+    "Your data is safe with us. We will not sell or share your data with anyone. " +
+    "Your username and auto generated ID will be public and your password will be encrypted. " +
+    "We will not store your password in plain text. " +
+    "Your email-adress will only be visible to our administrator.";
 
   const [loginUsername, setLoginUsername] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");

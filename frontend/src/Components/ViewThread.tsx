@@ -20,13 +20,13 @@ function ViewThread() {
   const [author, setAuthor] = useState<any>({});
   const [topic, setTopic] = useState<any>({});
   const today = formatISO(new Date());
-  const [editing, setEditing] = useState<boolean>(false)
-  const [editedTitle, setEditedTitle] = useState<string>()
-  const [editedText, setEditedText] = useState<string>()
+  const [editing, setEditing] = useState<boolean>(false);
+  const [editedTitle, setEditedTitle] = useState<string>();
+  const [editedText, setEditedText] = useState<string>();
+  const [threadModerators, setThreadModerators] = useState<any>([]);
 
   const getThreadById = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-
     // controller url: "/rest/thread/{threadId}"
     const raw = await fetch(`/rest/thread/${threadId}`);
     const res = await raw.json();
@@ -35,15 +35,16 @@ function ViewThread() {
     setTopic(res.topicId);
     setPost(res);
     setAuthor(res.creator);
-    setEditedTitle(res.title)
-    setEditedText(res.text)
+    setEditedTitle(res.title);
+    setEditedText(res.text);
+    setThreadModerators(res.threadModerators)
     console.log("this is response: ", response);
     console.log(res);
   };
 
   useEffect(() => {
-    getThreadById({ preventDefault: () => { } });
-    whoAmI()
+    getThreadById({ preventDefault: () => {} });
+    whoAmI();
   }, [threadId]);
 
   const checkIfCreator = async () => {
@@ -66,28 +67,31 @@ function ViewThread() {
 
   const saveEdit = async () => {
     if (editedTitle === undefined) {
-      setEditedTitle(post.title)
+      setEditedTitle(post.title);
     }
     if (editedText === undefined) {
-      setEditedText(post.text)
+      setEditedText(post.text);
     }
-    if ((editedTitle === undefined && editedText === undefined) || (editedTitle === post.title && editedText === post.text)) {
-      setEditing(false)
+    if (
+      (editedTitle === undefined && editedText === undefined) ||
+      (editedTitle === post.title && editedText === post.text)
+    ) {
+      setEditing(false);
     } else {
       const requestOptions = {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           topicId: {
-            id: topic.id
+            id: topic.id,
           },
           title: editedTitle,
           text: editedText,
-          lastEdited: today
-        })
+          lastEdited: today,
+        }),
       };
       await fetch(`/rest/thread/${threadId}`, requestOptions)
-        .then(async response => {
+        .then(async (response) => {
           const data = await response.json();
 
           // check for error response
@@ -97,15 +101,15 @@ function ViewThread() {
             return Promise.reject(error);
           }
         })
-        .catch(error => {
-          console.error('There was an error!', error);
+        .catch((error) => {
+          console.error("There was an error!", error);
         });
     }
-  }
+  };
 
   const cancelEdit = () => {
-    setEditing(false)
-  }
+    setEditing(false);
+  };
 
   const addModerator = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -147,9 +151,9 @@ function ViewThread() {
     } else {
       alert(
         "only " +
-        author.username +
-        " or admin is allowed to delete " +
-        post.title
+          author.username +
+          " or admin is allowed to delete " +
+          post.title
       );
     }
   };
@@ -213,6 +217,64 @@ function ViewThread() {
     }
   };
 
+  const renderModerators = () => {
+    return (
+      <div>
+        <h3>Moderators</h3>
+        <ul>
+          {threadModerators.map(
+            (moderators: { id: number; username: string }) => (
+              <li key={moderators.id}>
+                {moderators.username}
+                <button
+                  onClick={() => {
+                    if (
+                      window.confirm(
+                        `Are you sure you want to remove ` +
+                          moderators.username +
+                          " as a moderator?"
+                      )
+                    ) {
+                      removeModerator(moderators.id);
+                    }
+                  }}
+                >
+                  Delete
+                </button>
+              </li>
+            )
+          )}
+        </ul>
+      </div>
+    );
+  };
+
+  const removeModerator = async (modId: number) => {
+    console.log("deleting moderator " + modId);
+    // try {
+    //   let response = await fetch(`/rest/thread/${threadId}/user/${modId}`, {
+    //     method: "DELETE",
+    //   });
+    //   console.log("removeModerator response", response);
+    // } catch (error) {
+    //   alert("error try later");
+    // }
+  };
+
+  const fetchModerators = async () => {
+    try {
+
+      let response = await fetch(`/rest/thread/${threadId}/moderators`);
+      let data = await response.json();
+      console.log("fetchModerators response", response);
+      console.log("fetchModerators data", data);
+      setThreadModerators(data);
+    } catch (error) {
+      alert("error try later");
+    }
+  };
+
+
   if (post.blockedThreadStatus === false) {
     return (
       <div className="threadContainer">
@@ -221,22 +283,19 @@ function ViewThread() {
           {editing === true ? (
             <div>
               <form onSubmit={saveEdit}>
-              <input
-                className="threadTitle"
-                type="text"
-                value={editedTitle}
-                onChange={(e) => setEditedTitle(e.target.value)}
-              />
-              <button onClick={saveEdit}>Save</button>
-              <button onClick={cancelEdit}>Cancel</button>
+                <input
+                  className="threadTitle"
+                  type="text"
+                  value={editedTitle}
+                  onChange={(e) => setEditedTitle(e.target.value)}
+                />
+                <button onClick={saveEdit}>Save</button>
+                <button onClick={cancelEdit}>Cancel</button>
               </form>
             </div>
           ) : (
-            <>
-              {post.title}
-            </>
-          )
-          }
+            <>{post.title}</>
+          )}
           <br />
           {author.id == loggedInUser.id ? (
             <>
@@ -256,31 +315,38 @@ function ViewThread() {
           {editing === true ? (
             <div>
               <form onSubmit={saveEdit}>
-              <textarea
-                className="threadContent"
-                value={editedText}
-                onChange={(e) => setEditedText(e.target.value)}
-              />
+                <textarea
+                  className="threadContent"
+                  value={editedText}
+                  onChange={(e) => setEditedText(e.target.value)}
+                />
               </form>
             </div>
           ) : (
-            <>
-              {post.text}
-            </>
-          )
-          }
+            <>{post.text}</>
+          )}
         </div>
         {creator ? (
-          <form onSubmit={(e) => addModerator(e)}>
-            <input
-              type="text"
-              placeholder="User ID"
-              onChange={(e) => setModId(e.target.value)}
-            />
-            <button>Add Moderator</button>
-          </form>
+          <div>
+            <form onSubmit={(e) => addModerator(e)}>
+              <input
+                type="text"
+                placeholder="User ID"
+                onChange={(e) => setModId(e.target.value)}
+              />
+            </form>
+            {renderModerators()}
+          </div>
         ) : null}
-        <a>creator: {author.username}</a>
+        <a>{author.role === "ROLE_DELETED" ? (
+                    <div>
+                      Started by deletedUser
+                    </div>
+                ): (
+                    <div>
+                Started by {author.username}
+                    </div>
+                )}</a>
         <div className="threadComment">
           <h3>Comment here</h3>
           <textarea
@@ -291,6 +357,16 @@ function ViewThread() {
           />
           <div>
             <button>Post</button>
+            <button onClick={deleteThreadById}>Delete</button>
+          {loggedInUser.role === "ROLE_ADMIN" ? (
+          <div className="dropdown">
+            <span>Settings</span>
+            <div className="dropdown-content">
+              <button onClick={deleteAccountByClick}>Delete Account</button>
+            </div>
+          </div>):(
+            <div></div>
+          )} 
           </div>
         </div>
         <br />
@@ -314,7 +390,7 @@ function ViewThread() {
             <></>
           )}
           {loggedInUser.role == "ROLE_ADMIN" &&
-            post.blockedThreadStatus === true ? (
+          post.blockedThreadStatus === true ? (
             <button onClick={blockThread}>unblock</button> //unblock thread work on it
           ) : (
             <></>
@@ -370,6 +446,6 @@ function ViewThread() {
       </>
     );
   }
-
 }
+
 export default ViewThread;
