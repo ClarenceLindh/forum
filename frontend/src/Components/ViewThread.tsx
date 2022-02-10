@@ -220,14 +220,14 @@ function ViewThread() {
 
   const removeModerator = async (modId: number) => {
     console.log("deleting moderator " + modId);
-    // try {
-    //   let response = await fetch(`/rest/thread/${threadId}/user/${modId}`, {
-    //     method: "DELETE",
-    //   });
-    //   console.log("removeModerator response", response);
-    // } catch (error) {
-    //   alert("error try later");
-    // }
+    try {
+      let response = await fetch(`/rest/thread/${threadId}/user/${modId}`, {
+        method: "DELETE",
+      });
+      console.log("removeModerator response", response);
+    } catch (error) {
+      alert("error try later");
+    }
   };
 
   const fetchModerators = async () => {
