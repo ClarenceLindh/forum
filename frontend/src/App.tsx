@@ -11,7 +11,6 @@ import ContextProvider, { Context } from "./Context/ContextProvider";
 import Footer from "./Components/Footer";
 
 function App() {
-  const { loggedInUser, setLoggedInUser } = useContext(Context);
 
   return (
     <div className="App">

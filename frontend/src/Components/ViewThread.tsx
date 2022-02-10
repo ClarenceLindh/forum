@@ -30,7 +30,6 @@ function ViewThread() {
     // controller url: "/rest/thread/{threadId}"
     const raw = await fetch(`/rest/thread/${threadId}`);
     const res = await raw.json();
-    response = res;
 
     setTopic(res.topicId);
     setPost(res);
@@ -38,13 +37,11 @@ function ViewThread() {
     setEditedTitle(res.title);
     setEditedText(res.text);
     setThreadModerators(res.threadModerators)
-    console.log("this is response: ", response);
     console.log(res);
   };
 
   useEffect(() => {
     getThreadById({ preventDefault: () => {} });
-    whoAmI();
   }, [threadId]);
 
   const checkIfCreator = async () => {
@@ -261,21 +258,7 @@ function ViewThread() {
     } catch (error) {
       alert("error try later");
     }
-  };
-
-  const fetchModerators = async () => {
-    try {
-
-      let response = await fetch(`/rest/thread/${threadId}/moderators`);
-      let data = await response.json();
-      console.log("fetchModerators response", response);
-      console.log("fetchModerators data", data);
-      setThreadModerators(data);
-    } catch (error) {
-      alert("error try later");
-    }
-  };
-
+  }
 
   if (post.blockedThreadStatus === false) {
     return (
@@ -299,6 +282,12 @@ function ViewThread() {
             <>{post.title}</>
           )}
           <br />
+          {(threadModerators.find((moderator: any) => moderator.id === loggedInUser.id) || author.id == loggedInUser.id) ? (
+           <Link to={""}><button>See banned users</button></Link>
+          ) : (
+            <></>
+          )
+        }
           {author.id == loggedInUser.id ? (
             <>
               <button onClick={() => setEditing(true)}>Edit</button>
