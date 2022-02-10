@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "../Styles/Home.scss";
 import ThreadList from "./Threads/ThreadList";
 import Footer from "./Footer";
+import { Link } from "react-router-dom";
 
 import { Context } from "../Context/ContextProvider";
 
@@ -12,7 +13,7 @@ const MyThreads = () => {
   const [threads, setThreads] = useState([{}]);
 
   async function fetchMyThreads() {
-    const raw = await fetch(`/rest/threads/user/1`);
+    const raw = await fetch(`/rest/threads/user/${loggedInUser.id}`);
     const res = await raw.json();
 
     res.forEach((element: { id: any; name: string; complete: boolean }) => {
@@ -25,25 +26,51 @@ const MyThreads = () => {
     fetchMyThreads();
   }, []);
 
-  return (
-    <div className="main">
-      <div className="header">
-        <div></div>
-        <h1>Forum</h1>
-        <div></div>
-      </div>
+  if (
+    Object.keys(loggedInUser).length === 0 &&
+    loggedInUser.constructor === Object
+  ) {
+    return (
+      <div className="main">
+        <div className="header">
+          <div></div>
+          <h1>Forum</h1>
+          <div></div>
+        </div>
 
-      <div className="body">
-       <div id="myThread"> <h2>My Threads</h2></div>
-        <div className="items">
-          <ThreadList threads={threads} />
+        <div className="loginMessage">
+          <h2>You need to <Link to={{pathname:'/login'}}>Log in</Link></h2>
+        </div>
+
+        <div id="footer">
+          <Footer />
         </div>
       </div>
-      <div id="footer">
-        <Footer />
+    );
+  } else {
+    return (
+      <div className="main">
+        <div className="header">
+          <div></div>
+          <h1>Forum</h1>
+          <div></div>
+        </div>
+
+        <div className="body">
+          <div id="myThread">
+            {" "}
+            <h2>My Threads</h2>
+          </div>
+          <div className="items">
+            <ThreadList threads={threads} />
+          </div>
+        </div>
+        <div id="footer">
+          <Footer />
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default MyThreads;
