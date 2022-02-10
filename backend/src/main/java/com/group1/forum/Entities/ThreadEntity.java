@@ -1,5 +1,7 @@
 package com.group1.forum.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -23,23 +25,28 @@ public class ThreadEntity {
     private String text;
     private Date creationDate;
     private Date lastEdited;
-
-    @ManyToMany(mappedBy = "blockedThreads")
-    Set<UserEntity> bannedUsers;
-
     private boolean blockedThreadStatus;
+
+    @ManyToMany
+    @JoinTable(
+            name = "thread_bans",
+            joinColumns = @JoinColumn(name = "thread_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<UserEntity> threadBans;
 
     @ManyToMany
     @JoinTable(
             name = "thread_moderators",
             joinColumns = @JoinColumn(name = "thread_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private Set<UserEntity> threadModerators;
 
     public ThreadEntity() {
     }
 
-    public ThreadEntity(long id, UserEntity creator, TopicEntity topicId, String title, String text, Date creationDate, Date lastEdited, Set<UserEntity> bannedUsers, boolean blockedThreadStatus, Set<UserEntity> threadModerators) {
+    public ThreadEntity(long id, UserEntity creator, TopicEntity topicId, String title, String text, Date creationDate, Date lastEdited, boolean blockedThreadStatus, Set<UserEntity> threadBans, Set<UserEntity> threadModerators) {
         this.id = id;
         this.creator = creator;
         this.topicId = topicId;
@@ -47,8 +54,8 @@ public class ThreadEntity {
         this.text = text;
         this.creationDate = creationDate;
         this.lastEdited = lastEdited;
-        this.bannedUsers = bannedUsers;
         this.blockedThreadStatus = blockedThreadStatus;
+        this.threadBans = threadBans;
         this.threadModerators = threadModerators;
     }
 
@@ -108,12 +115,12 @@ public class ThreadEntity {
         this.lastEdited = lastEdited;
     }
 
-    public Set<UserEntity> getBannedUsers() {
-        return bannedUsers;
+    public Set<UserEntity> getThreadBans() {
+        return threadBans;
     }
 
-    public void setBannedUsers(Set<UserEntity> bannedUsers) {
-        this.bannedUsers = bannedUsers;
+    public void setThreadBans(Set<UserEntity> threadBans) {
+        this.threadBans = threadBans;
     }
 
     public boolean isBlockedThreadStatus() {
@@ -142,8 +149,8 @@ public class ThreadEntity {
                 ", text='" + text + '\'' +
                 ", creationDate=" + creationDate +
                 ", lastEdited=" + lastEdited +
-                ", bannedUsers=" + bannedUsers +
                 ", blockedThreadStatus=" + blockedThreadStatus +
+                ", threadBans=" + threadBans +
                 ", threadModerators=" + threadModerators +
                 '}';
     }
