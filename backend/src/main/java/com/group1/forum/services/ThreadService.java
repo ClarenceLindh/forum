@@ -99,4 +99,12 @@ public class ThreadService {
         return threadRepo.findByCreatorId(creatorId);
     }
 
+    public void unbanUserFromThread(long threadId, long userId) {
+        ThreadEntity thread = threadRepo.findById(threadId).get();
+        UserEntity user = userRepo.findById(userId).get();
+
+        thread.banUser(user);
+
+        threadRepo.delete(thread);
+    }
 }

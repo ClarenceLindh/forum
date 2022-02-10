@@ -162,5 +162,9 @@ public class ThreadEntity {
     public void banUser(UserEntity user) {
         threadBans.add(user);
     }
+
+    public void unbanUser(UserEntity user) {
+        threadBans.remove(user);
+    }
 }
 
