@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Footer from "./Footer";
 
 
-const CreateThread = () => {
+const CreateThread = (topics: any) => {
   const [headL, setHeadL] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [theTopic, setTopic] = useState<string>("");
@@ -34,6 +34,7 @@ useEffect(() => {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    console.log("handleSubmit");
     const threadDetails = {
       topicId: { id: 1 },
       title: headL,
@@ -47,14 +48,14 @@ useEffect(() => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(threadDetails),
       });
-      console.log(response);
+      console.log("Response", response);
       navigate("/");
     } catch (error) {
       console.log(error);
     }
     // reload the homepage after submit
     // eslint-disable-next-line no-lone-blocks
-   // window.location.reload();
+    window.location.reload();
   };
 
   return (

@@ -20,14 +20,17 @@ public class ThreadService {
     private UserRepo userRepo;
 
     @Autowired
-    private UserService userService;
+    private com.group1.forum.Services.UserService userService; // Had to import???
+//     private UserService userService;
 
     public List<ThreadEntity> getAllThreads() {
         List<ThreadEntity> threads = threadRepo.findAll();
-
         return threads;
 
         // should be something like: return threadRepository.getALlThreads();
+    }
+    public List<ThreadEntity> getAllUnblockedThreads(){
+        return threadRepo.findByBlockedThreadStatusFalse();
     }
 
     public Optional<ThreadEntity> getThreadById(long threadId) {
@@ -36,6 +39,7 @@ public class ThreadService {
 
     public ThreadEntity createThread(ThreadEntity thread) {
         UserEntity loggedUser = userService.whoAmI();
+        System.out.println("create thread started");
         if (loggedUser != null) {
             thread.setCreator(loggedUser);
             thread.setBlockedThreadStatus(false);
@@ -72,6 +76,7 @@ public class ThreadService {
                     thread.setText(editedThread.getText());
                     thread.setTopicId(editedThread.getTopicId());
                     thread.setLastEdited(editedThread.getLastEdited());
+                    thread.setBlockedThreadStatus(editedThread.isBlockedThreadStatus());
                     return threadRepo.save(thread);
                 });
     }

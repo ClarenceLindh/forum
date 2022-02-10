@@ -22,6 +22,8 @@ public class ThreadController {
         return threadService.getAllThreads();
     }
 
+    @GetMapping("/rest/threads/all-unblocked-threads")
+    public List<ThreadEntity> getAllUnblockedThreads() { return threadService.getAllUnblockedThreads();}
     // GET BY THREAD BY ID
     @GetMapping("/rest/thread/{threadId}")
     public Optional<ThreadEntity> getThreadById(@PathVariable long threadId) {
@@ -34,8 +36,9 @@ public class ThreadController {
         return threadService.createThread(thread);
     }
 
-    @PutMapping("rest/thread/{threadId}/user/{userId}")
+    @PostMapping("rest/thread/{threadId}/user/{userId}")
     public ThreadEntity addModeratorToThread(@PathVariable long threadId, @PathVariable long userId) {
+        System.out.println("ThreadId: " + threadId + "userId" + userId );
         return threadService.addModeratorToThread(threadId, userId);
     }
 
