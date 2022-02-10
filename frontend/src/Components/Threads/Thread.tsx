@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import "../../Styles/Thread.scss";
 
-export default function Thread({ thread }: { thread: any }) {
+export default function Thread(filteredThreads: any, { thread }: { thread: any }) {
   const threadId = thread.id;
 
   return (
@@ -17,5 +17,6 @@ export default function Thread({ thread }: { thread: any }) {
       {thread.creationDate}
       </Link>
     </div>
+
   );
 }

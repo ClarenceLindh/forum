@@ -7,15 +7,117 @@ import { Context } from "../Context/ContextProvider";
 import { Link } from "react-router-dom";
 import Footer from "./Footer";
 
+type ThreadType = {
+  id: number;
+  creator: {
+    id: number;
+    username: string;
+    role: boolean;
+    blockedThreads: [
+      {
+        id: number;
+      }
+    ];
+  };
+  topicId: {
+    id: number;
+    name: string;
+  };
+  title: string;
+  text: string;
+  creationDate: string;
+  lastEdited: boolean;
+  bannedUsers: [
+    {
+      id: number;
+    }
+  ];
+  blockedThreadStatus: boolean;
+  threadModerators: [
+    {
+      id: number;
+    }
+  ];
+}
+
 const Home = () => {
   const navigate = useNavigate();
 
   const { loggedInUser, whoAmI } = useContext(Context);
   //const [showCT, setShowCT] = useState(false);
-  const [threads, setThreads] = useState([{}]);
-  const [activeTopic, setActiveTopic] = useState("")
-
-
+  const [threads, setThreads] = useState(
+    [
+      {
+        id: Number,
+        creator: {
+          id: Number,
+          username: String,
+          role: Boolean,
+          blockedThreads: [
+            {
+              id: Number,
+            }
+          ],
+        },
+        topicId: {
+          id: Number,
+          name: String,
+        },
+        title: String,
+        text: String,
+        creationDate: String,
+        lastEdited: Boolean,
+        bannedUsers: [
+          {
+            id: Number,
+          }
+        ],
+        blockedThreadStatus: Boolean,
+        threadModerators: [
+          {
+            id: Number,
+          }
+        ]
+      }
+    ]
+  );
+  const [activeTopic, setActiveTopic] = useState("");
+  const [filteredThreads, setFilteredThreads] = useState(
+    [
+      {
+        id: Number,
+        creator: {
+          id: Number,
+          username: String,
+          role: Boolean,
+          blockedThreads: [
+            {
+              id: Number,
+            }
+          ],
+        },
+        topicId: {
+          id: Number,
+          name: String,
+        },
+        title: String,
+        text: String,
+        creationDate: String,
+        lastEdited: Boolean,
+        bannedUsers: [
+          {
+            id: Number,
+          }
+        ],
+        blockedThreadStatus: Boolean,
+        threadModerators: [
+          {
+            id: Number,
+          }
+        ]
+      }
+    ]
+  );
 
   ////////////////////////////////////////
   const logout = async (e: { preventDefault: () => void }) => {
@@ -61,7 +163,7 @@ const Home = () => {
     const res = await raw.json();
     console.log(res);
 
-    res.forEach((element: { id: any; name: string; complete: boolean }) => {
+    res.forEach((element: any) => {
       setThreads((threads) => [...threads, element]);
     });
   }
@@ -76,15 +178,36 @@ const Home = () => {
     }
   }, [allTopics]);
 
-  const handleClick = (e:any) => {
-    const byTopic = e
-    console.log("ämne " ,byTopic)
+  // filter threads by topic
 
-    const filterThreads = threads.filter(function(thread){
-      return thread.topicId.name == "music";})
-    setThreads(filterThreads)
+  const filterByTopic = (name: string) => {
+    setActiveTopic(name);
+    if (activeTopic !== "") {
+      setActiveTopic("setActiveTopic: " + name);
 
-  }
+      console.log("name: ", name);
+      console.log("threads", threads);
+
+      setFilteredThreads(threads.filter((thread: any) => {
+        console.log("checking filter on thread: ", thread);
+        console.log(Object.keys(thread.topicId));
+        return thread.topicId.name === "Stuff";
+      }))
+
+      console.log("filteredThreads: ", threads);
+    }
+  };
+
+  // const handleClick = (  ) => {
+  //   const byTopic = e
+  //   console.log("ämne " ,byTopic)
+
+  //   const filterThreads = threads.filter(function(thread){
+  //     return thread.topicId.name === byTopic
+  //   })
+  //   setThreads(filterThreads)
+
+  // }
 
   return (
     <div>
@@ -115,20 +238,21 @@ const Home = () => {
           <div className="categories">
             {allTopics.map(function (e, index) {
               return (
-                <button id="topic" key={index} value="sport" onClick={() => handleClick(e.name)} >
+                <button
+                  id="topic"
+                  key={index}
+                  value="sport"
+                  onClick={() => filterByTopic(e.name)}
+                >
                   {e.name}
                 </button>
-
               );
             })}
           </div>
-
-
           <div className="items">
-            <ThreadList threads={threads} />
+            <ThreadList threads={threads} filteredThreads={filteredThreads}  />
           </div>
         </div>
-
       </div>
       <div id="footer">
         <Footer />
