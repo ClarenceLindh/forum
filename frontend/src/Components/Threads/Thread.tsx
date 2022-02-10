@@ -14,8 +14,8 @@ export default function Thread({ thread }: { thread: any }) {
         </div>
         <div>{thread.text}</div>
         <div></div>
-      </Link>
       {thread.creationDate}
+      </Link>
     </div>
   );
 }

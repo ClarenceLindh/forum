@@ -7,7 +7,6 @@ import { Context } from "../Context/ContextProvider";
 import { Link } from "react-router-dom";
 import Footer from "./Footer";
 
-
 const Home = () => {
   const navigate = useNavigate();
 
@@ -15,11 +14,9 @@ const Home = () => {
   const [showCT, setShowCT] = useState(false);
   const [threads, setThreads] = useState([{}]);
 
-
-
   ////////////////////////////////////////
   const logout = async (e: { preventDefault: () => void }) => {
-    e.preventDefault()
+    e.preventDefault();
     // tell backend to forget us
     console.log("logout work");
     let response = await fetch("/logout", {
@@ -28,21 +25,16 @@ const Home = () => {
       mode: "no-cors", //  <3
     }).then(() => {
       whoAmI();
-
     });
 
-    window.location.reload()
-
-  }
-
+    window.location.reload();
+  };
 
   /////////////////////////////////////////////////////
   ////////////////////////////////////////////////////
   const [allTopics, setAllTopics] = React.useState<
     Array<{ id: any; name: string }>
   >([]);
-
-
 
   const getTopics = async () => {
     try {
@@ -53,7 +45,6 @@ const Home = () => {
       console.log("error", error);
     }
   };
-
 
   // ReactDOM.render(
   //   // Try changing to isLoggedIn={true}:
@@ -83,42 +74,51 @@ const Home = () => {
   }, [allTopics]);
 
   return (
-    <div className="main">
-      <div className="header">
-        <div></div>
-        <h1>Forum</h1>
-        <div>
-          {Object.keys(loggedInUser).length === 0 && loggedInUser.constructor === Object ? (
-            <h2 onClick={() => { navigate("/login") }}>Sign in</h2>
-          ) : (
-            <div>
-              <h3>Welcome back {loggedInUser.username}!</h3>
-              <button onClick={logout}>logout</button>
-            </div>
-          )
-          }
-        </div>
-      </div>
-
-      <div className="body">
-        <div className="categories">
-          {allTopics.map(function (e, index) {
-            return (
-              <div id="topic" key={index}>
-                {e.name}
+    <div>
+      <div className="main">
+        <div className="header">
+          <div></div>
+          <h1>Forum</h1>
+          <div>
+            {Object.keys(loggedInUser).length === 0 &&
+            loggedInUser.constructor === Object ? (
+              <h2
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                Sign in
+              </h2>
+            ) : (
+              <div className="loginLogoutContainer">
+                <h3>Welcome back {loggedInUser.username}!</h3>
+                <button onClick={logout}>logout</button>
               </div>
-            );
-          })}
+            )}
+          </div>
         </div>
 
-        {showCT ? <CreateThread topics={allTopics} thread={threads} /> : null}
-        
+        <div className="body">
+          <div className="categories">
+            {allTopics.map(function (e, index) {
+              return (
+                <div id="topic" key={index}>
+                  {e.name}
+                </div>
+              );
+            })}
+          </div>
 
-        <div className="items">
-          <ThreadList threads={threads} />
+          {showCT ? <CreateThread topics={allTopics} thread={threads} /> : null}
+
+          <div className="items">
+            <ThreadList threads={threads} />
+          </div>
         </div>
       </div>
-      <div id="footer"><Footer /></div>
+      <div id="footer">
+        <Footer />
+      </div>
     </div>
   );
 };

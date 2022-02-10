@@ -35,7 +35,6 @@ code {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 4px 2px;
     cursor: pointer;
     &:hover {
       background-color: $backgroundcolor4;
@@ -65,8 +64,8 @@ code {
   // }
 
   .items{
-    padding: 2vh 2vw;
-    margin: 1vh 1vw;
+
+    margin: 1vh 0vw;
   }
   // .textItems{
   //   padding: 4vh 4vw;
@@ -79,24 +78,18 @@ code {
   .header{
     display: flex;
     justify-content: space-between;
-    margin: 2vh 2vw;
+    margin: 2vh 0vw;
     color: rgba(255, 255, 255, 0.678);
   }
+
   .categories{
     display: flex;
-    margin: 1vh 1vw;
+    margin: 1vh 0vw;
     color: rgba(255, 255, 255, 0.678);
 
   }
 
-  .body{
-    color: rgba(255, 255, 255, 0.671);
-  }
-.main {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-}
+
 
 #footer{
   position: fixed;
