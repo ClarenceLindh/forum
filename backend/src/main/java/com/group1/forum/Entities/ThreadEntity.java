@@ -158,5 +158,9 @@ public class ThreadEntity {
     public void addModerator(UserEntity user) {
         threadModerators.add(user);
     }
+
+    public void banUser(UserEntity user) {
+        threadBans.add(user);
+    }
 }
 
