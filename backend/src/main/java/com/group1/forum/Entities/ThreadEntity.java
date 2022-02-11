@@ -90,7 +90,6 @@ public class ThreadEntity {
     public void setTitle(String title) {
         this.title = title;
     }
-
     public String getText() {
         return text;
     }
@@ -140,7 +139,7 @@ public class ThreadEntity {
     }
 
     @Override
-    public String toString() {
+    public String   toString() {
         return "ThreadEntity{" +
                 "id=" + id +
                 ", creator=" + creator +
