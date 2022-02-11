@@ -1,13 +1,15 @@
 package com.group1.forum.Services;
 
 import com.group1.forum.Entities.CommentEntity;
-import com.group1.forum.Entities.ThreadEntity;
 import com.group1.forum.Entities.UserEntity;
 import com.group1.forum.Repositories.CommentRepo;
-import com.group1.forum.Repositories.ThreadRepo;
 import com.group1.forum.Repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Service
 public class CommentService {
     @Autowired
     private CommentRepo commentRepo;
@@ -16,14 +18,32 @@ public class CommentService {
     private UserRepo userRepo;
 
     @Autowired
-    private com.group1.forum.Services.UserService userService; // Had to import???
+    private UserService userService;
 
     public CommentEntity createComment(CommentEntity comment) {
         UserEntity loggedUser = userService.whoAmI();
         if (loggedUser != null) {
-            comment.setCreatorUserId(loggedUser);
+            comment.setCommenter(loggedUser);
             return commentRepo.save(comment);
         }
         return null;
     }
+
+    /* public List<CommentEntity> getCommentsOnThread() {
+        ThreadEntity thread = threadService.getAllThreads();
+        List<CommentEntity> comments = new ArrayList<>();
+        if (thread != null) {
+            comments = thread.getThreadById();
+        }
+        return comments;
+    } */
+
+    public List<CommentEntity> getAllComments() {
+        return commentRepo.findAll();
+    }
+
+    public List<CommentEntity> getCommentsOnThreadId(long threadId) {
+        return commentRepo.findByThreadId(threadId);
+    }
+
 }
