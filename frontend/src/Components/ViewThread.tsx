@@ -7,10 +7,12 @@ import CommentList from "./Comments/CommentList";
 function ViewThread() {
     const [commentUser, setCommentUser] = useState<any>({});
     const [comments, setComments] = useState([{}])
+    const [filteredComments, setFilteredComments] = useState<any>([]);
     const [comment, setComment] = useState<any>({});
     const commentDate = formatISO(new Date());
     const { threadId } = useParams(); // 
     var [response] = useState<any>({});
+    let tuggle = false;
 
     const [post, setPost] = useState<any>({})
 
@@ -25,6 +27,19 @@ function ViewThread() {
         console.log(res);
     };
 
+    const toggleComments = () => {
+
+        setFilteredComments(
+            comments.filter((comment: any) => {
+                if (comment.username === undefined && tuggle === false) {
+                    comments.shift();
+                    tuggle = true;
+                    console.log('COMMENTSSSSSSSSSSSSSSSS: ', comments)
+                }
+            })
+        )
+    }
+
     async function getAllComments() {
         const raw = await fetch(`/rest/thread/comments/${threadId}`);
         const res = await raw.json();
@@ -33,15 +48,10 @@ function ViewThread() {
         const name = comment;
         console.log('THIS is Name: ', name)
 
-        // const username = res[1].commenter.username;
-        // console.log('Username: ', username)
-        // console.log('from commentDetails', comment)
-
-        res.forEach((element: {res: any}) => {
-            setComments((comments) => [...comments, element]);  
-            console.log('???', comments)          
-          });
-        }
+        res.forEach((element: { res: any }) => {
+            setComments((comments) => [...comments, element])
+        });
+    }
 
 
     const postComment = async (e: { preventDefault: () => void }) => {
@@ -77,16 +87,16 @@ function ViewThread() {
     const whoAmI = async () => {
         console.log('WE ARE HERE')
         let response = await fetch("/auth/whoami", {
-          method: "get",
-          headers: { "Content-Type": "application/json" },
-          mode: "no-cors", //  <3
+            method: "get",
+            headers: { "Content-Type": "application/json" },
+            mode: "no-cors", //  <3
         }).then(response => response.json())
-        .then(response => { 
-         const userComment = response.username
-          console.log("User that commented: ", userComment);
-          setCommentUser(userComment);
-        })
-      }
+            .then(response => {
+                const userComment = response.username
+                console.log("User that commented: ", userComment);
+                setCommentUser(userComment);
+            })
+    }
 
 
     useEffect(() => {
@@ -104,7 +114,11 @@ function ViewThread() {
     useEffect(() => {
         getAllComments();
     }, [threadId]);
-    
+
+    useEffect(() => {
+        toggleComments()
+    }, [threadId])
+
 
     return (
         <div className="threadContainer">
@@ -118,18 +132,20 @@ function ViewThread() {
             <br />
 
             <div className="comments">
+                {/* <button onClick={toggleComments}></button> */}
+                {console.log('IN DIV: ', comments)}
                 <CommentList comments={comments} />
                 <h3>Comment here</h3>
                 <form>
-                    <textarea className="comment" onChange={(e) => setComment(e.target.value)} placeholder="Comment..." />
+                    <textarea className="comment" onChange={(submit) => setComment(submit.target.value)} placeholder="Comment..." />
                     <div className="postBtn" >
-                        <button onClick={postComment}>Post</button>
+                        <button onClick={postComment} type='submit'>Post</button>
                     </div>
                 </form>
             </div>
-                <br />
             <br />
-            
+            <br />
+
             <br />
         </div>
     )

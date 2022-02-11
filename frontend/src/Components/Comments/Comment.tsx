@@ -6,21 +6,28 @@ import { format, compareAsc } from 'date-fns'
 
 export default function Comment({ comment }: { comment: any }) {
 
+  const [commenterName, setCommenterName] = useState<any>({});
   comment.creationDate = format(new Date(), 'yyyy/MM/dd')
 
   const date2 = comment.creationDate;
   console.log('Date', date2);
-  console.log(format(new Date(), 'yyyy/MM/dd'))
+  // console.log(format(new Date(), 'yyyy/MM/dd'))
 
 
   const date = comment.creationDate;
-  let commenter = comment.commenter;
-  if(!Array.isArray(commenter)) {
-    commenter = [commenter];
+
+  function getCommenterName() {
+
+    let commenter = comment.commenter;
+    setCommenterName(commenter);
+    console.log('COMMENT Object: ', comment);
+    console.log('this is commenter: ', commenter);
+    console.log('this is commenterName: ', commenterName)
   }
-  
-  console.log('COMMENT: ', comment);
-  console.log('commenter', commenter);
+
+  useEffect(() => {
+    getCommenterName();
+  }, []);
 
   return (<div className='card'>
 
@@ -29,7 +36,7 @@ export default function Comment({ comment }: { comment: any }) {
     </div>
     <br />
     <div>
-       {/* { commenter.map((username:{}, index:any)=> <p key={index}>{username}</p>) } */}
+      {commenterName.username}
     </div>
     <br />
     {comment.creationDate}
