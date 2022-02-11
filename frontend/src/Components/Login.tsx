@@ -4,17 +4,26 @@ import { Context } from "../Context/ContextProvider";
 import "../Styles/Login.scss";
 
 const Login = () => {
-  const { loggedInUser, whoAmI } = useContext(Context);
+  const { loggedInUser, whoAmI, logout } = useContext(Context);
   const navigate = useNavigate();
 
   const dataPolicy = "*Policy here*";
 
   const [loginUsername, setLoginUsername] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
+  const [blockedAccs, setBlockedAccs] = useState<any>([]);
 
   const [registerUsername, setRegisterUsername] = useState<string>("");
   const [registerPassword, setRegisterPassword] = useState<string>("");
   const [registerEmail, setRegisterEmail] = useState<string>("");
+
+  const getBlockedAcc = async () => {
+    let response = await fetch("/auth/blockedAcc");
+    
+      response = await response.json();
+      setBlockedAccs(response);
+      console.log(response);
+  };
 
   const getUsers = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -27,6 +36,7 @@ const Login = () => {
 
   useEffect(() => {
     getUsers({ preventDefault: () => {} });
+    getBlockedAcc();
   }, []);
 
   const login = async (e: any) => {
@@ -49,12 +59,15 @@ const Login = () => {
 
       if (response.url.includes("error")) {
         alert("Wrong username/password")
+      } else if (blockedAccs.find((blockedAcc: { username: string; }) => blockedAcc.username === loginUsername)) {
+       alert("User is deleted")
+        logout();
       } else {
         console.log("Successfully logged in");
         whoAmI();
 
         navigate("/");
-      }
+      } 
 
       // if (loggedInUser.username === loginUsername) {
       //   console.log("right!", loggedInUser.username);

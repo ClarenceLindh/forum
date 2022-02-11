@@ -14,6 +14,7 @@ public class UserEntity {
     private long id;
 
 
+
     //Add Authority to UserEntity and cast entity to userDetails
 
     @Column(name = "username")
@@ -30,6 +31,9 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "creator")
     private Set<ThreadEntity> threads;
+
+    @Column(name="blocked")
+    private Boolean blocked;
 
     @ManyToMany
     @JoinTable(
@@ -74,6 +78,34 @@ public class UserEntity {
         this.role = role;
     }
 
+    public UserEntity( String username, String email, String password, Boolean blocked) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.blocked = blocked;
+    }
+
+    public UserEntity(long id, String username, String email, String password, String role, Set<ThreadEntity> threads, Set<ThreadEntity> blockedThreads, Set<ThreadEntity> threadModerators) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.threads = threads;
+        this.blockedThreads = blockedThreads;
+        this.threadModerators = threadModerators;
+    }
+    public UserEntity(long id, String username, String email, String password, String role, Set<ThreadEntity> threads, Boolean blocked, Set<ThreadEntity> blockedThreads, Set<ThreadEntity> threadModerators) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.threads = threads;
+        this.blocked = blocked;
+        this.blockedThreads = blockedThreads;
+        this.threadModerators = threadModerators;
+    }
 
 
     public String getEmail() { return email;}
@@ -88,16 +120,7 @@ public class UserEntity {
         this.password = password;
     }
 
-    public UserEntity(long id, String username, String email, String password, String role, Set<ThreadEntity> threads, Set<ThreadEntity> blockedThreads, Set<ThreadEntity> threadModerators) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.threads = threads;
-        this.blockedThreads = blockedThreads;
-        this.threadModerators = threadModerators;
-    }
+
 
     public String getUsername() {
         return username;
@@ -152,6 +175,14 @@ public class UserEntity {
         this.threadModerators = threadModerators;
     }
 
+    public Boolean getBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(Boolean blocked) {
+        this.blocked = blocked;
+    }
+
     @Override
     public String toString() {
         return "UserEntity{" +
@@ -161,6 +192,7 @@ public class UserEntity {
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
                 ", threads=" + threads +
+                ", blocked=" + blocked +
                 ", blockedThreads=" + blockedThreads +
                 ", threadModerators=" + threadModerators +
                 '}';

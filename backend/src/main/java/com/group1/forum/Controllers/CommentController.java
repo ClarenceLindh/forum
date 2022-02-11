@@ -1,7 +1,7 @@
 package com.group1.forum.Controllers;
 
 import com.group1.forum.Entities.CommentEntity;
-import com.group1.forum.services.CommentService;
+import com.group1.forum.Services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
