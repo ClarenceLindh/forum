@@ -4,7 +4,7 @@ import { Context } from "../Context/ContextProvider";
 import "../Styles/Login.scss";
 
 const Login = () => {
-  const { loggedInUser, whoAmI } = useContext(Context);
+  const { loggedInUser, whoAmI, logout } = useContext(Context);
   const navigate = useNavigate();
 
   const dataPolicy =
@@ -15,10 +15,19 @@ const Login = () => {
 
   const [loginUsername, setLoginUsername] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
+  const [blockedAccs, setBlockedAccs] = useState<any>([]);
 
   const [registerUsername, setRegisterUsername] = useState<string>("");
   const [registerPassword, setRegisterPassword] = useState<string>("");
   const [registerEmail, setRegisterEmail] = useState<string>("");
+
+  const getBlockedAcc = async () => {
+    let response = await fetch("/auth/blockedAcc");
+    
+      response = await response.json();
+      setBlockedAccs(response);
+      console.log("blcoed",response);
+  };
 
   const getUsers = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -26,14 +35,16 @@ const Login = () => {
 
     const response = await fetch("/auth/users", {});
     console.log(response);
+    
   };
 
   useEffect(() => {
     getUsers({ preventDefault: () => {} });
+    getBlockedAcc();
   }, []);
 
-  const login = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
+  const login = async (e: any) => {
+    e.preventDefault()
 
     const credentials =
       "username=" +
@@ -44,22 +55,38 @@ const Login = () => {
     
 
     let response = await fetch("/login", {
-      method: "post",
+      method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      mode: "no-cors", //  <3
-      body: credentials,
-    }).then(() => {
-      whoAmI();
-      if (loggedInUser.username === loginUsername) {
-        alert("You logged in as " + loginUsername);
+      // mode: "no-cors", //  <3
+      body: credentials
+    })    
+console.log("bkicje", blockedAccs)
+      if (response.url.includes("error")) {
+        alert("Wrong username/password")
+      } else if (blockedAccs.find((blockedAcc: { username: string; }) => blockedAcc.username.toLowerCase() === loginUsername.toLowerCase())) {
+       alert("User is deleted")
+        logout();
+      } else {
+        console.log("Successfully logged in");
+        whoAmI();
+
         navigate("/");
-      } else if (loggedInUser.username !== loginUsername) {
-        alert("Wrong username/password");
-        console.log("Wrong!");
-      } else if (loggedInUser.role === "ROLE_DELETED"){
-        alert("User is deleted")
-      }
-    });
+      } 
+
+      // if (loggedInUser.username === loginUsername) {
+      //   console.log("right!", loggedInUser.username);
+      //   console.log("right!", loginUsername);
+      //   alert("You logged in as " + loginUsername);
+      //   navigate("/");
+      // }else if (loggedInUser.role === "ROLE_DELETED"){
+      //   alert("User is deleted")
+      // }else  {
+      //   alert("Wrong username/password");
+      //   console.log("Wrong!", loggedInUser.username);
+      //   console.log("wrong!", loginUsername);
+
+      // }
+   
   };
 
   const register = async (e: { preventDefault: () => void }) => {
@@ -124,9 +151,9 @@ const Login = () => {
           type="password"
           placeholder="Password"
           onChange={(e) => setLoginPassword(e.target.value)}
-          onSubmit={login}
+         
         />
-        <button type="submit" onClick={login}>
+        <button type="submit">
           Login
         </button>
       </form>
