@@ -18,6 +18,7 @@ public class UserEntity {
     @Column(name = "username")
     private String username;
 
+    @JsonIgnore
     @Column(name = "email")
     private String email;
 
@@ -30,16 +31,13 @@ public class UserEntity {
     @OneToMany(mappedBy = "creator")
     private Set<ThreadEntity> threads;
 
+    @Column(name="blocked")
+    private Boolean blocked;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "threadBans")
+    public Set<ThreadEntity> threadBans;
     @OneToMany(mappedBy = "commenter")
     private Set<CommentEntity> comments;
-
-
-    @ManyToMany
-    @JoinTable(
-            name = "threadbans_user",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "thread_id"))
-    Set<ThreadEntity> blockedThreads;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "threadModerators")
@@ -48,7 +46,15 @@ public class UserEntity {
     public UserEntity() {
     }
 
+    public UserEntity(long id) {
+        this.id = id;
+    }
+
+
+
     public UserEntity(String email) { this.email = email; }
+
+
 
     public UserEntity(String email, String username, String password) {
         this.email = email;
@@ -69,16 +75,61 @@ public class UserEntity {
         this.role = role;
     }
 
-    public UserEntity(long id, String username, String email, String password, String role, Set<ThreadEntity> threads, Set<CommentEntity> comments, Set<ThreadEntity> blockedThreads, Set<ThreadEntity> threadModerators) {
+    public UserEntity( String username, String email, String password, Boolean blocked, Set<CommentEntity> comments) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.blocked = blocked;
+        this.comments = comments;
+    }
+
+    public UserEntity(String username, String email, String password, String role, Boolean blocked) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.blocked = blocked;
+    }
+
+    public UserEntity(long id, String username, String email, String password, String role, Set<ThreadEntity> threads, Boolean blocked, Set<ThreadEntity> threadBans, Set<ThreadEntity> threadModerators) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
         this.threads = threads;
-        this.comments = comments;
-        this.blockedThreads = blockedThreads;
+        this.blocked = blocked;
+        this.threadBans = threadBans;
         this.threadModerators = threadModerators;
+    }
+
+    public UserEntity(long id, String username, String email, String password, String role, Set<ThreadEntity> threads, Boolean blocked, Set<ThreadEntity> threadBans) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.threads = threads;
+        this.blocked = blocked;
+        this.threadBans = threadBans;
+    }
+
+    public UserEntity(long id, String username, String email, String password, String role, Set<ThreadEntity> threads, Set<ThreadEntity> threadBans) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.threads = threads;
+        this.threadBans = threadBans;
+    }
+
+    public UserEntity(String email, String username, String password, boolean blocked, String role) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.blocked = blocked;
+        this.role = role;
     }
 
     public String getEmail() { return email;}
@@ -92,6 +143,9 @@ public class UserEntity {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
+
 
     public String getUsername() {
         return username;
@@ -130,6 +184,8 @@ public class UserEntity {
         this.threads = threads;
     }
 
+    public Set<ThreadEntity> getThreadBans() {
+        return threadBans;
     @JsonIgnore
     public Set<CommentEntity> getComments() {
         return comments;
@@ -139,12 +195,8 @@ public class UserEntity {
         this.comments = comments;
     }
 
-    public Set<ThreadEntity> getBlockedThreads() {
-        return blockedThreads;
-    }
-
-    public void setBlockedThreads(Set<ThreadEntity> blockedThreads) {
-        this.blockedThreads = blockedThreads;
+    public void setThreadBans(Set<ThreadEntity> threadBans) {
+        this.threadBans = threadBans;
     }
 
     public Set<ThreadEntity> getThreadModerators() {
@@ -153,6 +205,14 @@ public class UserEntity {
 
     public void setThreadModerators(Set<ThreadEntity> threadModerators) {
         this.threadModerators = threadModerators;
+    }
+
+    public Boolean getBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(Boolean blocked) {
+        this.blocked = blocked;
     }
 
     @Override
@@ -164,11 +224,10 @@ public class UserEntity {
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
                 ", threads=" + threads +
+                ", blocked=" + blocked +
+                ", threadBans=" + threadBans +
                 ", comments=" + comments +
-                ", blockedThreads=" + blockedThreads +
                 ", threadModerators=" + threadModerators +
                 '}';
     }
 }
-
-

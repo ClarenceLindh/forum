@@ -1,28 +1,49 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Context } from "../Context/ContextProvider";
 import "../Styles/Login.scss";
 
-const Login = (loggedInUser:any) => {
+const Login = () => {
+  const { loggedInUser, whoAmI, logout } = useContext(Context);
   const navigate = useNavigate();
+
+  const dataPolicy =
+    "Your data is safe with us. We will not sell or share your data with anyone. " +
+    "Your username and auto generated ID will be public and your password will be encrypted. " +
+    "We will not store your password in plain text. " +
+    "Your email-adress will only be visible to our administrator.";
 
   const [loginUsername, setLoginUsername] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
+  const [blockedAccs, setBlockedAccs] = useState<any>([]);
 
   const [registerUsername, setRegisterUsername] = useState<string>("");
   const [registerPassword, setRegisterPassword] = useState<string>("");
   const [registerEmail, setRegisterEmail] = useState<string>("");
 
+  const getBlockedAcc = async () => {
+    let response = await fetch("/auth/blockedAcc");
+    
+      response = await response.json();
+      setBlockedAccs(response);
+  };
 
   const getUsers = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log(loggedInUser);
-    
+
     const response = await fetch("/auth/users", {});
     console.log(response);
+    
   };
 
-  const login = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
+  useEffect(() => {
+    getUsers({ preventDefault: () => {} });
+    getBlockedAcc();
+  }, []);
+
+  const login = async (e: any) => {
+    e.preventDefault()
 
     const credentials =
       "username=" +
@@ -30,68 +51,87 @@ const Login = (loggedInUser:any) => {
       "&password=" +
       encodeURIComponent(loginPassword);
 
-    console.log(credentials);
+    
 
     let response = await fetch("/login", {
-      method: "post",
+      method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      mode: "no-cors", //  <3
-      body: credentials,
-    })
-    .then(response => {
-      whoAmI();
-    });
+      // mode: "no-cors", //  <3
+      body: credentials
+    })    
+      if (response.url.includes("error")) {
+        alert("Wrong username/password")
+      } else if (blockedAccs.find((blockedAcc: { username: string; }) => blockedAcc.username.toLowerCase() === loginUsername.toLowerCase())) {
+       alert("User is Blocked")
+        logout();
+      } else {
+        console.log("Successfully logged in");
+        whoAmI();
+
+        navigate("/");
+      } 
+
+      // if (loggedInUser.username === loginUsername) {
+      //   console.log("right!", loggedInUser.username);
+      //   console.log("right!", loginUsername);
+      //   alert("You logged in as " + loginUsername);
+      //   navigate("/");
+      // }else if (loggedInUser.role === "ROLE_DELETED"){
+      //   alert("User is deleted")
+      // }else  {
+      //   alert("Wrong username/password");
+      //   console.log("Wrong!", loggedInUser.username);
+      //   console.log("wrong!", loginUsername);
+
+      // }
+   
   };
-  
-  const whoAmI = async () => {
-    let response = await fetch("/auth/whoami", {
-      method: "get",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      mode: "no-cors", //  <3
-    })
-    .then(response => response.json())
-    .then(response => { 
-      loggedInUser = response.username
-      console.log("setLoggedInUser: ", loggedInUser);
-    })
 
-    if (loggedInUser) {
-      alert("You logged in as " + loggedInUser);
-      navigate("/");
-    } else {
-      alert("Wrong username/password");
-      console.log("Wrong!");
-    }
-  }
-
-  
   const register = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const credentials = {
       username: registerUsername,
       email: registerEmail,
       password: registerPassword,
+      role: "ROLE_USER"
     };
 
     console.log(credentials);
 
-    try {
-      const response = await fetch("/auth/register", {
-        method: "POST",
+    if (
+      window.confirm(
+        "You are registering as " +
+          registerUsername +
+          ". By clicking on OK you agree to the following user data policies: " +
+          dataPolicy
+      )
+    ) {
+      let response = await fetch("/auth/register", {
+        method: "post",
         headers: { "Content-Type": "application/json" },
+        mode: "no-cors", //  <3
         body: JSON.stringify(credentials),
+      }).then(() => {
+        whoAmI();
       });
 
-      console.log("Response", response);
+      try {
+        const response = await fetch("/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(credentials),
+        });
 
-      if(response.status === 200) {
-        alert("Successfully registered");
-        login(e);
-      } else {
-        alert("Something went wrong");
+        console.log("Response", response);
+
+        if (response.status === 200) {
+          alert("Successfully registered");
+        } else {
+          alert("Something went wrong");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -109,9 +149,9 @@ const Login = (loggedInUser:any) => {
           type="password"
           placeholder="Password"
           onChange={(e) => setLoginPassword(e.target.value)}
-          onSubmit={login}
+         
         />
-        <button type="submit" onClick={login}>
+        <button type="submit">
           Login
         </button>
       </form>

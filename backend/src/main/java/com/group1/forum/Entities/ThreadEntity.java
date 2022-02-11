@@ -25,17 +25,22 @@ public class ThreadEntity {
     private String text;
     private Date creationDate;
     private Date lastEdited;
-
-    @ManyToMany(mappedBy = "blockedThreads")
-    Set<UserEntity> bannedUsers;
-
     private boolean blockedThreadStatus;
+
+    @ManyToMany
+    @JoinTable(
+            name = "thread_bans",
+            joinColumns = @JoinColumn(name = "thread_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<UserEntity> threadBans;
 
     @ManyToMany
     @JoinTable(
             name = "thread_moderators",
             joinColumns = @JoinColumn(name = "thread_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private Set<UserEntity> threadModerators;
 
     @OneToMany(mappedBy = "thread")
@@ -44,16 +49,16 @@ public class ThreadEntity {
     public ThreadEntity() {
     }
 
-    public ThreadEntity(long id, UserEntity creator, TopicEntity topic, String title, String text, Date creationDate, Date lastEdited, Set<UserEntity> bannedUsers, boolean blockedThreadStatus, Set<UserEntity> threadModerators, Set<CommentEntity> comments) {
+    public ThreadEntity(long id, UserEntity creator, TopicEntity topicId, String title, String text, Date creationDate, Date lastEdited, boolean blockedThreadStatus, Set<UserEntity> threadBans, Set<UserEntity> threadModerators, Set<CommentEntity> comments) {
         this.id = id;
         this.creator = creator;
-        this.topic = topic;
+        this.topicId = topicId;
         this.title = title;
         this.text = text;
         this.creationDate = creationDate;
         this.lastEdited = lastEdited;
-        this.bannedUsers = bannedUsers;
         this.blockedThreadStatus = blockedThreadStatus;
+        this.threadBans = threadBans;
         this.threadModerators = threadModerators;
         this.comments = comments;
     }
@@ -89,7 +94,6 @@ public class ThreadEntity {
     public void setTitle(String title) {
         this.title = title;
     }
-
     public String getText() {
         return text;
     }
@@ -114,12 +118,12 @@ public class ThreadEntity {
         this.lastEdited = lastEdited;
     }
 
-    public Set<UserEntity> getBannedUsers() {
-        return bannedUsers;
+    public Set<UserEntity> getThreadBans() {
+        return threadBans;
     }
 
-    public void setBannedUsers(Set<UserEntity> bannedUsers) {
-        this.bannedUsers = bannedUsers;
+    public void setThreadBans(Set<UserEntity> threadBans) {
+        this.threadBans = threadBans;
     }
 
     public boolean isBlockedThreadStatus() {
@@ -148,17 +152,17 @@ public class ThreadEntity {
     }
 
     @Override
-    public String toString() {
+    public String   toString() {
         return "ThreadEntity{" +
                 "id=" + id +
                 ", creator=" + creator +
-                ", topic=" + topic +
+                ", topicId=" + topicId +
                 ", title='" + title + '\'' +
                 ", text='" + text + '\'' +
                 ", creationDate=" + creationDate +
                 ", lastEdited=" + lastEdited +
-                ", bannedUsers=" + bannedUsers +
                 ", blockedThreadStatus=" + blockedThreadStatus +
+                ", threadBans=" + threadBans +
                 ", threadModerators=" + threadModerators +
                 ", comments=" + comments +
                 '}';
@@ -166,6 +170,18 @@ public class ThreadEntity {
 
     public void addModerator(UserEntity user) {
         threadModerators.add(user);
+    }
+
+    public void removeModerator(UserEntity user) {
+        threadModerators.remove(user);
+    }
+
+    public void banUser(UserEntity user) {
+        threadBans.add(user);
+    }
+
+    public void unbanUser(UserEntity user) {
+        threadBans.remove(user);
     }
 }
 

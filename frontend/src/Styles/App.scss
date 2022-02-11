@@ -2,6 +2,9 @@ $backgroundcolor1: rgb(20, 20, 20);
 $backgroundcolor2: rgb(97, 97, 97);
 $backgroundcolor3: rgb(134, 134, 134);
 $backgroundcolor4: rgb(184, 184, 184);
+$buttoncolor: rgb(184, 184, 184);
+$buttonhovercolor: rgb(134, 134, 134);
+$buttonactivecolor: rgb(97, 97, 97);
 $headlinecolor: rgb(255, 255, 255);
 
 body {
@@ -12,6 +15,53 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: $backgroundcolor1;
+  color: white;
+}
+
+.main {
+  margin: 0 3vw;
+}
+
+h1 {
+  margin: 0;
+}
+
+h2 {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  background-color: $backgroundcolor3;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  &:hover {
+    background-color: $buttonhovercolor;
+    color: black;
+    transform: scale(1.03);
+    transition: 100ms ease all;
+  }
+  &:active {
+    transition: 50ms ease all;
+    background-color: $buttonactivecolor;
+    transform: scale(1);
+  }
 }
 
 .unselectable {
@@ -20,4 +70,9 @@ body {
   -webkit-user-select: none;
   -o-user-select: none;
   user-select: none;
+}
+
+.link{
+  text-decoration: none;
+  color: white;
 }

@@ -25,10 +25,15 @@ public class ThreadService {
 
     public List<ThreadEntity> getAllThreads() {
         List<ThreadEntity> threads = threadRepo.findAll();
-
         return threads;
 
         // should be something like: return threadRepository.getALlThreads();
+    }
+    public List<ThreadEntity> getAllUnblockedThreads(){
+        return threadRepo.findByBlockedThreadStatusFalse();
+    }
+    public List<ThreadEntity> getAllBlockedThreads(){
+        return threadRepo.findByBlockedThreadStatusTrue();
     }
 
     public Optional<ThreadEntity> getThreadById(long threadId) {
@@ -37,6 +42,7 @@ public class ThreadService {
 
     public ThreadEntity createThread(ThreadEntity thread) {
         UserEntity loggedUser = userService.whoAmI();
+        System.out.println("create thread started");
         if (loggedUser != null) {
             thread.setCreator(loggedUser);
             thread.setBlockedThreadStatus(false);
@@ -48,11 +54,17 @@ public class ThreadService {
     public ThreadEntity addModeratorToThread(long threadId, long userId) {
         ThreadEntity thread = threadRepo.findById(threadId).get();
         UserEntity user = userRepo.findById(userId).get();
+        thread.addModerator(user);
+        return threadRepo.save(thread);
+    }
 
-            thread.addModerator(user);
+    public ThreadEntity banUserFromThread(long threadId, long userId) {
+        ThreadEntity thread = threadRepo.findById(threadId).get();
+        UserEntity user = userRepo.findById(userId).get();
 
-            return threadRepo.save(thread);
+        thread.banUser(user);
 
+        return threadRepo.save(thread);
     }
 
     public Optional<ThreadEntity> editThread(long threadId, ThreadEntity editedThread) {
@@ -73,11 +85,38 @@ public class ThreadService {
                     thread.setText(editedThread.getText());
                     thread.setTopic(editedThread.getTopic());
                     thread.setLastEdited(editedThread.getLastEdited());
+                    thread.setBlockedThreadStatus(editedThread.isBlockedThreadStatus());
                     return threadRepo.save(thread);
                 });
     }
 
     public void deleteThreadById(long threadId) {
         threadRepo.deleteById(threadId);
+    }
+
+
+    public List<ThreadEntity> getThreadsByCreatorUserId(long creatorId) {
+        return threadRepo.findByCreatorId(creatorId);
+    }
+    public List<ThreadEntity> getAllBlockedThreadsByCreatorUsername(String creatorUsername){
+        return threadRepo.findByBlockedThreadStatusTrueAndCreatorUsername(creatorUsername);
+    }
+
+    public void deleteModeratorOfThread(long threadId, long userId) {
+        ThreadEntity thread = threadRepo.findById(threadId).get();
+        UserEntity user = userRepo.findById(userId).get();
+
+        thread.removeModerator(user);
+
+        threadRepo.save(thread);
+    }
+
+    public void unbanUserFromThread(long threadId, long userId) {
+        ThreadEntity thread = threadRepo.findById(threadId).get();
+        UserEntity user = userRepo.findById(userId).get();
+
+        thread.unbanUser(user);
+
+        threadRepo.save(thread);
     }
 }

@@ -1,7 +1,19 @@
+@import "App";
+
 .box{
-    background-color: rgb(66, 66, 68);
-    margin: 2vh 2vw;
+    background-color: $backgroundcolor2;
+    margin: 2vh 0;
     padding: 2vh 2vw;
+    &:hover {
+        background-color: $buttonhovercolor;
+        transform: scale(1.01);
+        transition: 100ms ease all;
+      }
+      &:active {
+        transition: 50ms ease all;
+        background-color: $buttonactivecolor;
+        transform: scale(1);
+      }
 
 
 }
@@ -9,6 +21,7 @@
 .threadContainer{
     text-align: center;
     background-color: rgb(66, 66, 68);
+    margin: 3vw 3vw;
 }
 
 .threadTitle{
@@ -52,3 +65,20 @@
     display: none;
 }
 
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 8px 9px;
+    z-index: 1;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
