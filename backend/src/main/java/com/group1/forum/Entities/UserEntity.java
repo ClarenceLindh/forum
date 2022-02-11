@@ -82,6 +82,14 @@ public class UserEntity {
         this.blocked = blocked;
     }
 
+    public UserEntity(String username, String email, String password, String role, Boolean blocked) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.blocked = blocked;
+    }
+
     public UserEntity(long id, String username, String email, String password, String role, Set<ThreadEntity> threads, Boolean blocked, Set<ThreadEntity> threadBans, Set<ThreadEntity> threadModerators) {
         this.id = id;
         this.username = username;
@@ -113,6 +121,14 @@ public class UserEntity {
         this.role = role;
         this.threads = threads;
         this.threadBans = threadBans;
+    }
+
+    public UserEntity(String email, String username, String password, boolean blocked, String role) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.blocked = blocked;
+        this.role = role;
     }
 
     public String getEmail() { return email;}
