@@ -8,6 +8,7 @@ export default function ViewBlockedThreads() {
     const { loggedInUser, whoAmI } = useContext(Context);
     const [creatorUsername, setCreatorUsername] = useState<string>("")
     const [threads, setThreads] = useState([{}]);
+    const activeTopic = null
 
 
     const fetchBlockedThreads = async (e: { preventDefault: () => void }) => {
@@ -33,7 +34,7 @@ export default function ViewBlockedThreads() {
             />
             </form>
             <div className="items">
-            <ThreadList threads={threads} />
+            <ThreadList threads={threads} activeTopic={activeTopic} />
           </div>
             <div id="footer">
         <Footer />
