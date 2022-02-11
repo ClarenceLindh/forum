@@ -9,7 +9,34 @@ function BannedUsers() {
   const [creator, setCreator] = useState<any>({})
   const [threadBans, setThreadBans] = useState<any>([])
   const [threadModerators, setThreadModerators] = useState<any>([])
+  const [usernameInput, setUsernameInput] = useState<string>("")
 
+  const banUser = async () => {
+    fetch(`/rest/thread/${threadId}/ban/user/${usernameInput}`, {
+      method: "POST"
+
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  const unbanUser = async (userId: number) => {
+    fetch(`/rest/thread/${threadId}/unban/user/${userId}`, {
+      method: "DELETE"
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+  }
 
   useEffect(() => {
     const getThreadById = async () => {
@@ -22,7 +49,7 @@ function BannedUsers() {
       setThreadModerators(res.threadModerators)
       console.log(res)
     }
-
+    
     getThreadById()
   }, [threadId])
 
@@ -31,25 +58,34 @@ function BannedUsers() {
       <div className="threadContainer">
         <h1>{thread.title}</h1>
         <div>
-        <h3>Banned Users</h3>
-        <ul>
-          {threadBans.map(
-            (bannedUser: { id: number; username: string }) => (
-              <li key={bannedUser.id}>
-                {bannedUser.username} <br />
-                <button>Unban</button>
-              </li>
-            )
-          )}
-        </ul>
-      </div>
+          <h3>Banned Users</h3>
+          <ul>
+            {threadBans.map(
+              (bannedUser: { id: number; username: string }) => (
+                <li key={bannedUser.id}>
+                  {bannedUser.username} <br />
+                  <button onClick={() => unbanUser(bannedUser.id)}>Unban</button>
+                </li>
+              )
+            )}
+          </ul>
+          <h1>Ban user</h1>
+          <form>
+            <input
+              type="text"
+              placeholder="Username"
+              onChange={(e) => setUsernameInput(e.target.value)}
+            />
+            <button type='button' onClick={banUser}>Ban user</button>
+          </form>
+        </div>
       </div>
     )
   } else {
     return (
       <div className="threadContainer">
-      <h1>You need to be a moderator och creator to see this page</h1>
-    </div>
+        <h1>You need to be a moderator och creator to see this page</h1>
+      </div>
     )
   }
 }

@@ -55,13 +55,16 @@ public class ThreadService {
         return threadRepo.save(thread);
     }
 
-    public ThreadEntity banUserFromThread(long threadId, long userId) {
+    public ThreadEntity banUserFromThread(long threadId, String username) {
         ThreadEntity thread = threadRepo.findById(threadId).get();
-        UserEntity user = userRepo.findById(userId).get();
+        UserEntity user = userRepo.findByUsername(username);
 
-        thread.banUser(user);
+        if(user != null) {
+            thread.banUser(user);
 
-        return threadRepo.save(thread);
+            return threadRepo.save(thread);
+        }
+        return null;
     }
 
     public Optional<ThreadEntity> editThread(long threadId, ThreadEntity editedThread) {
