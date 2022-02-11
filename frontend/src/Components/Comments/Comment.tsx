@@ -1,26 +1,36 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import "../../Styles/Comment.scss"; 
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import "../../Styles/Comment.scss";
+import { format, compareAsc } from 'date-fns'
 
-export default function Comment({ comment }: {comment: any}) {
+format(new Date(2014, 1, 11), 'MM/dd/yyyy')
 
+export default function Comment({ comment }: { comment: any }) {
 
-  return (<div  className='card'>
+  const date = comment.creationDate;
+  let commenter = comment.commenter;
+  if(!Array.isArray(commenter)) {
+    commenter = [commenter];
+  }
+  
+  console.log('COMMENT: ', comment);
+  console.log('commenter', commenter);
+
+  return (<div className='card'>
 
     <div>
-   {comment.text}
-    </div>    
-<br />
-{/* <div>
-  <button><Link  className='linkButton' to={`/viewThread/${threadId}`} >Go to thread</Link></button>
-</div> */}
-<br />
-{comment.username}
-<br />
-{comment.creationDate}
+      {comment.text}
+    </div>
+    <br />
+    <div>
+       { commenter.map((username:{}, index:any)=> <p key={index}>{username}</p>) }
+    </div>
+    <br />
+    {comment.creationDate}
   </div>
-  
-  
+
+
   )
 
 }
+

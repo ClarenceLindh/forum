@@ -13,7 +13,6 @@ function ViewThread() {
     var [response] = useState<any>({});
 
     const [post, setPost] = useState<any>({})
-    // const [activateComment, setActivateComment] = React.useState(false)
 
     const getThreadById = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
@@ -23,21 +22,25 @@ function ViewThread() {
         response = res;
         setPost(res);
 
-        console.log('this is response: ', response);
         console.log(res);
     };
 
-    // /rest/threads/all-comments
     async function getAllComments() {
         const raw = await fetch(`/rest/thread/comments/${threadId}`);
         const res = await raw.json();
         console.log('All comments on Thread: ', res);
 
+        const name = comment;
+        console.log('THIS is Name: ', name)
+
+        // const username = res[1].commenter.username;
+        // console.log('Username: ', username)
+        // console.log('from commentDetails', comment)
+
         res.forEach((element: {res: any}) => {
-            setComments((comments) => [...comments, element]);
+            setComments((comments) => [...comments, element]);  
+            console.log('???', comments)          
           });
-      
-          console.log('getAllComments?', res);
         }
 
 
