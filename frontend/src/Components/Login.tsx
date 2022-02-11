@@ -22,7 +22,7 @@ const Login = () => {
     
       response = await response.json();
       setBlockedAccs(response);
-      console.log(response);
+      console.log("blcoed",response);
   };
 
   const getUsers = async (e: { preventDefault: () => void }) => {
@@ -56,10 +56,10 @@ const Login = () => {
       // mode: "no-cors", //  <3
       body: credentials
     })    
-
+console.log("bkicje", blockedAccs)
       if (response.url.includes("error")) {
         alert("Wrong username/password")
-      } else if (blockedAccs.find((blockedAcc: { username: string; }) => blockedAcc.username === loginUsername)) {
+      } else if (blockedAccs.find((blockedAcc: { username: string; }) => blockedAcc.username.toLowerCase() === loginUsername.toLowerCase())) {
        alert("User is deleted")
         logout();
       } else {
