@@ -99,6 +99,8 @@ function ViewThread() {
           comments.shift();
           tuggle = true;
           console.log('COMMENTSSSSSSSSSSSSSSSS: ', comments)
+
+          // DONT MERGE
         }
       })
     )
