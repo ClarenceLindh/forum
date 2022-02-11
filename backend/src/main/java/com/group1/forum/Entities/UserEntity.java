@@ -28,6 +28,11 @@ public class UserEntity {
     @Column(name = "role")
     private String role;
 
+
+
+    @Column(name = "banned_user")
+    private Boolean bannedUser;
+
     @OneToMany(mappedBy = "creator")
     private Set<ThreadEntity> threads;
 
@@ -66,12 +71,13 @@ public class UserEntity {
         this.password = password;
     }
 
-    public UserEntity(long id, String username, String email, String password, String role) {
+    public UserEntity(long id, String username, String email, String password, String role, Boolean bannedUser) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.bannedUser = bannedUser;
     }
 
 
@@ -125,6 +131,14 @@ public class UserEntity {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Boolean getBannedUser() {
+        return bannedUser;
+    }
+
+    public void setBannedUser(Boolean bannedUser) {
+        this.bannedUser = bannedUser;
     }
 
     @JsonIgnore

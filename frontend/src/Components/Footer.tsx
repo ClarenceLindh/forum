@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "../Styles/App.scss";
 import { Link } from "react-router-dom";
+import { Context } from "../Context/ContextProvider";
+
 
 const Footer = () => {
- 
+  const { loggedInUser, whoAmI } = useContext(Context);
+
+
   return (
     <div className="inFooter">
       
@@ -11,6 +15,15 @@ const Footer = () => {
     <Link to={{pathname:'/create'}}>+</Link>
       
       <div>My treads</div>
+      {loggedInUser.role === "ROLE_ADMIN" ? (
+                    <div>
+                      Admin Ban List
+                    </div>
+                ): (
+                    <a>
+                      
+                    </a>
+                )}
     </div>
   );
 };

@@ -54,6 +54,8 @@ const Login = () => {
         console.log("Wrong!");
       } else if (loggedInUser.role === "ROLE_DELETED"){
         alert("User is deleted")
+      }else if (loggedInUser.banned_user === "true"){
+        alert("user is banned")
       }
     });
   };

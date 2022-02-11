@@ -11,6 +11,7 @@ import java.util.List;
 public interface UserRepo extends JpaRepository<UserEntity, Long> {
     UserEntity findByEmail(String email);
     UserEntity findByUsername(String username);
+    List<UserEntity> findByBannedUserTrue();
     // UserEntity findByUsernameLike(String username);
     // UserEntity findIdByUsername(String username);
 
@@ -18,5 +19,6 @@ public interface UserRepo extends JpaRepository<UserEntity, Long> {
 
     @Query(value = "SELECT * FROM users WHERE username = ?1", nativeQuery = true)
     List<UserEntity> findIdByUsername(String username);
+
 
 }

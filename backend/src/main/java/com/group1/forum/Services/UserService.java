@@ -74,4 +74,7 @@ public class UserService {
     }
 
 
+    public List<UserEntity> getAllBlockedUsers() {
+        return userRepo.findByBannedUserTrue();
+    }
 }

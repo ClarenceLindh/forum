@@ -43,6 +43,13 @@ public class UserController {
         return userService.updateById(id, user);
     }
 
+    @GetMapping("/rest/users/allBlockedUsers")
+    public List<UserEntity> getAllBlockedUsers(){
+      return userService.getAllBlockedUsers();
+    }
+
+
+
 
   }
 

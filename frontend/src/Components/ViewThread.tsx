@@ -183,6 +183,35 @@ function ViewThread() {
     }
   };
 
+  let banAccountByClick = async () => {
+    const accountInfo = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        banned_user: true,
+      }),
+    }
+    if (
+      window.confirm("are you sure you want to delete " + author.username) ==
+      true
+    ) {
+      try {
+        await fetch(`/rest/users/${author.id}`, accountInfo).then(
+          async (response) => {
+            const data = await response.json();
+          }
+        );
+        if (response.status == 200) navigate("/");
+      } catch (error) {
+        alert("error, try later");
+      }
+    } else {
+      alert("you canceled the delete");
+    }
+  };
+
   let blockThread = async () => {
     if (loggedInUser.role == "ROLE_ADMIN") {
       if (
@@ -305,6 +334,7 @@ function ViewThread() {
             <span>Settings</span>
             <div className="dropdown-content">
               <button onClick={deleteAccountByClick}>Delete Account</button>
+              <button onClick={banAccountByClick}>Ban Account</button>
             </div>
           </div>):(
             <div></div>
