@@ -82,17 +82,7 @@ public class UserEntity {
         this.blocked = blocked;
     }
 
-    public UserEntity(long id, String username, String email, String password, String role, Set<ThreadEntity> threads, Set<ThreadEntity> blockedThreads, Set<ThreadEntity> threadModerators) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.threads = threads;
-        this.blockedThreads = blockedThreads;
-        this.threadModerators = threadModerators;
-    }
-    public UserEntity(long id, String username, String email, String password, String role, Set<ThreadEntity> threads, Boolean blocked, Set<ThreadEntity> blockedThreads, Set<ThreadEntity> threadModerators) {
+    public UserEntity(long id, String username, String email, String password, String role, Set<ThreadEntity> threads, Boolean blocked, Set<ThreadEntity> threadBans, Set<ThreadEntity> threadModerators) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -100,10 +90,30 @@ public class UserEntity {
         this.role = role;
         this.threads = threads;
         this.blocked = blocked;
-        this.blockedThreads = blockedThreads;
+        this.threadBans = threadBans;
         this.threadModerators = threadModerators;
     }
 
+    public UserEntity(long id, String username, String email, String password, String role, Set<ThreadEntity> threads, Boolean blocked, Set<ThreadEntity> threadBans) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.threads = threads;
+        this.blocked = blocked;
+        this.threadBans = threadBans;
+    }
+
+    public UserEntity(long id, String username, String email, String password, String role, Set<ThreadEntity> threads, Set<ThreadEntity> threadBans) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.threads = threads;
+        this.threadBans = threadBans;
+    }
 
     public String getEmail() { return email;}
 
@@ -117,16 +127,7 @@ public class UserEntity {
         this.password = password;
     }
 
-    public UserEntity(long id, String username, String email, String password, String role, Set<ThreadEntity> threads, Set<ThreadEntity> threadBans, Set<ThreadEntity> threadModerators) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.threads = threads;
-        this.threadBans = threadBans;
-        this.threadModerators = threadModerators;
-    }
+
 
 
     public String getUsername() {
