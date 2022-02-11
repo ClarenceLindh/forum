@@ -2,9 +2,10 @@ import React, { useState, useEffect, useContext } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { Context } from "../Context/ContextProvider";
 import "../Styles/Thread.scss";
 import { formatISO } from "date-fns";
+import CommentList from "./Comments/CommentList";
+import { Context } from "../Context/ContextProvider";
 
 
 function ViewThread() {
@@ -23,12 +24,12 @@ function ViewThread() {
   const [editedTitle, setEditedTitle] = useState<string>();
   const [editedText, setEditedText] = useState<string>();
   const [threadModerators, setThreadModerators] = useState<any>([]);
-    const [commentUser, setCommentUser] = useState<any>({});
-    const [comments, setComments] = useState([{}])
-    const [filteredComments, setFilteredComments] = useState<any>([]);
-    const [comment, setComment] = useState<any>({});
-    const commentDate = formatISO(new Date());
-    let tuggle = false;
+  const [commentUser, setCommentUser] = useState<any>({});
+  const [comments, setComments] = useState([{}])
+  const [filteredComments, setFilteredComments] = useState<any>([]);
+  const [comment, setComment] = useState<any>({});
+  const commentDate = formatISO(new Date());
+  let tuggle = false;
 
   const getThreadById = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -45,11 +46,69 @@ function ViewThread() {
     setThreadModerators(res.threadModerators)
     console.log("this is response: ", response);
     console.log(res);
-  };
+  }
+
+  const postComment = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+
+    const commentDetails = {
+      thread: {
+        id: threadId
+      },
+      text: comment,
+      username: commentUser,
+      creationDate: commentDate
+    }
+
+    try {
+      const response = await fetch("/rest/thread/comment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(commentDetails)
+      })
+      const result = response.json();
+      console.log("this is result: ", result);
+      console.log("this is commentDetails: ", commentDetails)
+      setComment(commentDetails);
+
+    } catch (error) {
+      return error;
+    }
+
+    window.location.reload();
+  }
+
+  async function getAllComments() {
+    const raw = await fetch(`/rest/thread/comments/${threadId}`);
+    const res = await raw.json();
+    console.log('All comments on Thread: ', res);
+
+    const name = comment;
+    console.log('THIS is Name: ', name)
+
+    res.forEach((element: { res: any }) => {
+      setComments((comments) => [...comments, element])
+    });
+  }
+
+  const toggleComments = () => {
+
+    setFilteredComments(
+      comments.filter((comment: any) => {
+        if (comment.username === undefined && tuggle === false) {
+          comments.shift();
+          tuggle = true;
+          console.log('COMMENTSSSSSSSSSSSSSSSS: ', comments)
+        }
+      })
+    )
+  }
 
   useEffect(() => {
-    getThreadById({ preventDefault: () => {} });
+    getThreadById({ preventDefault: () => { } });
     whoAmI();
+    getAllComments()
+    toggleComments()
   }, [threadId]);
 
   const checkIfCreator = async () => {
@@ -64,11 +123,7 @@ function ViewThread() {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  useEffect(() => {
-    checkIfCreator();
-  }, [post]);
+  }
 
   const saveEdit = async () => {
     if (editedTitle === undefined) {
@@ -98,93 +153,6 @@ function ViewThread() {
       await fetch(`/rest/thread/${threadId}`, requestOptions)
         .then(async (response) => {
           const data = await response.json();
-    const toggleComments = () => {
-
-        setFilteredComments(
-            comments.filter((comment: any) => {
-                if (comment.username === undefined && tuggle === false) {
-                    comments.shift();
-                    tuggle = true;
-                    console.log('COMMENTSSSSSSSSSSSSSSSS: ', comments)
-                }
-            })
-        )
-    }
-
-    async function getAllComments() {
-        const raw = await fetch(`/rest/thread/comments/${threadId}`);
-        const res = await raw.json();
-        console.log('All comments on Thread: ', res);
-
-        const name = comment;
-        console.log('THIS is Name: ', name)
-
-        res.forEach((element: { res: any }) => {
-            setComments((comments) => [...comments, element])
-        });
-    }
-
-
-    const postComment = async (e: { preventDefault: () => void }) => {
-        e.preventDefault();
-
-        const commentDetails = {
-            thread: {
-                id: threadId
-            },
-            text: comment,
-            username: commentUser,
-            creationDate: commentDate
-        }
-
-        try {
-            const response = await fetch("/rest/thread/comment", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(commentDetails)
-            })
-            const result = response.json();
-            console.log("this is result: ", result);
-            console.log("this is commentDetails: ", commentDetails)
-            setComment(commentDetails);
-
-        } catch (error) {
-            return error;
-        }
-
-        window.location.reload();
-    }
-
-    const whoAmI = async () => {
-        console.log('WE ARE HERE')
-        let response = await fetch("/auth/whoami", {
-            method: "get",
-            headers: { "Content-Type": "application/json" },
-            mode: "no-cors", //  <3
-        }).then(response => response.json())
-            .then(response => {
-                const userComment = response.username
-                console.log("User that commented: ", userComment);
-                setCommentUser(userComment);
-            })
-    }
-
-
-    useEffect(() => {
-        getThreadById({
-            preventDefault: () => {
-
-            }
-        });
-    }, [threadId]);
-
-    useEffect(() => {
-        getAllComments();
-    }, [threadId]);
-
-    useEffect(() => {
-        toggleComments()
-    }, [threadId])
 
           // check for error response
           if (!response.ok) {
@@ -198,6 +166,15 @@ function ViewThread() {
         });
     }
   };
+
+
+
+
+  useEffect(() => {
+    checkIfCreator();
+  }, [post]);
+
+
 
   const cancelEdit = () => {
     setEditing(false);
@@ -244,14 +221,14 @@ function ViewThread() {
     } else {
       alert(
         "only " +
-          author.username +
-          " or admin is allowed to delete " +
-          post.title
+        author.username +
+        " or admin is allowed to delete " +
+        post.title
       );
     }
   };
-    
-    let deleteAccountByClick = async () => {
+
+  let deleteAccountByClick = async () => {
     const accountInfo = {
       method: "PUT",
       headers: {
@@ -279,9 +256,9 @@ function ViewThread() {
       alert("you canceled the delete");
     }
   };
-    useEffect(() => {
-        whoAmI();
-    }, [])
+  useEffect(() => {
+    whoAmI();
+  }, [])
 
   let blockThread = async () => {
     if (loggedInUser.role == "ROLE_ADMIN") {
@@ -357,8 +334,8 @@ function ViewThread() {
                     if (
                       window.confirm(
                         `Are you sure you want to remove ` +
-                          moderators.username +
-                          " as a moderator?"
+                        moderators.username +
+                        " as a moderator?"
                       )
                     ) {
                       removeModerator(moderators.id);
@@ -419,10 +396,6 @@ function ViewThread() {
                 <button onClick={saveEdit}>Save</button>
                 <button onClick={cancelEdit}>Cancel</button>
               </form>
-                <div className="threadContainer2">
-                <div className="threadTitle2">
-                {post.title}
-                <br />
             </div>
           ) : (
             <>{post.title}</>
@@ -452,8 +425,6 @@ function ViewThread() {
                   onChange={(e) => setEditedText(e.target.value)}
                 />
               </form>
-            <div className="threadContent">
-                {post.text}
             </div>
           ) : (
             <>{post.text}</>
@@ -472,14 +443,14 @@ function ViewThread() {
           </div>
         ) : null}
         <a>{author.role === "ROLE_DELETED" ? (
-                    <div>
-                      Started by deletedUser
-                    </div>
-                ): (
-                    <div>
-                Started by {author.username}
-                    </div>
-                )}</a>
+          <div>
+            Started by deletedUser
+          </div>
+        ) : (
+          <div>
+            Started by {author.username}
+          </div>
+        )}</a>
         <div className="threadComment">
           <h3>Comment here</h3>
           <textarea
@@ -490,32 +461,35 @@ function ViewThread() {
           />
           <div>
             <button>Post</button>
-          {loggedInUser.role === "ROLE_ADMIN" ? (
-          <div className="dropdown">
-            <span>Settings</span>
-            <div className="dropdown-content">
-              <button onClick={deleteAccountByClick}>Delete Account</button>
-            
-          </div>):(
-            <div></div>
-          )} 
+            {loggedInUser.role === "ROLE_ADMIN" ? (
+              <div className="dropdown">
+                <span>Settings</span>
+                <div className="dropdown-content">
+                  <button onClick={deleteAccountByClick}>Delete Account</button>
+
+                </div>
+              </div>
+            ) : (
+              <></>
+            )
+            }
           </div>
         </div>
         <br />
         <br />
 
-            <div className="comments">
-                {/* <button onClick={toggleComments}></button> */}
-                {console.log('IN DIV: ', comments)}
-                <CommentList comments={comments} />
-                <h3>Comment here</h3>
-                <form>
-                    <textarea className="comment" onChange={(submit) => setComment(submit.target.value)} placeholder="Comment..." />
-                    <div className="postBtn" >
-                        <button onClick={postComment} type='submit'>Post</button>
-                    </div>
-                </form>
+        <div className="comments">
+          {/* <button onClick={toggleComments}></button> */}
+          {console.log('IN DIV: ', comments)}
+          <CommentList comments={comments} />
+          <h3>Comment here</h3>
+          <form>
+            <textarea className="comment" onChange={(submit) => setComment(submit.target.value)} placeholder="Comment..." />
+            <div className="postBtn" >
+              <button onClick={postComment} type='submit'>Post</button>
             </div>
+          </form>
+        </div>
       </div>
     );
   } else if (
@@ -536,7 +510,7 @@ function ViewThread() {
             <></>
           )}
           {loggedInUser.role == "ROLE_ADMIN" &&
-          post.blockedThreadStatus === true ? (
+            post.blockedThreadStatus === true ? (
             <button onClick={unblockThread}>unblock</button>
           ) : (
             <></>
@@ -555,15 +529,15 @@ function ViewThread() {
           <div>
             <button>Post</button>
             <button onClick={deleteThreadById}>Delete</button>
-          {loggedInUser.role === "ROLE_ADMIN" ? (
-          <div className="dropdown">
-            <span>Settings</span>
-            <div className="dropdown-content">
-              <button onClick={deleteAccountByClick}>Delete Account</button>
-            </div>
-          </div>):(
-            <div></div>
-          )} 
+            {loggedInUser.role === "ROLE_ADMIN" ? (
+              <div className="dropdown">
+                <span>Settings</span>
+                <div className="dropdown-content">
+                  <button onClick={deleteAccountByClick}>Delete Account</button>
+                </div>
+              </div>) : (
+              <div></div>
+            )}
           </div>
         </div>
         <br />
