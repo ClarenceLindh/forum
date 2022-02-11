@@ -29,7 +29,6 @@ function ViewThread() {
     const [comment, setComment] = useState<any>({});
     const commentDate = formatISO(new Date());
     let tuggle = false;
-    const [post, setPost] = useState<any>({})
 
   const getThreadById = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -178,6 +177,14 @@ function ViewThread() {
             }
         });
     }, [threadId]);
+
+    useEffect(() => {
+        getAllComments();
+    }, [threadId]);
+
+    useEffect(() => {
+        toggleComments()
+    }, [threadId])
 
           // check for error response
           if (!response.ok) {
@@ -334,13 +341,6 @@ function ViewThread() {
       alert("only admin is allowed to unblock threads");
     }
   };
-    useEffect(() => {
-        getAllComments();
-    }, [threadId]);
-
-    useEffect(() => {
-        toggleComments()
-    }, [threadId])
 
 
   const renderModerators = () => {
@@ -419,8 +419,8 @@ function ViewThread() {
                 <button onClick={saveEdit}>Save</button>
                 <button onClick={cancelEdit}>Cancel</button>
               </form>
-        <div className="threadContainer">
-            <div className="threadTitle">
+                <div className="threadContainer2">
+                <div className="threadTitle2">
                 {post.title}
                 <br />
             </div>
@@ -593,5 +593,6 @@ function ViewThread() {
     );
   }
 }
+
 
 export default ViewThread;

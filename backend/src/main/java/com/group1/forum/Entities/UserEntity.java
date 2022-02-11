@@ -31,7 +31,7 @@ public class UserEntity {
     @OneToMany(mappedBy = "creator")
     private Set<ThreadEntity> threads;
 
-    @Column(name="blocked")
+    @Column(name = "blocked")
     private Boolean blocked;
     @JsonIgnore
     @ManyToMany(mappedBy = "threadBans")
@@ -51,9 +51,9 @@ public class UserEntity {
     }
 
 
-
-    public UserEntity(String email) { this.email = email; }
-
+    public UserEntity(String email) {
+        this.email = email;
+    }
 
 
     public UserEntity(String email, String username, String password) {
@@ -75,7 +75,7 @@ public class UserEntity {
         this.role = role;
     }
 
-    public UserEntity( String username, String email, String password, Boolean blocked, Set<CommentEntity> comments) {
+    public UserEntity(String username, String email, String password, Boolean blocked, Set<CommentEntity> comments) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -132,7 +132,9 @@ public class UserEntity {
         this.role = role;
     }
 
-    public String getEmail() { return email;}
+    public String getEmail() {
+        return email;
+    }
 
     @JsonIgnore
     public String getPassword() {
@@ -143,8 +145,6 @@ public class UserEntity {
     public void setPassword(String password) {
         this.password = password;
     }
-
-
 
 
     public String getUsername() {
@@ -184,9 +184,22 @@ public class UserEntity {
         this.threads = threads;
     }
 
+    public Boolean getBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(Boolean blocked) {
+        this.blocked = blocked;
+    }
+
     public Set<ThreadEntity> getThreadBans() {
         return threadBans;
-    @JsonIgnore
+    }
+
+    public void setThreadBans(Set<ThreadEntity> threadBans) {
+        this.threadBans = threadBans;
+    }
+
     public Set<CommentEntity> getComments() {
         return comments;
     }
@@ -195,24 +208,12 @@ public class UserEntity {
         this.comments = comments;
     }
 
-    public void setThreadBans(Set<ThreadEntity> threadBans) {
-        this.threadBans = threadBans;
-    }
-
     public Set<ThreadEntity> getThreadModerators() {
         return threadModerators;
     }
 
     public void setThreadModerators(Set<ThreadEntity> threadModerators) {
         this.threadModerators = threadModerators;
-    }
-
-    public Boolean getBlocked() {
-        return blocked;
-    }
-
-    public void setBlocked(Boolean blocked) {
-        this.blocked = blocked;
     }
 
     @Override

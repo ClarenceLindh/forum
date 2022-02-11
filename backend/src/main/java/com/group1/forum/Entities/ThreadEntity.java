@@ -49,10 +49,10 @@ public class ThreadEntity {
     public ThreadEntity() {
     }
 
-    public ThreadEntity(long id, UserEntity creator, TopicEntity topicId, String title, String text, Date creationDate, Date lastEdited, boolean blockedThreadStatus, Set<UserEntity> threadBans, Set<UserEntity> threadModerators, Set<CommentEntity> comments) {
+    public ThreadEntity(long id, UserEntity creator, TopicEntity topic, String title, String text, Date creationDate, Date lastEdited, boolean blockedThreadStatus, Set<UserEntity> threadBans, Set<UserEntity> threadModerators, Set<CommentEntity> comments) {
         this.id = id;
         this.creator = creator;
-        this.topicId = topicId;
+        this.topic = topic;
         this.title = title;
         this.text = text;
         this.creationDate = creationDate;
@@ -152,11 +152,11 @@ public class ThreadEntity {
     }
 
     @Override
-    public String   toString() {
+    public String toString() {
         return "ThreadEntity{" +
                 "id=" + id +
                 ", creator=" + creator +
-                ", topicId=" + topicId +
+                ", topic=" + topic +
                 ", title='" + title + '\'' +
                 ", text='" + text + '\'' +
                 ", creationDate=" + creationDate +
