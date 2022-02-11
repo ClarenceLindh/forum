@@ -133,7 +133,7 @@ function ViewThread() {
   };
 
   let deleteThreadById = async () => {
-    if (author.id == loggedInUser.id) {
+    if (author.id == loggedInUser.id || loggedInUser.role == "ROLE_ADMIN") {
       if (
         window.confirm("are you sure you want to delete " + post.title) == true
       ) {
