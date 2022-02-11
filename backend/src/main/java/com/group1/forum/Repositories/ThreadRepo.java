@@ -10,7 +10,8 @@ import java.util.List;
 public interface ThreadRepo extends JpaRepository<ThreadEntity, Long> {
     List<ThreadEntity> findByCreatorId(long creatorId);
     List<ThreadEntity> findByBlockedThreadStatusFalse();
-
+    List<ThreadEntity> findByBlockedThreadStatusTrue();
+    List<ThreadEntity> findByBlockedThreadStatusTrueAndCreatorUsername(String creatorUsername);
     /*void findDistinctByThreadIdAndUserId(long threadId, long userId);*/
 
 }

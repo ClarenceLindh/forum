@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-@RestController
+@RestController()
 public class ThreadController {
 
     @Autowired
@@ -21,14 +21,20 @@ public class ThreadController {
     public List<ThreadEntity> getAllThreads() {
         return threadService.getAllThreads();
     }
-
+    //GET ALL UNBLOCKED THREADS
     @GetMapping("/rest/threads/all-unblocked-threads")
     public List<ThreadEntity> getAllUnblockedThreads() { return threadService.getAllUnblockedThreads();}
+    //GET ALL BLOCKED THREADS
+    @GetMapping("/rest/threads/all-blocked-threads")
+    public List<ThreadEntity> getAllBlockedThreads() {
+        return threadService.getAllBlockedThreads();
+    }
     // GET BY THREAD BY ID
     @GetMapping("/rest/thread/{threadId}")
     public Optional<ThreadEntity> getThreadById(@PathVariable long threadId) {
         return threadService.getThreadById(threadId);
     }
+
 
     @PostMapping("/rest/thread")
     public ThreadEntity createThread(@RequestBody ThreadEntity thread) {
@@ -73,6 +79,10 @@ public class ThreadController {
     @GetMapping("/rest/threads/user/{creatorId}")
     public List<ThreadEntity> getThreadsByCreatorUserId(@PathVariable long creatorId) {
         return threadService.getThreadsByCreatorUserId(creatorId);
+    }
+    @GetMapping("/rest/blocked-threads/user/{creatorUsername}")
+    public List<ThreadEntity> getAllBlockedThreadsByCreatorUsername(@PathVariable String creatorUsername){
+        return threadService.getAllBlockedThreadsByCreatorUsername(creatorUsername);
     }
 // to be checked end
 }

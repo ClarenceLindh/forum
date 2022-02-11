@@ -32,6 +32,9 @@ public class ThreadService {
     public List<ThreadEntity> getAllUnblockedThreads(){
         return threadRepo.findByBlockedThreadStatusFalse();
     }
+    public List<ThreadEntity> getAllBlockedThreads(){
+        return threadRepo.findByBlockedThreadStatusTrue();
+    }
 
     public Optional<ThreadEntity> getThreadById(long threadId) {
         return threadRepo.findById(threadId);
@@ -94,6 +97,9 @@ public class ThreadService {
 
     public List<ThreadEntity> getThreadsByCreatorUserId(long creatorId) {
         return threadRepo.findByCreatorId(creatorId);
+    }
+    public List<ThreadEntity> getAllBlockedThreadsByCreatorUsername(String creatorUsername){
+        return threadRepo.findByBlockedThreadStatusTrueAndCreatorUsername(creatorUsername);
     }
 
     public void deleteModeratorOfThread(long threadId, long userId) {
