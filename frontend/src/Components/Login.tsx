@@ -30,7 +30,7 @@ const Login = () => {
   }, []);
 
   const login = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
+    e.preventDefault()
 
     const credentials =
       "username=" +
@@ -45,23 +45,33 @@ const Login = () => {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       mode: "no-cors", //  <3
       body: credentials,
-    }).then(() => {
-      
-      whoAmI();
-      if (loggedInUser.username === loginUsername) {
-        console.log("right!", loggedInUser.username);
-        console.log("right!", loginUsername);
-        alert("You logged in as " + loginUsername);
-        navigate("/");
-      }else if (loggedInUser.role === "ROLE_DELETED"){
-        alert("User is deleted")
-      }else  {
-        alert("Wrong username/password");
-        console.log("Wrong!", loggedInUser.username);
-        console.log("wrong!", loginUsername);
+    }) 
+    whoAmI();
 
+      if (response.url.includes("")) {
+        console.log("Wrong username/password");
+        alert("ERROR")
+      } else {
+        console.log("Successfully logged in");
+        whoAmI();
+
+        navigate("/");
       }
-    });
+
+      // if (loggedInUser.username === loginUsername) {
+      //   console.log("right!", loggedInUser.username);
+      //   console.log("right!", loginUsername);
+      //   alert("You logged in as " + loginUsername);
+      //   navigate("/");
+      // }else if (loggedInUser.role === "ROLE_DELETED"){
+      //   alert("User is deleted")
+      // }else  {
+      //   alert("Wrong username/password");
+      //   console.log("Wrong!", loggedInUser.username);
+      //   console.log("wrong!", loginUsername);
+
+      // }
+   
   };
 
   const register = async (e: { preventDefault: () => void }) => {
@@ -126,7 +136,7 @@ const Login = () => {
           type="password"
           placeholder="Password"
           onChange={(e) => setLoginPassword(e.target.value)}
-          onSubmit={login}
+         
         />
         <button type="submit" onClick={login}>
           Login
