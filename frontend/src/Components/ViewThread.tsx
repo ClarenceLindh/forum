@@ -217,6 +217,35 @@ function ViewThread() {
       alert("only admin is allowed to block threads");
     }
   };
+  let unblockThread = async () => {
+    if (loggedInUser.role == "ROLE_ADMIN") {
+      if (
+        window.confirm("are your sure you want to unblock " + post.title) == true
+      ) {
+        try {
+          let response = await fetch(`/rest/thread/${threadId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              topicId: { id: topic.id },
+              title: post.title,
+              text: post.text,
+              lastEdited: today,
+              blockedThreadStatus: false,
+            }),
+          });
+          console.log(response);
+          if (response.status == 200) navigate(`/admin/blockedThreads`); //all blocked threads
+        } catch (error) {
+          alert("error try later");
+        }
+      } else {
+        alert(post.title + " is still blocked");
+      }
+    } else {
+      alert("only admin is allowed to unblock threads");
+    }
+  };
 
   const renderModerators = () => {
     return (
@@ -299,7 +328,7 @@ function ViewThread() {
             <>{post.title}</>
           )}
           <br />
-          {author.id == loggedInUser.id ? (
+          {author.id == loggedInUser.id || loggedInUser.role == "ROLE_ADMIN" ? (
             <>
               <button onClick={() => setEditing(true)}>Edit</button>
               <button onClick={deleteThreadById}>Delete</button>
@@ -359,7 +388,6 @@ function ViewThread() {
           />
           <div>
             <button>Post</button>
-            <button onClick={deleteThreadById}>Delete</button>
           {loggedInUser.role === "ROLE_ADMIN" ? (
           <div className="dropdown">
             <span>Settings</span>
@@ -384,7 +412,7 @@ function ViewThread() {
         <div className="threadTitle">
           {post.title}
           <br />
-          {author.id == loggedInUser.id ? (
+          {loggedInUser.role == "ROLE_ADMIN" ? (
             <>
               <button onClick={deleteThreadById}>Delete</button>
             </>
@@ -393,7 +421,7 @@ function ViewThread() {
           )}
           {loggedInUser.role == "ROLE_ADMIN" &&
           post.blockedThreadStatus === true ? (
-            <button onClick={blockThread}>unblock</button> //unblock thread work on it
+            <button onClick={unblockThread}>unblock</button>
           ) : (
             <></>
           )}
