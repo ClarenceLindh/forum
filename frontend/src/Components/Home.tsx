@@ -11,8 +11,12 @@ const Home = () => {
   const navigate = useNavigate();
 
   const { loggedInUser, whoAmI } = useContext(Context);
-  const [showCT, setShowCT] = useState(false);
+  //const [showCT, setShowCT] = useState(false);
   const [threads, setThreads] = useState([{}]);
+  const [activeTopic, setActiveTopic] = useState("")
+  const [ filteredThreads, setFilteredThreads ] = useState([]);
+
+
 
   ////////////////////////////////////////
   const logout = async (e: { preventDefault: () => void }) => {
@@ -56,11 +60,15 @@ const Home = () => {
     // controller url: "/rest/thread/{threadId}"
     const raw = await fetch(`/rest/threads/all-unblocked-threads`);
     const res = await raw.json();
-    console.log(res);
+    console.log("res", res);
+    
+    console.log("setFilteredThreads", filteredThreads);
 
     res.forEach((element: { id: any; name: string; complete: boolean }) => {
       setThreads((threads) => [...threads, element]);
     });
+
+  
   }
 
   useEffect(() => {
@@ -72,6 +80,10 @@ const Home = () => {
       getTopics();
     }
   }, [allTopics]);
+
+  const handleClick = (e:any) => {
+    setActiveTopic(e);
+  }
 
   return (
     <div>
@@ -102,17 +114,17 @@ const Home = () => {
           <div className="categories">
             {allTopics.map(function (e, index) {
               return (
-                <div id="topic" key={index}>
+                <button id="topic" key={index} value="sport" onClick={() => handleClick(e.name)} >
                   {e.name}
-                </div>
+                </button>
+
               );
             })}
           </div>
 
-          {showCT ? <CreateThread topics={allTopics} thread={threads} /> : null}
 
           <div className="items">
-            <ThreadList threads={threads} />
+            <ThreadList threads={threads} activeTopic={activeTopic} />
           </div>
         </div>
 
