@@ -14,6 +14,7 @@ const ThreadList = (props: { threads: any; activeTopic: any }) => {
   // }
   const threads = props.threads;
   const activeTopic = props.activeTopic;
+  const [ filteredThreads, setFilteredThreads ] = React.useState([]);
   
   const filterOnTopic = () => {
     if (threads.topicId === undefined) {
@@ -21,27 +22,28 @@ const ThreadList = (props: { threads: any; activeTopic: any }) => {
     }
     
     if (activeTopic) {
-      const filteredThreads = threads.filter(function (thread: {
+      setFilteredThreads(threads.filter(function (thread: {
         topicId: { name: any };
       }) {
         console.log(thread.topicId.name);
         return thread.topicId.name == activeTopic;
-      });
-      return filteredThreads;
+      }));
+      
     }
-    return threads;
+   
   };
 
   useEffect(() => {
+    filterOnTopic();
     console.log("props.threads: ", props.threads);
     console.log("props.activeTopic: ", props.activeTopic);
-    console.log("filteredThreads: ");
+    console.log("filteredThreads: ", filteredThreads);
   }, [props.threads]);
 
   return (
     <div className="list">
       <h1>{props.threads.activeTopic}</h1>
-      {filterOnTopic().map((thread: {}, index: number) => {
+      {props.threads.map((thread: {}, index: number) => {
         return <Thread key={index} thread={thread} />;
       })}
     </div>
