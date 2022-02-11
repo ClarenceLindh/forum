@@ -10,7 +10,6 @@ export default function Comment({ comment }: { comment: any }) {
 
   const date2 = comment.creationDate;
   console.log('Date', date2);
-  // console.log(format(new Date(), 'yyyy/MM/dd'))
 
   const date = comment.creationDate;
 

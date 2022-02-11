@@ -98,7 +98,7 @@ const postComment = async (e: { preventDefault: () => void }) => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(commentDetails)
         })
-        const result = response.json();
+        const result = response;
         console.log("this is result: ", result);
         console.log("this is commentDetails: ", commentDetails)
         setComment(commentDetails);
@@ -454,20 +454,24 @@ useEffect(() => {
         <div className="threadComment">
           <h3>Comment here</h3>
           <textarea
-            className="comment"
-            onChange={(e) => setComment(e.target.value)}
-            placeholder="Comment..."
+            className="comment" onChange={(submit) => setComment(submit.target.value)} placeholder="Comment..."
           />
           <div>
-            <button>Post</button>
-          {loggedInUser.role === "ROLE_ADMIN" ? (
+            <button onClick={postComment}>Post</button>
+            {loggedInUser.role === "ROLE_ADMIN" ? (
           <div className="dropdown">
             <span>Settings</span>
             <div className="dropdown-content">
               <button onClick={deleteAccountByClick}>Delete Account</button>
             </div>
           </div>):(
-            <div></div>
+            <div>
+                <div className="comments">
+                {/* <button onClick={toggleComments}></button> */}
+                {console.log('IN DIV: ', comments)}
+                <CommentList comments={comments} />
+            </div>
+            </div>
           )} 
           </div>
         </div>
@@ -511,19 +515,6 @@ useEffect(() => {
                 {post.text}
             </div>
             <br />
-
-            <div className="comments">
-                {/* <button onClick={toggleComments}></button> */}
-                {console.log('IN DIV: ', comments)}
-                <CommentList comments={comments} />
-                <h3>Comment here</h3>
-                <form>
-                    <textarea className="comment" onChange={(submit) => setComment(submit.target.value)} placeholder="Comment..." />
-                    <div className="postBtn" >
-                        <button onClick={postComment} type='submit'>Post</button>
-                    </div>
-                </form>
-            </div>
             <br />
             <br />
 
