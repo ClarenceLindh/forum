@@ -29,7 +29,7 @@ const Login = () => {
     getUsers({ preventDefault: () => {} });
   }, []);
 
-  const login = async (e: { preventDefault: () => void }) => {
+  const login = async (e: any) => {
     e.preventDefault()
 
     const credentials =
@@ -41,16 +41,14 @@ const Login = () => {
     
 
     let response = await fetch("/login", {
-      method: "post",
+      method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      mode: "no-cors", //  <3
-      body: credentials,
-    }) 
-    whoAmI();
+      // mode: "no-cors", //  <3
+      body: credentials
+    })    
 
-      if (response.url.includes("")) {
-        console.log("Wrong username/password");
-        alert("ERROR")
+      if (response.url.includes("error")) {
+        alert("Wrong username/password")
       } else {
         console.log("Successfully logged in");
         whoAmI();
@@ -138,7 +136,7 @@ const Login = () => {
           onChange={(e) => setLoginPassword(e.target.value)}
          
         />
-        <button type="submit" onClick={login}>
+        <button type="submit">
           Login
         </button>
       </form>

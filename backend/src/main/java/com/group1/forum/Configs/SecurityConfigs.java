@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Configuration
-@CrossOrigin(origins = "http://localhost:3000")
 @EnableWebSecurity
 public class SecurityConfigs extends WebSecurityConfigurerAdapter {
 
@@ -24,6 +23,7 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .cors().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/", "/rest/**", "/login").permitAll()
                 .antMatchers("/auth/**", "/login/").permitAll()
