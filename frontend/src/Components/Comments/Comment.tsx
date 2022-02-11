@@ -3,9 +3,15 @@ import { Link, useParams } from 'react-router-dom';
 import "../../Styles/Comment.scss";
 import { format, compareAsc } from 'date-fns'
 
-format(new Date(2014, 1, 11), 'MM/dd/yyyy')
 
 export default function Comment({ comment }: { comment: any }) {
+
+  comment.creationDate = format(new Date(), 'yyyy/MM/dd')
+
+  const date2 = comment.creationDate;
+  console.log('Date', date2);
+  console.log(format(new Date(), 'yyyy/MM/dd'))
+
 
   const date = comment.creationDate;
   let commenter = comment.commenter;
@@ -23,7 +29,7 @@ export default function Comment({ comment }: { comment: any }) {
     </div>
     <br />
     <div>
-       { commenter.map((username:{}, index:any)=> <p key={index}>{username}</p>) }
+       {/* { commenter.map((username:{}, index:any)=> <p key={index}>{username}</p>) } */}
     </div>
     <br />
     {comment.creationDate}
@@ -33,4 +39,6 @@ export default function Comment({ comment }: { comment: any }) {
   )
 
 }
+
+
 
