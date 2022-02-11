@@ -62,7 +62,7 @@ const Login = () => {
       if (response.url.includes("error")) {
         alert("Wrong username/password")
       } else if (blockedAccs.find((blockedAcc: { username: string; }) => blockedAcc.username.toLowerCase() === loginUsername.toLowerCase())) {
-       alert("User is deleted")
+       alert("User is Blocked")
         logout();
       } else {
         console.log("Successfully logged in");
