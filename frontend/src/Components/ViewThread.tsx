@@ -299,6 +299,9 @@ function ViewThread() {
             <>{post.title}</>
           )}
           <br />
+          
+      <a href={`mailto:?subject=Something for you&body=I think you would like this link https://localhoast:3000/viewThread/${threadId} `}><img src={"/assets/share.png"} />. </a>
+
           {author.id == loggedInUser.id ? (
             <>
               <button onClick={() => setEditing(true)}>Edit</button>
