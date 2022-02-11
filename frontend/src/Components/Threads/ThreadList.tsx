@@ -1,49 +1,52 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Thread from "./Thread";
 import "../../Styles/Thread.scss";
 
 const ThreadList = (props: { threads: any; activeTopic: any }) => {
-  // const handleClick = (e:any) => {
-  //   const byTopic = e
-  //   console.log("ämne " ,byTopic)
-
-  //   const filterThreads = threads.filter(function(thread){
-  //     return thread.topicId.name == "music";})
-  //   setThreads(filterThreads)
-
-  // }
   const threads = props.threads;
+
   const activeTopic = props.activeTopic;
-  const [ filteredThreads, setFilteredThreads ] = React.useState([]);
-  
+  const [filteredThreads, setFilteredThreads] = useState([]);
+  let toggle = false;
+
+  const toggleStuff = () => {
+    setFilteredThreads(
+      threads.filter((thread: any) => {
+        if (thread.topicId === undefined && toggle === false) {
+          threads.shift();
+          toggle = true;
+        }
+      })
+    );
+  };
+
   const filterOnTopic = () => {
-    if (threads.topicId === undefined) {
-      threads.shift();
-    }
-    
     if (activeTopic) {
-      setFilteredThreads(threads.filter(function (thread: {
-        topicId: { name: any };
-      }) {
-        console.log(thread.topicId.name);
-        return thread.topicId.name == activeTopic;
-      }));
-      
+      setFilteredThreads(
+        threads.filter((thread: any) => {
+          return thread.topicId.name === activeTopic;
+        })
+      );
     }
-   
   };
 
   useEffect(() => {
+    toggleStuff();
     filterOnTopic();
-    console.log("props.threads: ", props.threads);
-    console.log("props.activeTopic: ", props.activeTopic);
-    console.log("filteredThreads: ", filteredThreads);
-  }, [props.threads]);
+  }, [props.threads, props.activeTopic]);
+
+  const renderThreads = () => {
+    if (filteredThreads.length === 0) {
+      return threads;
+    } else {
+      return filteredThreads;
+    }
+  };
 
   return (
     <div className="list">
-      <h1>{props.threads.activeTopic}</h1>
-      {props.threads.map((thread: {}, index: number) => {
+      <h1>{props.activeTopic}</h1>
+      {renderThreads().map((thread: {}, index: number) => {
         return <Thread key={index} thread={thread} />;
       })}
     </div>

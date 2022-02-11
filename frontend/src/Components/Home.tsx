@@ -13,7 +13,7 @@ const Home = () => {
   const { loggedInUser, whoAmI } = useContext(Context);
   //const [showCT, setShowCT] = useState(false);
   const [threads, setThreads] = useState([{}]);
-  const [activeTopic, setActiveTopic] = useState("Stuff")
+  const [activeTopic, setActiveTopic] = useState("")
   const [ filteredThreads, setFilteredThreads ] = useState([]);
 
 
@@ -64,17 +64,10 @@ const Home = () => {
     
     console.log("setFilteredThreads", filteredThreads);
 
-    // if (activeTopic) {
-    //  (res.filter(function(thread: any ){
-    //       return res.topicId.name == activeTopic;})).forEach((element: { id: any; name: string; complete: boolean }) => {
-    //         setThreads((threads) => [...threads, element]);
-    //       });
-  
-    // } else {
     res.forEach((element: { id: any; name: string; complete: boolean }) => {
       setThreads((threads) => [...threads, element]);
     });
-  // }
+
   
   }
 
@@ -89,19 +82,8 @@ const Home = () => {
   }, [allTopics]);
 
   const handleClick = (e:any) => {
-    const byTopic = e;
-    console.log("ämne " ,byTopic);
+    setActiveTopic(e);
   }
-
-  // const handleClick = (e:any) => {
-  //   const byTopic = e
-  //   console.log("ämne " ,byTopic)
-
-  //   const filterThreads = threads.filter(function(thread){
-  //     return thread.topicId.name == "music";})
-  //   setThreads(filterThreads)
-
-  // }
 
   return (
     <div>
