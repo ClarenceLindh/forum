@@ -79,6 +79,12 @@ button {
 }
 
 
+.logo{
+  min-height: 200px;
+  min-width: 200px;
+
+}
+
 .inFooter {
   display: flex;
   justify-content: space-between;
@@ -110,6 +116,38 @@ button {
     transform: scale(1);
   }
 }
+
+
+
+.loginLogoutContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.logoutButton{
+  background-color: $backgroundcolor3;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  padding: 2px 1px;
+  justify-content: right;
+  font-size: 16px;
+  cursor: pointer;
+  width: 60px;
+  &:hover {
+    background-color: $buttonhovercolor;
+    color: black;
+    transform: scale(1.03);
+    transition: 100ms ease all;
+  }
+  &:active {
+    transition: 50ms ease all;
+    background-color: $buttonactivecolor;
+    transform: scale(1);
+  }
+}
+
 
 .bigButton{
   font-size: 40px;

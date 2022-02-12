@@ -9,8 +9,7 @@ function Header() {
 
   return (
     <div className="header">
-      <div></div>
-      <h1>Forum</h1>
+      <img className="logo" src="../assets/Logo2.png" alt="" />
       <div>
         {Object.keys(loggedInUser).length === 0 &&
         loggedInUser.constructor === Object ? (
@@ -24,7 +23,7 @@ function Header() {
         ) : (
           <div className="loginLogoutContainer">
             <h3>Welcome back {loggedInUser.username}!</h3>
-            <button onClick={logout}>logout</button>
+            <button className="logoutButton noButtonCss" onClick={logout}>logout</button>
           </div>
         )}
       </div>
