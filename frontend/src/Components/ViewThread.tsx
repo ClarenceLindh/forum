@@ -282,7 +282,8 @@ function ViewThread() {
             <>{post.title}</>
           )}
           <br />
-          {(threadModerators.find((moderator: any) => moderator.id === loggedInUser.id) || author.id == loggedInUser.id) ? (
+          {(threadModerators.find((moderator: any) => moderator.id === loggedInUser.id) || author.id == loggedInUser.id
+           || loggedInUser.role === "ROLE_ADMIN") ? (
            <Link to={`/thread/bannedusers/${threadId}`}><button>See banned users</button></Link>
           ) : (
             <></>

@@ -15,21 +15,24 @@ function BannedUsers() {
     if (loggedInUser.username === usernameInput) {
       alert("You cannot ban yourself from a thread")
     }
+    if (threadBans.find((bannedUser: any) => bannedUser.username === usernameInput)) {
+      alert("User " + usernameInput + " is already banned")
+    }
     else if (threadModerators.find((moderator: any) => moderator.username !== usernameInput)) {
-    fetch(`/rest/thread/${threadId}/ban/user/${usernameInput}`, {
-      method: "POST"
+      fetch(`/rest/thread/${threadId}/ban/user/${usernameInput}`, {
+        method: "POST"
 
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
       })
-      .catch((error) => {
-        alert("User " + usernameInput + " does not exist")
-        console.error(error);
-      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+        })
+        .catch((error) => {
+          alert("User " + usernameInput + " does not exist")
+          console.error(error);
+        })
     } else {
-      alert("You cannot ban a moderator")
+      alert(usernameInput + " is a moderator. Remove " + usernameInput + " as moderator before banning.")
     }
   }
 
@@ -37,13 +40,13 @@ function BannedUsers() {
     fetch(`/rest/thread/${threadId}/unban/user/${userId}`, {
       method: "DELETE"
     })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data)
-    })
-    .catch((error) => {
-      console.error(error)
-    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }
 
   useEffect(() => {
@@ -57,11 +60,13 @@ function BannedUsers() {
       setThreadModerators(res.threadModerators)
       console.log(res)
     }
-    
+
     getThreadById()
   }, [threadId])
 
-  if (loggedInUser.id === creator.id || threadModerators.find((moderator: any) => moderator.id === loggedInUser.id)) {
+  if (loggedInUser.id === creator.id ||
+    threadModerators.find((moderator: any) => moderator.id === loggedInUser.id) ||
+    loggedInUser.role === "ROLE_ADMIN") {
     return (
       <div className="threadContainer">
         <h1>{thread.title}</h1>
@@ -78,7 +83,7 @@ function BannedUsers() {
             )}
           </ul>
           <h1>Ban user</h1>
-          <form>
+          <form onSubmit={banUser}>
             <input
               type="text"
               placeholder="Username"
