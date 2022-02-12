@@ -15,6 +15,7 @@ export default function Thread({ thread }: { thread: any }) {
         <div>{thread.text}</div>
         <div></div>
       {thread.creationDate}
+      
       </Link>
     </div>
   );

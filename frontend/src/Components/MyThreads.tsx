@@ -62,7 +62,7 @@ const MyThreads = () => {
           </div>
 
           <div className="items">
-            <ThreadList threads={threads} />
+            <ThreadList threads={threads} activeTopic={undefined} />
           </div>
           
         </div>

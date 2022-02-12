@@ -1,4 +1,4 @@
-package com.group1.forum.services;
+package com.group1.forum.Services;
 
 import com.group1.forum.Entities.CommentEntity;
 import com.group1.forum.Entities.ThreadEntity;
