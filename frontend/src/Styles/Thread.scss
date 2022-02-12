@@ -1,87 +1,108 @@
 @import "App";
 
-.box{
-    background-color: $backgroundcolor2;
-    margin: 2vh 0;
-    padding: 2vh 2vw;
-    &:hover {
-        background-color: $buttonhovercolor;
-        transform: scale(1.01);
-        transition: 100ms ease all;
-      }
-      &:active {
-        transition: 50ms ease all;
-        background-color: $buttonactivecolor;
-        transform: scale(1);
-      }
+.box {
+  background-color: $backgroundcolor2;
+  margin: 2vh 0;
+  padding: 2vh 2vw;
 
-
+  &:hover {
+    background-color: $buttonhovercolor;
+    transform: scale(1.01);
+    transition: 100ms ease all;
+  }
+  &:active {
+    transition: 50ms ease all;
+    background-color: $buttonactivecolor;
+    transform: scale(1);
+  }
 }
 
-.threadContainer{
-    text-align: center;
-    background-color: rgb(66, 66, 68);
-    margin: 3vw 3vw;
-    position: relative;
+.threadContainer {
+  text-align: center;
+  align-items: center;
+  background-color: $backgroundcolor2;
+  margin: 3vw 3vw;
+  position: relative;
+  border-radius: 5px;
 }
 
-.threadTitle{
-    font-size: 5vh;
-    font-weight: bold;
+.threadTitle {
+  font-size: 5vh;
+  font-weight: bold;
 }
 
-.threadContent{
-    // text-align: start;
-    border: solid;
-    margin-left: 10vw;
-    margin-right: 10vw;
-    background-color: grey;
-    padding: 3vh;
-    font-size: 1.7vh;
+.addModerator {
+  border-radius: 5px;
+  background-color: $backgroundcolor3;
+  align-items: center;
+  text-align: center;
 }
 
-.linkButton{
-    text-decoration: none;
+.threadContent {
+  border-radius: 5px;
+  background-color: $backgroundcolor3;
+  padding: 3vh;
+  font-size: 1.7vh;
+  margin-bottom: 20px;
+  max-width: 80vw;
+  width: 80vw;
+
+  align-items: center;
+  text-align: center;
 }
 
-.comment{
-    width: 40%;
-    height: 15vh;
+.threadText {
+  border-radius: 5px;
+  background-color: $backgroundcolor3;
+  margin: 1vh 5vw 1vh 5vw;
+  align-items: center;
+  text-align: center;
 }
 
+.linkButton {
+  text-decoration: none;
+}
 
-.box:first-child{
-    display: none;
+.comment, .inputText {
+  max-width: 80vw;
+  width: 80vw;
+  height: 20vh;
+  color: white;
+  border-radius: 5px;
+  background-color: $backgroundcolor3;
+  border: none;
+}
+
+.box:first-child {
+  display: none;
 }
 
 .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    padding: 8px 9px;
-    z-index: 1;
-  }
-  
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
+  position: relative;
+  display: inline-block;
+}
 
-  #shareLink{
-    position: absolute;
-    top: 5px;
-    right: 5px;
-		
-   
-  }
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  padding: 8px 9px;
+  z-index: 1;
+}
 
-  img{
-    width: 5vw;
-    height: 5vw;
-    object-fit: contain;
-  }
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+#shareLink {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+img {
+  width: 5vw;
+  height: 5vw;
+  object-fit: contain;
+}

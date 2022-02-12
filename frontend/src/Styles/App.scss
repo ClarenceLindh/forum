@@ -40,9 +40,16 @@ ul {
   margin: 0;
   padding: 0;
 }
+.loginField{
+  border-radius: 5px;
+}
+.list{
+  margin-bottom: 120px;
+}
 
 button {
   background-color: $backgroundcolor3;
+  border-radius: 5px;
   border: none;
   color: white;
   padding: 15px 32px;
@@ -63,6 +70,58 @@ button {
     transform: scale(1);
   }
 }
+#footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 10vh;
+  background-color: $backgroundcolor4;
+}
+
+
+.inFooter {
+  display: flex;
+  justify-content: space-between;
+  font-size: 5vh;
+  padding-top: 1vh;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  background-color: $backgroundcolor4;
+}
+
+.noButtonCss {
+  background-color: rgba($color: #000000, $alpha: 0);
+  margin-left: 10px;
+  border: none;
+  color: white;
+  padding: 0px 0px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 20px;
+  &:hover {
+    background-color: rgba($color: #000000, $alpha: 0);
+    color: black;
+    transform: scale(1.03);
+    transition: 100ms ease all;
+  }
+  &:active {
+    transition: 50ms ease all;
+    background-color: rgba($color: #000000, $alpha: 0);
+    transform: scale(1);
+  }
+}
+
+.bigButton{
+  font-size: 40px;
+}
+
+.modList {
+  margin-bottom: 20px;
+}
+
+.modTitle{
+margin-bottom: 0px;
+}
 
 .unselectable {
   -moz-user-select: -moz-none;
@@ -72,7 +131,11 @@ button {
   user-select: none;
 }
 
-.link{
+.link {
   text-decoration: none;
   color: white;
+}
+
+.cardWrapper {
+  border-radius: 5px;
 }
