@@ -12,6 +12,10 @@ function BannedUsers() {
   const [usernameInput, setUsernameInput] = useState<string>("")
 
   const banUser = async () => {
+    if (loggedInUser.username === usernameInput) {
+      alert("You cannot ban yourself from a thread")
+    }
+    else if (threadModerators.find((moderator: any) => moderator.username !== usernameInput)) {
     fetch(`/rest/thread/${threadId}/ban/user/${usernameInput}`, {
       method: "POST"
 
@@ -21,8 +25,12 @@ function BannedUsers() {
         console.log(data);
       })
       .catch((error) => {
+        alert("User " + usernameInput + " does not exist")
         console.error(error);
-      });
+      })
+    } else {
+      alert("You cannot ban a moderator")
+    }
   }
 
   const unbanUser = async (userId: number) => {
