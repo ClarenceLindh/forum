@@ -40,9 +40,13 @@ ul {
   margin: 0;
   padding: 0;
 }
+.loginField{
+  border-radius: 5px;
+}
 
 button {
   background-color: $backgroundcolor3;
+  border-radius: 5px;
   border: none;
   color: white;
   padding: 15px 32px;
@@ -64,6 +68,40 @@ button {
   }
 }
 
+.noButtonCss {
+  background-color: rgba($color: #000000, $alpha: 0);
+  margin-left: 10px;
+  border: none;
+  color: white;
+  padding: 0px 0px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 20px;
+  &:hover {
+    background-color: rgba($color: #000000, $alpha: 0);
+    color: black;
+    transform: scale(1.03);
+    transition: 100ms ease all;
+  }
+  &:active {
+    transition: 50ms ease all;
+    background-color: rgba($color: #000000, $alpha: 0);
+    transform: scale(1);
+  }
+}
+
+.bigButton{
+  font-size: 40px;
+}
+
+.modList {
+  margin-bottom: 20px;
+}
+
+.modTitle{
+margin-bottom: 0px;
+}
+
 .unselectable {
   -moz-user-select: -moz-none;
   -khtml-user-select: none;
@@ -72,7 +110,11 @@ button {
   user-select: none;
 }
 
-.link{
+.link {
   text-decoration: none;
   color: white;
+}
+
+.cardWrapper {
+  border-radius: 5px;
 }

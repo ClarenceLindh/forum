@@ -5,7 +5,16 @@ import { useParams } from "react-router-dom";
 import { Context } from "../Context/ContextProvider";
 import "../Styles/Thread.scss";
 import { formatISO } from "date-fns";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowUpFromBracket,
+  faCircleMinus,
+  faEnvelope,
+  faFloppyDisk,
+  faPenToSquare,
+  faShare,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
 
 function ViewThread() {
   const navigate = useNavigate();
@@ -37,7 +46,7 @@ function ViewThread() {
     setAuthor(res.creator);
     setEditedTitle(res.title);
     setEditedText(res.text);
-    setThreadModerators(res.threadModerators)
+    setThreadModerators(res.threadModerators);
     console.log("this is response: ", response);
     console.log(res);
   };
@@ -50,9 +59,9 @@ function ViewThread() {
   const checkIfCreator = async () => {
     try {
       if (
-        post.creator.id !== undefined &&
+        author.id !== undefined &&
         loggedInUser.id !== undefined &&
-        post.creator.id === loggedInUser.id
+        author.id === loggedInUser.id
       ) {
         setCreator(true);
       }
@@ -65,7 +74,8 @@ function ViewThread() {
     checkIfCreator();
   }, [post]);
 
-  const saveEdit = async () => {
+  const saveEdit = async ( e: { preventDefault: () => void } ) => {
+    e.preventDefault();
     if (editedTitle === undefined) {
       setEditedTitle(post.title);
     }
@@ -93,7 +103,6 @@ function ViewThread() {
       await fetch(`/rest/thread/${threadId}`, requestOptions)
         .then(async (response) => {
           const data = await response.json();
-
           // check for error response
           if (!response.ok) {
             // get error message from body or default to response status
@@ -105,6 +114,7 @@ function ViewThread() {
           console.error("There was an error!", error);
         });
     }
+    window.location.reload();
   };
 
   const cancelEdit = () => {
@@ -158,8 +168,8 @@ function ViewThread() {
       );
     }
   };
-    
-    let deleteAccountByClick = async () => {
+
+  let deleteAccountByClick = async () => {
     const accountInfo = {
       method: "PUT",
       headers: {
@@ -220,7 +230,8 @@ function ViewThread() {
   let unblockThread = async () => {
     if (loggedInUser.role == "ROLE_ADMIN") {
       if (
-        window.confirm("are your sure you want to unblock " + post.title) == true
+        window.confirm("are your sure you want to unblock " + post.title) ==
+        true
       ) {
         try {
           let response = await fetch(`/rest/thread/${threadId}`, {
@@ -250,13 +261,14 @@ function ViewThread() {
   const renderModerators = () => {
     return (
       <div>
-        <h3>Moderators</h3>
-        <ul>
+        <h3 className="modTitle">Moderators</h3>
+        <ul className="modList">
           {threadModerators.map(
             (moderators: { id: number; username: string }) => (
               <li key={moderators.id}>
                 {moderators.username}
                 <button
+                  className="noButtonCss"
                   onClick={() => {
                     if (
                       window.confirm(
@@ -269,7 +281,7 @@ function ViewThread() {
                     }
                   }}
                 >
-                  Delete
+                  <FontAwesomeIcon icon={faCircleMinus} />
                 </button>
               </li>
             )
@@ -294,7 +306,6 @@ function ViewThread() {
 
   const fetchModerators = async () => {
     try {
-
       let response = await fetch(`/rest/thread/${threadId}/moderators`);
       let data = await response.json();
       console.log("fetchModerators response", response);
@@ -305,38 +316,46 @@ function ViewThread() {
     }
   };
 
-
   if (post.blockedThreadStatus === false) {
     return (
       <div className="threadContainer">
-       
-        <br />
         <div className="threadTitle">
           {editing === true ? (
             <div>
               <form onSubmit={saveEdit}>
                 <input
-                  className="threadTitle"
+                  
                   type="text"
                   value={editedTitle}
                   onChange={(e) => setEditedTitle(e.target.value)}
                 />
-                <button onClick={saveEdit}>Save</button>
-                <button onClick={cancelEdit}>Cancel</button>
+                <button className="bigButton noButtonCss" onClick={saveEdit}>
+                  <FontAwesomeIcon icon={faFloppyDisk} />
+                </button>
+                <button className="bigButton noButtonCss" onClick={cancelEdit}>
+                  <FontAwesomeIcon icon={faCircleMinus} />
+                </button>
               </form>
             </div>
           ) : (
             <>{post.title}</>
           )}
           <br />
-          
-      
 
-         
           {author.id == loggedInUser.id || loggedInUser.role == "ROLE_ADMIN" ? (
             <>
-              <button onClick={() => setEditing(true)}>Edit</button>
-              <button onClick={deleteThreadById}>Delete</button>
+              <button
+                className="noButtonCss bigButton"
+                onClick={() => setEditing(true)}
+              >
+                <FontAwesomeIcon icon={faPenToSquare} />
+              </button>
+              <button
+                className="noButtonCss bigButton"
+                onClick={deleteThreadById}
+              >
+                <FontAwesomeIcon icon={faTrashCan} />
+              </button>
             </>
           ) : (
             <></>
@@ -347,12 +366,12 @@ function ViewThread() {
             <></>
           )}
         </div>
-        <div className="threadContent">
+        <div className="threadText">
           {editing === true ? (
             <div>
               <form onSubmit={saveEdit}>
                 <textarea
-                  className="threadContent"
+                  className="inputText"
                   value={editedText}
                   onChange={(e) => setEditedText(e.target.value)}
                 />
@@ -366,6 +385,7 @@ function ViewThread() {
           <div>
             <form onSubmit={(e) => addModerator(e)}>
               <input
+                className="addModerator"
                 type="text"
                 placeholder="User ID"
                 onChange={(e) => setModId(e.target.value)}
@@ -374,15 +394,13 @@ function ViewThread() {
             {renderModerators()}
           </div>
         ) : null}
-        <a>{author.role === "ROLE_DELETED" ? (
-                    <div>
-                      Started by deletedUser
-                    </div>
-                ): (
-                    <div>
-                Started by {author.username}
-                    </div>
-                )}</a>
+        <a>
+          {author.role === "ROLE_DELETED" ? (
+            <div>Created by deletedUser</div>
+          ) : (
+            <div>Created by {author.username}</div>
+          )}
+        </a>
         <div className="threadComment">
           <h3>Comment here</h3>
           <textarea
@@ -392,20 +410,32 @@ function ViewThread() {
             placeholder="Comment..."
           />
           <div>
-            <button>Post</button>
-            <a id="shareLink" href={`mailto:?subject=Something for you&body=I think you would like this link https://localhoast:3000/viewThread/${threadId} `}><img src={"/assets/share.png"} /> </a>
-          {loggedInUser.role === "ROLE_ADMIN" ? (
-          <div className="dropdown">
-            <span>Settings</span>
-            <div className="dropdown-content">
-              <button onClick={deleteAccountByClick}>Delete Account</button>
-            </div>
-          </div>):(
-            <div></div>
-          )} 
+            <button className="bigButton noButtonCss">
+              <FontAwesomeIcon icon={faShare} />{" "}
+            </button>
+            <a
+              id="shareLink"
+              href={`mailto:?subject=Something for you&body=I think you would like this link https://localhoast:3000/viewThread/${threadId} `}
+            >
+              <button className="bigButton noButtonCss">
+                <FontAwesomeIcon
+                  className="noButtonCss bigButton"
+                  icon={faEnvelope}
+                />{" "}
+              </button>
+            </a>
+            {loggedInUser.role === "ROLE_ADMIN" ? (
+              <div className="dropdown">
+                <span>Settings</span>
+                <div className="dropdown-content">
+                  <button onClick={deleteAccountByClick}>Delete Account</button>
+                </div>
+              </div>
+            ) : (
+              <div></div>
+            )}
           </div>
         </div>
-        <br />
       </div>
     );
   } else if (
@@ -414,13 +444,16 @@ function ViewThread() {
   ) {
     return (
       <div className="threadContainer">
-        <br />
         <div className="threadTitle">
           {post.title}
-          <br />
           {loggedInUser.role == "ROLE_ADMIN" ? (
             <>
-              <button onClick={deleteThreadById}>Delete</button>
+              <button
+                className="noButtonCss bigButton"
+                onClick={deleteThreadById}
+              >
+                <FontAwesomeIcon icon={faTrashCan} />
+              </button>
             </>
           ) : (
             <></>
@@ -432,8 +465,10 @@ function ViewThread() {
             <></>
           )}
         </div>
-        <div className="threadContent">{post.text}</div>
-        <a>creator: {author.username}</a>
+        <div className="threadContent">
+          {post.text} test
+          <a>Creator: {author.username}</a>
+        </div>
         <div className="threadComment">
           <h3>Comment here</h3>
           <textarea
@@ -443,20 +478,27 @@ function ViewThread() {
             placeholder="Comment..."
           />
           <div>
-            <button>Post</button>
-            <button onClick={deleteThreadById}>Delete</button>
-          {loggedInUser.role === "ROLE_ADMIN" ? (
-          <div className="dropdown">
-            <span>Settings</span>
-            <div className="dropdown-content">
-              <button onClick={deleteAccountByClick}>Delete Account</button>
-            </div>
-          </div>):(
-            <div></div>
-          )} 
+            <button>
+              <FontAwesomeIcon icon={faShare} />
+            </button>
+            <button
+              className="noButtonCss bigButton"
+              onClick={deleteThreadById}
+            >
+              <FontAwesomeIcon icon={faTrashCan} />
+            </button>
+            {loggedInUser.role === "ROLE_ADMIN" ? (
+              <div className="dropdown">
+                <span>Settings</span>
+                <div className="dropdown-content">
+                  <button onClick={deleteAccountByClick}>Delete Account</button>
+                </div>
+              </div>
+            ) : (
+              <div></div>
+            )}
           </div>
         </div>
-        <br />
       </div>
     );
   } else if (post.blockedThreadStatus === true) {

@@ -139,13 +139,15 @@ const Login = () => {
     <div className="login-page">
       <h1>Login</h1>
       <form onSubmit={login}>
-        <input
+        <input 
+          className="loginField"
           type="text"
           placeholder="Username"
           onChange={(e) => setLoginUsername(e.target.value)}
         />
 
-        <input
+        <input 
+          className="loginField"
           type="password"
           placeholder="Password"
           onChange={(e) => setLoginPassword(e.target.value)}
@@ -159,18 +161,21 @@ const Login = () => {
       <h1>Or Register</h1>
       <form onSubmit={register}>
         <input
+          className="loginField"
           type="text"
           placeholder="Username"
           onChange={(e) => setRegisterUsername(e.target.value)}
           onSubmit={register}
         />
         <input
+          className="loginField"  
           type="text"
           placeholder="E-mail"
           onChange={(e) => setRegisterEmail(e.target.value)}
           onSubmit={register}
         />
         <input
+          className="loginField"
           type="password"
           placeholder="Password"
           onChange={(e) => setRegisterPassword(e.target.value)}
