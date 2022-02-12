@@ -60,7 +60,7 @@ const CreateThread = (topics: any) => {
   };
 
   return (
-    <div>
+    <div className="main">
       <Header />
         <h2>Create Thread</h2>
       <div className="createThread">

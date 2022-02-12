@@ -517,7 +517,7 @@ function ViewThread() {
             </div>
           </div>
         </div>
-        <Footer />
+        
       </div>
     );
   } else if (post.blockedThreadStatus === true) {
