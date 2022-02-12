@@ -22,6 +22,7 @@
     text-align: center;
     background-color: rgb(66, 66, 68);
     margin: 3vw 3vw;
+    position: relative;
 }
 
 .threadTitle{
@@ -69,4 +70,18 @@
   
   .dropdown:hover .dropdown-content {
     display: block;
+  }
+
+  #shareLink{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+		
+   
+  }
+
+  img{
+    width: 5vw;
+    height: 5vw;
+    object-fit: contain;
   }
