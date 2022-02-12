@@ -484,8 +484,62 @@ function ViewThread() {
                         )}
                     </a>
                     <div>
+                    <div>
+                                {loggedInUser.role === "ROLE_ADMIN" ? (
+                                    <div className="dropdown">
+                                        <span>Settings</span>
+                                        <div className="dropdown-content">
+                                            <button onClick={deleteAccountByClick}>Delete Account</button>
+                                        </div>
+                                    </div>) : (
+                                    <div>
+                                        <div className="comments">
+                                            <CommentList comments={comments} />
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         <div>
-                            <button className="bigButton noButtonCss">
+
+
+
+
+                            <a>{author.role === "ROLE_DELETED" ? (
+                        <div>
+                            Started by deletedUser
+                        </div>
+                    ) : (
+                        <div className="commentAuth">
+                            Started by {author.username}
+                        </div>
+                    )}</a>
+                    <div className="threadComment">
+                        <h3 className="commentTitle">Comment here</h3>
+                        <textarea
+                            className="comment" onChange={(submit) => setComment(submit.target.value)} placeholder="Comment..."
+                        />
+                        <div>
+                            {loggedInUser.role === "ROLE_ADMIN" ? (
+                                <div className="dropdown">
+                                    <span>Settings</span>
+                                    <div className="dropdown-content">
+                                        <button onClick={deleteAccountByClick}>Delete Account</button>
+                                    </div>
+                                </div>) : (
+                                <div>
+                                    
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+                            <button onClick={postComment} className="bigButton noButtonCss">
                                 <FontAwesomeIcon icon={faShare} />{" "}
                             </button>
                             <a
@@ -514,37 +568,7 @@ function ViewThread() {
                         </div>
                     </div>
         </div>
-                    <a>{author.role === "ROLE_DELETED" ? (
-                        <div>
-                            Started by deletedUser
-                        </div>
-                    ) : (
-                        <div className="commentAuth">
-                            Started by {author.username}
-                        </div>
-                    )}</a>
-                    <div className="threadComment">
-                        <h3 className="commentTitle">Comment here</h3>
-                        <textarea
-                            className="comment" onChange={(submit) => setComment(submit.target.value)} placeholder="Comment..."
-                        />
-                        <div>
-                            <button className="commentBtn" onClick={postComment}>Post</button>
-                            {loggedInUser.role === "ROLE_ADMIN" ? (
-                                <div className="dropdown">
-                                    <span>Settings</span>
-                                    <div className="dropdown-content">
-                                        <button onClick={deleteAccountByClick}>Delete Account</button>
-                                    </div>
-                                </div>) : (
-                                <div>
-                                    <div className="comments">
-                                        <CommentList comments={comments} />
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
+                
                     <Footer />
                 </div>
                 );
