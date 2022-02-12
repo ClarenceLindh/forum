@@ -1,71 +1,90 @@
 @import "App";
 
-.createThread{
-    margin-left: 10vw;
-    margin-right: 10vw;
-    margin-top: 10vh;
-    width: 80vw;
-    height: 70vh;
+.createThread {
+  margin-left: 5vw;
+  margin-right: 5vw;
+  margin-top: 5vh;
+  width: 88vw;
+  height: 70vh;
+  position: relative;
+  background-color: $backgroundcolor2;
+  color: antiquewhite;
+  border-radius: 5px;
+  text-align: center;
+
+  form {
     position: relative;
-    background-color: $backgroundcolor2;
-    color: antiquewhite;
-  
-  
-  form{
-    position: absolute;
     top: auto;
     left: 10vw;
     padding: 0vw;
-    
     width: 60vw;
     height: auto;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    
   }
-  .headlineThread{
-    width: 60vw;
-  
+  .headlineThread {
+    max-width: 80vw;
+    font-size: 17px;
+    color: white;
+    border-radius: 5px;
+    background-color: $backgroundcolor3;
+    border: none;
+    margin-top: 10px;
   }
-  .contentThread{
+  .contentThread {
     width: 60vw;
     height: 40vh;
     text-align: left;
     vertical-align: top;
+    background-color: $backgroundcolor3;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    color: white;
   }
-  .topicList{
+  .topicList {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin-bottom: 5vh;
   }
-  #topic{
+  #topic {
     margin-right: 5px;
     background-color: rgb(105, 125, 126);
     width: 12vw;
     border: 5px solid rgb(75, 73, 73);
     font-size: 2vh;
   }
-  .submit{
-    position:relative;
-    width: 60vw;
+  .submit {
+    position: relative;
     background-color: cadetblue;
   }
-  .submitThread{
+  .submitThread {
     position: absolute;
     right: 0;
-    
   }
 
+  .selectTopic {
+    background-color: $backgroundcolor3;
+    border-radius: 5px;
+    margin-top: 5px;
+    border: none;
+    color: white;
 
-#footer{
-  position: fixed;
-  bottom: 0;
-  left:0;
-  width: 100%;
-  height: 10vh;
-  background-color: $backgroundcolor2;
- }
- 
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  #footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 10vh;
+    background-color: $backgroundcolor2;
+  }
 }

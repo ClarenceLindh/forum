@@ -4,9 +4,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Context } from "../Context/ContextProvider";
 import "../Styles/Thread.scss";
+import "../Styles/App.scss";
 import { formatISO } from "date-fns";
 import CommentList from "./Comments/CommentList";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowUpFromBracket,
+  faCircleMinus,
+  faEnvelope,
+  faFloppyDisk,
+  faPenToSquare,
+  faShare,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
+import Header from "./Header";
+import Footer from "./Footer";
 
 function ViewThread() {
   const navigate = useNavigate();
@@ -45,7 +57,7 @@ function ViewThread() {
     setAuthor(res.creator);
     setEditedTitle(res.title);
     setEditedText(res.text);
-    setThreadModerators(res.threadModerators)
+    setThreadModerators(res.threadModerators);
     console.log("this is response: ", response);
     console.log(res);
   };
@@ -123,9 +135,9 @@ useEffect(() => {
   const checkIfCreator = async () => {
     try {
       if (
-        post.creator.id !== undefined &&
+        author.id !== undefined &&
         loggedInUser.id !== undefined &&
-        post.creator.id === loggedInUser.id
+        author.id === loggedInUser.id
       ) {
         setCreator(true);
       }
@@ -138,7 +150,8 @@ useEffect(() => {
     checkIfCreator();
   }, [post]);
 
-  const saveEdit = async () => {
+  const saveEdit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
     if (editedTitle === undefined) {
       setEditedTitle(post.title);
     }
@@ -166,7 +179,6 @@ useEffect(() => {
       await fetch(`/rest/thread/${threadId}`, requestOptions)
         .then(async (response) => {
           const data = await response.json();
-
           // check for error response
           if (!response.ok) {
             // get error message from body or default to response status
@@ -178,6 +190,7 @@ useEffect(() => {
           console.error("There was an error!", error);
         });
     }
+    window.location.reload();
   };
 
   const cancelEdit = () => {
@@ -231,8 +244,8 @@ useEffect(() => {
       );
     }
   };
-    
-    let deleteAccountByClick = async () => {
+
+  let deleteAccountByClick = async () => {
     const accountInfo = {
       method: "PUT",
       headers: {
@@ -293,7 +306,8 @@ useEffect(() => {
   let unblockThread = async () => {
     if (loggedInUser.role == "ROLE_ADMIN") {
       if (
-        window.confirm("are your sure you want to unblock " + post.title) == true
+        window.confirm("are your sure you want to unblock " + post.title) ==
+        true
       ) {
         try {
           let response = await fetch(`/rest/thread/${threadId}`, {
@@ -323,13 +337,14 @@ useEffect(() => {
   const renderModerators = () => {
     return (
       <div>
-        <h3>Moderators</h3>
-        <ul>
+        <h3 className="modTitle">Moderators</h3>
+        <ul className="modList">
           {threadModerators.map(
             (moderators: { id: number; username: string }) => (
               <li key={moderators.id}>
                 {moderators.username}
                 <button
+                  className="noButtonCss"
                   onClick={() => {
                     if (
                       window.confirm(
@@ -342,7 +357,7 @@ useEffect(() => {
                     }
                   }}
                 >
-                  Delete
+                  <FontAwesomeIcon icon={faCircleMinus} />
                 </button>
               </li>
             )
@@ -367,7 +382,6 @@ useEffect(() => {
 
   const fetchModerators = async () => {
     try {
-
       let response = await fetch(`/rest/thread/${threadId}/moderators`);
       let data = await response.json();
       console.log("fetchModerators response", response);
@@ -378,68 +392,132 @@ useEffect(() => {
     }
   };
 
-
   if (post.blockedThreadStatus === false) {
     return (
-      <div className="threadContainer">
-        <br />
-        <div className="threadTitle">
-          {editing === true ? (
+      <div>
+        <Header />
+        <div className="threadContainer">
+          <div className="threadTitle">
+            {editing === true ? (
+              <div>
+                <form onSubmit={saveEdit}>
+                  <input
+                    type="text"
+                    value={editedTitle}
+                    onChange={(e) => setEditedTitle(e.target.value)}
+                  />
+                  <button className="bigButton noButtonCss" onClick={saveEdit}>
+                    <FontAwesomeIcon icon={faFloppyDisk} />
+                  </button>
+                  <button
+                    className="bigButton noButtonCss"
+                    onClick={cancelEdit}
+                  >
+                    <FontAwesomeIcon icon={faCircleMinus} />
+                  </button>
+                </form>
+              </div>
+            ) : (
+              <>{post.title}</>
+            )}
+            <br />
+
+            {author.id == loggedInUser.id ||
+            loggedInUser.role == "ROLE_ADMIN" ? (
+              <>
+                <button
+                  className="noButtonCss bigButton"
+                  onClick={() => setEditing(true)}
+                >
+                  <FontAwesomeIcon icon={faPenToSquare} />
+                </button>
+                <button
+                  className="noButtonCss bigButton"
+                  onClick={deleteThreadById}
+                >
+                  <FontAwesomeIcon icon={faTrashCan} />
+                </button>
+              </>
+            ) : (
+              <></>
+            )}
+            {loggedInUser.role == "ROLE_ADMIN" ? (
+              <button onClick={blockThread}>Block</button>
+            ) : (
+              <></>
+            )}
+          </div>
+          <div className="threadText">
+            {editing === true ? (
+              <div>
+                <form onSubmit={saveEdit}>
+                  <textarea
+                    className="inputText"
+                    value={editedText}
+                    onChange={(e) => setEditedText(e.target.value)}
+                  />
+                </form>
+              </div>
+            ) : (
+              <>{post.text}</>
+            )}
+          </div>
+          {creator ? (
             <div>
-              <form onSubmit={saveEdit}>
+              <form onSubmit={(e) => addModerator(e)}>
                 <input
-                  className="threadTitle"
+                  className="addModerator"
                   type="text"
-                  value={editedTitle}
-                  onChange={(e) => setEditedTitle(e.target.value)}
+                  placeholder="User ID"
+                  onChange={(e) => setModId(e.target.value)}
                 />
-                <button onClick={saveEdit}>Save</button>
-                <button onClick={cancelEdit}>Cancel</button>
               </form>
+              {renderModerators()}
             </div>
-          ) : (
-            <>{post.title}</>
-          )}
-          <br />
-          {author.id == loggedInUser.id || loggedInUser.role == "ROLE_ADMIN" ? (
-            <>
-              <button onClick={() => setEditing(true)}>Edit</button>
-              <button onClick={deleteThreadById}>Delete</button>
-            </>
-          ) : (
-            <></>
-          )}
-          {loggedInUser.role == "ROLE_ADMIN" ? (
-            <button onClick={blockThread}>Block</button>
-          ) : (
-            <></>
-          )}
-        </div>
-        <div className="threadContent">
-          {editing === true ? (
+          ) : null}
+          <a>
+            {author.role === "ROLE_DELETED" ? (
+              <div>Created by deletedUser</div>
+            ) : (
+              <div>Created by {author.username}</div>
+            )}
+          </a>
+          <div className="threadComment">
+            <h3>Comment here</h3>
+            <textarea
+              className="comment"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Comment..."
+            />
             <div>
-              <form onSubmit={saveEdit}>
-                <textarea
-                  className="threadContent"
-                  value={editedText}
-                  onChange={(e) => setEditedText(e.target.value)}
-                />
-              </form>
+              <button className="bigButton noButtonCss">
+                <FontAwesomeIcon icon={faShare} />{" "}
+              </button>
+              <a
+                id="shareLink"
+                href={`mailto:?subject=Something for you&body=I think you would like this link https://localhoast:3000/viewThread/${threadId} `}
+              >
+                <button className="bigButton noButtonCss">
+                  <FontAwesomeIcon
+                    className="noButtonCss bigButton"
+                    icon={faEnvelope}
+                  />{" "}
+                </button>
+              </a>
+              {loggedInUser.role === "ROLE_ADMIN" ? (
+                <div className="dropdown">
+                  <span>Settings</span>
+                  <div className="dropdown-content">
+                    <button onClick={deleteAccountByClick}>
+                      Delete Account
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div></div>
+              )}
             </div>
-          ) : (
-            <>{post.text}</>
-          )}
-        </div>
-        {creator ? (
-          <div>
-            <form onSubmit={(e) => addModerator(e)}>
-              <input
-                type="text"
-                placeholder="User ID"
-                onChange={(e) => setModId(e.target.value)}
-              />
-            </form>
-            {renderModerators()}
           </div>
         ) : null}
         <a>{author.role === "ROLE_DELETED" ? (
@@ -475,7 +553,7 @@ useEffect(() => {
           )} 
           </div>
         </div>
-        <br />
+        <Footer />
       </div>
     );
   } else if (
@@ -483,66 +561,69 @@ useEffect(() => {
     post.blockedThreadStatus === true
   ) {
     return (
-      <div className="threadContainer">
-        <br />
-        <div className="threadTitle">
-          {post.title}
-          <br />
-          {loggedInUser.role == "ROLE_ADMIN" ? (
-            <>
-              <button onClick={deleteThreadById}>Delete</button>
-            </>
-          ) : (
-            <></>
-          )}
-          {loggedInUser.role == "ROLE_ADMIN" &&
-          post.blockedThreadStatus === true ? (
-            <button onClick={unblockThread}>unblock</button>
-          ) : (
-            <></>
-          )}
-        </div>
-        <div className="threadContent">{post.text}</div>
-        <a>creator: {author.username}</a>
-        <div className="threadComment">
-          <h3>Comment here</h3>
+      <div>
+        <Header />
+
         <div className="threadContainer">
-            <div className="threadTitle">
-                {post.title}
-                <br />
+          <div className="threadTitle">
+            {post.title}
+            {loggedInUser.role == "ROLE_ADMIN" ? (
+              <>
+                <button
+                  className="noButtonCss bigButton"
+                  onClick={deleteThreadById}
+                >
+                  <FontAwesomeIcon icon={faTrashCan} />
+                </button>
+              </>
+            ) : (
+              <></>
+            )}
+            {loggedInUser.role == "ROLE_ADMIN" &&
+            post.blockedThreadStatus === true ? (
+              <button onClick={unblockThread}>unblock</button>
+            ) : (
+              <></>
+            )}
+          </div>
+          <div className="threadContent">
+            {post.text} test
+            <a>Creator: {author.username}</a>
+          </div>
+          <div className="threadComment">
+            <h3>Comment here</h3>
+            <textarea
+              className="comment"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Comment..."
+            />
+            <div>
+              <button>
+                <FontAwesomeIcon icon={faShare} />
+              </button>
+              <button
+                className="noButtonCss bigButton"
+                onClick={deleteThreadById}
+              >
+                <FontAwesomeIcon icon={faTrashCan} />
+              </button>
+              {loggedInUser.role === "ROLE_ADMIN" ? (
+                <div className="dropdown">
+                  <span>Settings</span>
+                  <div className="dropdown-content">
+                    <button onClick={deleteAccountByClick}>
+                      Delete Account
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div></div>
+              )}
             </div>
-            <div className="threadContent">
-                {post.text}
-            </div>
-            <br />
-            <br />
-            <br />
-
-            <br />
-        </div>
-    
-
-          {/* <textarea
-            className="comment"
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            placeholder="Comment..."
-          /> */}
-          <div>
-            <button>Post</button>
-            <button onClick={deleteThreadById}>Delete</button>
-          {loggedInUser.role === "ROLE_ADMIN" ? (
-          <div className="dropdown">
-            <span>Settings</span>
-            <div className="dropdown-content">
-              <button onClick={deleteAccountByClick}>Delete Account</button>
-            </div>
-          </div>):(
-            <div></div>
-          )} 
           </div>
         </div>
-        <br />
+        
       </div>
     );
   } else if (post.blockedThreadStatus === true) {

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "../Context/ContextProvider";
 import { Link } from "react-router-dom";
 import Footer from "./Footer";
+import Header from "./Header";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -76,27 +77,7 @@ const Home = () => {
   return (
     <div>
       <div className="main">
-        <div className="header">
-          <div></div>
-          <h1>Forum</h1>
-          <div>
-            {Object.keys(loggedInUser).length === 0 &&
-            loggedInUser.constructor === Object ? (
-              <h2
-                onClick={() => {
-                  navigate("/login");
-                }}
-              >
-                Sign in
-              </h2>
-            ) : (
-              <div className="loginLogoutContainer">
-                <h3>Welcome back {loggedInUser.username}!</h3>
-                <button onClick={logout}>logout</button>
-              </div>
-            )}
-          </div>
-        </div>
+        <Header />
 
         <div className="body">
           <div className="categories">

@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import { Link } from "react-router-dom";
 
 import { Context } from "../Context/ContextProvider";
+import Header from "./Header";
 
 const MyThreads = () => {
   const { loggedInUser, whoAmI } = useContext(Context);
@@ -49,15 +50,12 @@ const MyThreads = () => {
     );
   } else {
     return (
+        <div>
       <div className="main">
-        <div className="header">
-          <div></div>
-          <h1>Forum</h1>
-          <div></div>
-        </div>
+        <Header />
 
         <div className="body">
-          <div id="myThreads">
+          <div >
             <h2>My Threads</h2>
           </div>
 
@@ -66,6 +64,7 @@ const MyThreads = () => {
           </div>
           
         </div>
+      </div>
         <div id="footer">
           <Footer />
         </div>
