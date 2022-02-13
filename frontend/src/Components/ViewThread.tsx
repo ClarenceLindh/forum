@@ -642,7 +642,7 @@ function ViewThread() {
                         </div>
                     </div>
                 </div>
-
+            </div>
                 );
   }else if(post.blockedThreadStatus == true){
     return(
