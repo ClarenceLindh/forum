@@ -21,10 +21,7 @@ export default function Comment({ comment }: { comment: any }) {
     let commenter = comment.commenter;
     setCommenterName(commenter);
     console.log('COMMENT Object: ', comment);
-    console.log('this is commenter: ', commenter);
-    console.log('this is commenterName: ', commenterName)
-    console.log('this is threadUsername: ', comment.thread.creator.username)
-    console.log('this is ehoamin: ', loggedInUser)
+    console.log("this should be mods", comment.thread.threadModerators)
   }
 
   useEffect(() => {
@@ -43,7 +40,7 @@ export default function Comment({ comment }: { comment: any }) {
     <br />
     <div>
       {/*threadcreator=använder / comment=användare/  Admin/ threadmoderator.name== loggedinuser&& threadmoderator id == threadid */}
-    {  comment.thread.creator.username===loggedInUser.username || loggedInUser.username===commenterName.username || loggedInUser.role==="USER_ADMIN" ? (
+    {  comment.thread.creator.username===loggedInUser.username || loggedInUser.username===commenterName.username || loggedInUser.role==="USER_ADMIN" || (comment.thread.threadModerators.find((mod:any)=>mod.id===loggedInUser.id)) ? (
         <h2>
          ❌
         </h2>
