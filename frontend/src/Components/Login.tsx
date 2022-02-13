@@ -130,14 +130,16 @@ const Login = () => {
     <div className="login-page">
       <h1>Login</h1>
       <form onSubmit={login}>
-        <input 
+        <input
+          required 
           className="loginField"
           type="text"
           placeholder="Username"
           onChange={(e) => setLoginUsername(e.target.value)}
         />
 
-        <input 
+        <input
+          required 
           className="loginField"
           type="password"
           placeholder="Password"
