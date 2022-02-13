@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-
+import NotFound from "../Components/NotFound"
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Context } from "../Context/ContextProvider";
@@ -20,6 +20,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Header from "./Header";
 import Footer from "./Footer";
+import { setDefaultResultOrder } from "dns";
+import { setWeekYearWithOptions } from "date-fns/fp";
 
 function ViewThread() {
     const navigate = useNavigate();
@@ -44,6 +46,7 @@ function ViewThread() {
     const [filteredComments, setFilteredComments] = useState<any>([]);
     const commentDate = formatISO(new Date());
     var [response] = useState<any>({});
+    const [res,setRes] = useState<any>({});
     let tuggle = false;
 
     const getThreadById = async (e: { preventDefault: () => void }) => {
@@ -54,6 +57,7 @@ function ViewThread() {
         response = res;
 
 
+        setRes(res)
         setTopic(res.topicId);
         setPost(res);
         setAuthor(res.creator);
@@ -639,32 +643,27 @@ function ViewThread() {
                     </div>
                 </div>
 
-            </div>
-        );
-    } else if (post.blockedThreadStatus === true) {
-        return (
-            <>
-                <h1>THREAD IS BLOCKED</h1>
-                <button>
-                    <Link className="linkButton" to={"/"}>
-                        CLICK ON ME TO GO HOME
-                    </Link>
-                </button>
-            </>
-        );
-    } else {
-        return (
-            <>
-                <h1>PAGE DOESNT EXIT 404 ERROR</h1>
-                <button>
-                    <Link className="linkButton" to={"/"}>
-                        CLICK ON ME TO GO HOME
-                    </Link>
-                </button>
-            </>
-        );
-    }
-}
-
+                );
+  }else if(post.blockedThreadStatus == true){
+    return(
+      <>
+      <h1>THREAD IS BLOCKED</h1>
+      <button>
+      <Link className="linkButton" to={"/"}>
+        CLICK ON ME TO GO HOME
+       </Link>
+      </button>
+      </>
+    )
+  }else{
+    return(
+      <>
+      {res == null ?(
+        <NotFound/>
+      ) : (
+        <></>
+      )}
+     </> )
+}}
 
 export default ViewThread;
