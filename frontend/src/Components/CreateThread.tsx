@@ -16,7 +16,6 @@ const CreateThread = (topics: any) => {
     Array<{ id: any; name: string }>
   >([]);
   const navigate = useNavigate();
-
  
   const getTopics = async () => {
     try {
