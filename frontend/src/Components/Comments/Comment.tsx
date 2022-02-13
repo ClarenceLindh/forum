@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import "../../Styles/Comment.scss";
 import { format, compareAsc } from 'date-fns'
+import { Context } from '../../Context/ContextProvider';
 
 export default function Comment({ comment }: { comment: any }) {
+
+  const { loggedInUser, whoAmI } = useContext(Context);
 
   const [commenterName, setCommenterName] = useState<any>({});
   comment.creationDate = format(new Date(), 'yyyy/MM/dd')
@@ -20,6 +23,8 @@ export default function Comment({ comment }: { comment: any }) {
     console.log('COMMENT Object: ', comment);
     console.log('this is commenter: ', commenter);
     console.log('this is commenterName: ', commenterName)
+    console.log('this is threadUsername: ', comment.thread.creator.username)
+    console.log('this is ehoamin: ', loggedInUser)
   }
 
   useEffect(() => {
@@ -36,6 +41,18 @@ export default function Comment({ comment }: { comment: any }) {
       {commenterName.username}
     </div>
     <br />
+    <div>
+      {/*threadcreator=använder / comment=användare/  Admin/ threadmoderator.name== loggedinuser&& threadmoderator id == threadid */}
+    {  comment.thread.creator.username===loggedInUser.username || loggedInUser.username===commenterName.username || loggedInUser.role==="USER_ADMIN" ? (
+        <h2>
+         ❌
+        </h2>
+    ):(
+      <h1>dont work</h1>
+    )
+      }
+      
+    </div>
     {comment.creationDate}
   </div>
 
