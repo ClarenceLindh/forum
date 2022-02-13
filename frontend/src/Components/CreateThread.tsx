@@ -66,6 +66,7 @@ const CreateThread = (topics: any) => {
       <div className="createThread">
         <form onSubmit={handleSubmit}>
           <input
+          required
             className="headlineThread"
             type="text"
             value={headL}
@@ -74,6 +75,7 @@ const CreateThread = (topics: any) => {
           />
 
           <textarea
+          required
             className="contentThread"
             value={content}
             onChange={(e) => setContent(e.target.value)}
