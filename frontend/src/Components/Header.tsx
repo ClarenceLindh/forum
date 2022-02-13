@@ -59,7 +59,7 @@ function Header() {
           <div className="loginLogoutContainer">
             <h3>Welcome back {loggedInUser.username}!</h3>
             <button className="logoutButton noButtonCss" onClick={logout}>logout</button>
-            <button onClick={deleteAccountByClick}> Delete account </button>
+            <button className="logoutButton noButtonCss" onClick={deleteAccountByClick}> Delete account </button>
           </div>
         )}
       </div>
