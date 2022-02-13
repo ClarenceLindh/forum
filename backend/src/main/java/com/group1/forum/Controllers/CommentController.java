@@ -27,4 +27,11 @@ public class CommentController {
     public List<CommentEntity> getCommentsOnThreadId(@PathVariable long threadId) {
         return commentService.getCommentsOnThreadId(threadId);
     }
+
+
+    @DeleteMapping("rest/comment/{commentId}")
+    public void deleteCommentById(@PathVariable long commentId) {
+        commentService.deleteCommentById(commentId);
+    }
+
 }

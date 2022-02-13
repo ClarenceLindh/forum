@@ -526,11 +526,18 @@ function ViewThread() {
                     <div>
                         <div>
                             {loggedInUser.role === "ROLE_ADMIN" ? (
+                                <div>
                                 <div className="dropdown">
                                     <span>Settings</span>
                                     <div className="dropdown-content">
                                         <button onClick={deleteAccountByClick}>Delete Account</button>
                                         <button onClick={banAccountByClick}>Ban Account</button>
+                                      
+                                    </div>
+                                   
+                                </div>
+                                   <div className="comments">
+                                        <CommentList comments={comments} />
                                     </div>
                                 </div>) : (
                                 <div>
