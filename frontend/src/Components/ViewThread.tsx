@@ -285,7 +285,7 @@ function ViewThread() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                role: "ROLE_DELETED",
+                deleted: true,
             }),
         };
         if (
@@ -293,7 +293,7 @@ function ViewThread() {
             true
         ) {
             try {
-                await fetch(`/rest/users/${author.id}`, accountInfo).then(
+                await fetch(`/rest/editDelete/${author.id}`, accountInfo).then(
                     async (response) => {
                         const data = await response.json();
                     }
@@ -518,7 +518,7 @@ function ViewThread() {
                     ) : (
                         <></>)}
                     <a>
-                        {author.role === "ROLE_DELETED" ? (
+                        {author.delete === true ? (
                             <div>Created by deletedUser</div>
                         ) : (
                             <div>Created by {author.username}</div>
@@ -546,7 +546,7 @@ function ViewThread() {
 
 
 
-                            <a>{author.role === "ROLE_DELETED" ? (
+                            <a>{author.deleted === true ? (
                                 <div>
                                     Started by deletedUser
                                 </div>

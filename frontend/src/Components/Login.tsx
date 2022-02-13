@@ -16,6 +16,7 @@ const Login = () => {
   const [loginUsername, setLoginUsername] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
   const [blockedAccs, setBlockedAccs] = useState<any>([]);
+  const [deletedAccs, setDeletedAccs] = useState<any>([]);
 
   const [registerUsername, setRegisterUsername] = useState<string>("");
   const [registerPassword, setRegisterPassword] = useState<string>("");
@@ -27,6 +28,13 @@ const Login = () => {
       response = await response.json();
       setBlockedAccs(response);
   };
+
+  const getDeletedAcc = async () => {
+    let response = await fetch("/auth/deletedAcc")
+
+    response = await response.json();
+    setDeletedAccs(response);
+  }
 
   const getUsers = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -40,6 +48,7 @@ const Login = () => {
   useEffect(() => {
     getUsers({ preventDefault: () => {} });
     getBlockedAcc();
+    getDeletedAcc();
   }, []);
 
   const login = async (e: any) => {
@@ -64,7 +73,10 @@ const Login = () => {
       } else if (blockedAccs.find((blockedAcc: { username: string; }) => blockedAcc.username.toLowerCase() === loginUsername.toLowerCase())) {
        alert("User is Blocked")
         logout();
-      } else {
+      } else if(deletedAccs.find((deletedAcc: {username: string; }) => deletedAcc.username.toLowerCase() === loginUsername.toLowerCase())){
+        alert("User does not exist")
+        logout();
+      }else {
         console.log("Successfully logged in");
         whoAmI();
 
@@ -94,7 +106,8 @@ const Login = () => {
       email: registerEmail,
       password: registerPassword,
       role: "ROLE_USER",
-      blocked: 0
+      blocked: 0,
+      deleted: 0
     };
 
     console.log(credentials);

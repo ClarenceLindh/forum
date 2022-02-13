@@ -45,7 +45,7 @@ public class UserService {
         return user.orElse(null);
     }
 
-
+    public List<UserEntity> deletedAcc(){return userRepo.findByDeletedTrue();}
 
     public List<UserEntity> blockedAcc(){return userRepo.findByBlockedTrue();}
 
@@ -91,6 +91,20 @@ public class UserService {
             user.setEmail(userFromDB.getEmail());
             user.setUsername(userFromDB.getUsername());
             user.setRole(userFromDB.getRole());
+            return userRepo.save(user);
+        }
+        return null;
+    }
+
+    public UserEntity updateDeleteById(long id, UserEntity user) {
+        UserEntity userFromDB = getById(id);
+        if (userFromDB != null) {
+            user.setId(id);
+            user.setPassword(userFromDB.getPassword());
+            user.setEmail(userFromDB.getEmail());
+            user.setUsername(userFromDB.getUsername());
+            user.setRole(userFromDB.getRole());
+            user.setBlocked(userFromDB.getBlocked());
             return userRepo.save(user);
         }
         return null;

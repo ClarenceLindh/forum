@@ -4,6 +4,7 @@ package com.group1.forum.Controllers;
 import com.group1.forum.Configs.MyUserDetailsService;
 import com.group1.forum.Entities.UserEntity;
 import com.group1.forum.Services.UserService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +43,12 @@ public class UserController {
         return userService.blockedAcc();
     }
 
+    @GetMapping("/auth/deletedAcc")
+    public List<UserEntity> deletedAcc(){
+        return userService.deletedAcc();
+    }
+
+
 
     @PutMapping("/rest/users/{id}")
     public UserEntity updateUser(@PathVariable long id, @RequestBody UserEntity user) {
@@ -56,6 +63,11 @@ public class UserController {
     @GetMapping("/rest/users/allBlockedUsers")
     public List<UserEntity> getAllBlockedUsers(){
         return userService.getAllBlockedUsers();
+    }
+
+    @PutMapping("/rest/editDelete/{id}")
+    public UserEntity updateDelete(@PathVariable long id, @RequestBody UserEntity user){
+        return userService.updateDeleteById(id,user);
     }
 
 
