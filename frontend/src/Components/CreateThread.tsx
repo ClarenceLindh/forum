@@ -37,7 +37,7 @@ const CreateThread = (topics: any) => {
     e.preventDefault();
     console.log("handleSubmit");
     const threadDetails = {
-      topicId: { id: 1 },
+      topicId: { id: theTopic },
       title: headL,
       text: content,
       creationDate: today,

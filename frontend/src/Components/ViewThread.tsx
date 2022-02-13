@@ -485,7 +485,7 @@ function ViewThread() {
                             {renderModerators()}
                         </div>
                     ) : (
-                        null)}
+                        <></>)}
                     <a>
                         {author.role === "ROLE_DELETED" ? (
                             <div>Created by deletedUser</div>
