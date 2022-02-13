@@ -93,7 +93,8 @@ const Login = () => {
       username: registerUsername,
       email: registerEmail,
       password: registerPassword,
-      role: "ROLE_USER"
+      role: "ROLE_USER",
+      blocked: 0
     };
 
     console.log(credentials);
@@ -105,16 +106,7 @@ const Login = () => {
           ". By clicking on OK you agree to the following user data policies: " +
           dataPolicy
       )
-    ) {
-      let response = await fetch("/auth/register", {
-        method: "post",
-        headers: { "Content-Type": "application/json" },
-        mode: "no-cors", //  <3
-        body: JSON.stringify(credentials),
-      }).then(() => {
-        whoAmI();
-      });
-
+    ) 
       try {
         const response = await fetch("/auth/register", {
           method: "POST",
@@ -132,7 +124,6 @@ const Login = () => {
       } catch (error) {
         console.log(error);
       }
-    }
   };
 
   return (
@@ -161,6 +152,7 @@ const Login = () => {
       <h1>Or Register</h1>
       <form onSubmit={register}>
         <input
+          required
           className="loginField"
           type="text"
           placeholder="Username"
@@ -168,13 +160,15 @@ const Login = () => {
           onSubmit={register}
         />
         <input
+          required
           className="loginField"  
-          type="text"
+          type="email"
           placeholder="E-mail"
           onChange={(e) => setRegisterEmail(e.target.value)}
           onSubmit={register}
         />
         <input
+          required
           className="loginField"
           type="password"
           placeholder="Password"

@@ -20,7 +20,7 @@ public class UserEntity {
     @Column(name = "username")
     private String username;
 
-    @JsonIgnore
+    //@JsonIgnore
     @Column(name = "email")
     private String email;
 
