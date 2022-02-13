@@ -33,7 +33,7 @@ public class UserEntity {
     @OneToMany(mappedBy = "creator")
     private Set<ThreadEntity> threads;
 
-    @OneToMany(mappedBy = "commenter", cascade = CascadeType.ALL) // cascade gör så att om jag tar bort en användare så försvinner också den användarens recensioner
+    @OneToMany(mappedBy = "commenter", cascade = CascadeType.ALL) // cascade gör så att om jag tar bort en användare så försvinner också den användarens kommentarer
     private Set<CommentEntity> comments;
 
     @Column(name="blocked")
