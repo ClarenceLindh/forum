@@ -22,7 +22,7 @@ function App() {
               element={<Login/>}
             />
             <Route path="/viewThread/:threadId" element={<ViewThread />} />
-            <Route path="/thread/bannedusers/:threadId" element={<BannedUsers />}></Route>
+            <Route path="/thread/bannedusers/:threadId" element={<BannedUsers />} />
             <Route path="/myThread" element={<MyThreads />} />
             <Route path="/create" element={<CreateThread />} />
           </Routes>

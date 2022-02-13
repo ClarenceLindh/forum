@@ -3,7 +3,7 @@ import { useParams } from 'react-router'
 import { Context } from '../Context/ContextProvider'
 
 function BannedUsers() {
-  const { loggedInUser } = useContext(Context)
+  const { loggedInUser, whoAmI } = useContext(Context)
   const { threadId } = useParams()
   const [thread, setThread] = useState<any>({})
   const [creator, setCreator] = useState<any>({})
@@ -15,24 +15,26 @@ function BannedUsers() {
     if (loggedInUser.username === usernameInput) {
       alert("You cannot ban yourself from a thread")
     }
-    if (threadBans.find((bannedUser: any) => bannedUser.username === usernameInput)) {
+    else if (threadBans.find((bannedUser: any) => bannedUser.username === usernameInput)) {
       alert("User " + usernameInput + " is already banned")
     }
-    else if (threadModerators.find((moderator: any) => moderator.username !== usernameInput)) {
-      fetch(`/rest/thread/${threadId}/ban/user/${usernameInput}`, {
+    else if (threadModerators.find((moderator: any) => moderator.username === usernameInput)) {
+      alert(usernameInput + " is a moderator. Remove " + usernameInput + " as moderator before banning.")
+    }
+    else {
+      await fetch(`/rest/thread/${threadId}/ban/user/${usernameInput}`, {
         method: "POST"
 
       })
-        .then(response => response.json())
+        .then(async (response) => await response.json())
         .then(data => {
           console.log(data);
         })
         .catch((error) => {
+          alert(error)
           alert("User " + usernameInput + " does not exist")
           console.error(error);
         })
-    } else {
-      alert(usernameInput + " is a moderator. Remove " + usernameInput + " as moderator before banning.")
     }
   }
 
@@ -58,9 +60,7 @@ function BannedUsers() {
       setCreator(res.creator)
       setThreadBans(res.threadBans)
       setThreadModerators(res.threadModerators)
-      console.log(res)
     }
-
     getThreadById()
   }, [threadId])
 
@@ -83,13 +83,18 @@ function BannedUsers() {
             )}
           </ul>
           <h1>Ban user</h1>
-          <form onSubmit={banUser}>
+          <form>
             <input
               type="text"
               placeholder="Username"
               onChange={(e) => setUsernameInput(e.target.value)}
             />
-            <button type='button' onClick={banUser}>Ban user</button>
+            <button type='submit' onClick={
+              
+                banUser
+              
+              }>
+                Ban user</button>
           </form>
         </div>
       </div>
