@@ -27,6 +27,9 @@ public class ThreadEntity {
     private Date lastEdited;
     private boolean blockedThreadStatus;
 
+    @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL) // cascade gör så att om jag tar bort en tråd så försvinner också den trådens kommentarer
+    private Set<CommentEntity> comments;
+
     @ManyToMany
     @JoinTable(
             name = "thread_bans",
@@ -46,7 +49,7 @@ public class ThreadEntity {
     public ThreadEntity() {
     }
 
-    public ThreadEntity(long id, UserEntity creator, TopicEntity topicId, String title, String text, Date creationDate, Date lastEdited, boolean blockedThreadStatus, Set<UserEntity> threadBans, Set<UserEntity> threadModerators) {
+    public ThreadEntity(long id, UserEntity creator, TopicEntity topicId, String title, String text, Date creationDate, Date lastEdited, boolean blockedThreadStatus, Set<CommentEntity> comments, Set<UserEntity> threadBans, Set<UserEntity> threadModerators) {
         this.id = id;
         this.creator = creator;
         this.topicId = topicId;
@@ -55,6 +58,7 @@ public class ThreadEntity {
         this.creationDate = creationDate;
         this.lastEdited = lastEdited;
         this.blockedThreadStatus = blockedThreadStatus;
+        this.comments = comments;
         this.threadBans = threadBans;
         this.threadModerators = threadModerators;
     }
@@ -114,6 +118,15 @@ public class ThreadEntity {
         this.lastEdited = lastEdited;
     }
 
+    @JsonIgnore
+    public Set<CommentEntity> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<CommentEntity> comments) {
+        this.comments = comments;
+    }
+
     public Set<UserEntity> getThreadBans() {
         return threadBans;
     }
@@ -139,7 +152,7 @@ public class ThreadEntity {
     }
 
     @Override
-    public String   toString() {
+    public String toString() {
         return "ThreadEntity{" +
                 "id=" + id +
                 ", creator=" + creator +
@@ -149,6 +162,7 @@ public class ThreadEntity {
                 ", creationDate=" + creationDate +
                 ", lastEdited=" + lastEdited +
                 ", blockedThreadStatus=" + blockedThreadStatus +
+                ", comments=" + comments +
                 ", threadBans=" + threadBans +
                 ", threadModerators=" + threadModerators +
                 '}';
