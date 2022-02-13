@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import CreateThread from "./Components/CreateThread";
 import ContextProvider, { Context } from "./Context/ContextProvider";
 import Footer from "./Components/Footer";
+import BannedUser from "./Components/BannedUser";
 
 function App() {
   const { loggedInUser, setLoggedInUser } = useContext(Context);
@@ -24,6 +25,7 @@ function App() {
             />
             <Route path="/viewThread/:threadId" element={<ViewThread />} />
             <Route path="/create" element={<CreateThread />} />
+            <Route path="/admin/banned" element={<BannedUser />} />
           </Routes>
         </Router>
       </ContextProvider>

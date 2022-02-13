@@ -190,7 +190,7 @@ function ViewThread() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        banned_user: true,
+        bannedUser: 1,
       }),
     }
     if (
@@ -198,7 +198,7 @@ function ViewThread() {
       true
     ) {
       try {
-        await fetch(`/rest/users/${author.id}`, accountInfo).then(
+        await fetch(`/rest/unban/${author.id}`, accountInfo).then(
           async (response) => {
             const data = await response.json();
           }
@@ -208,7 +208,7 @@ function ViewThread() {
         alert("error, try later");
       }
     } else {
-      alert("you canceled the delete");
+      alert("you canceled the ban");
     }
   };
 
