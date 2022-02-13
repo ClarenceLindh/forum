@@ -38,6 +38,10 @@ public class CommentService {
         return comments;
     } */
 
+    public void deleteCommentById(long threadId) {
+        commentRepo.deleteById(threadId);
+    }
+
     public List<CommentEntity> getAllComments() {
         return commentRepo.findAll();
     }

@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import "../../Styles/Comment.scss";
 import { format, compareAsc } from 'date-fns'
+import { Context } from '../../Context/ContextProvider';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 export default function Comment({ comment }: { comment: any }) {
+
+  const { loggedInUser, whoAmI } = useContext(Context);
 
   const [commenterName, setCommenterName] = useState<any>({});
   comment.creationDate = format(new Date(), 'yyyy/MM/dd')
@@ -18,9 +23,29 @@ export default function Comment({ comment }: { comment: any }) {
     let commenter = comment.commenter;
     setCommenterName(commenter);
     console.log('COMMENT Object: ', comment);
-    console.log('this is commenter: ', commenter);
-    console.log('this is commenterName: ', commenterName)
+    console.log("this should be mods", comment.thread.threadModerators)
   }
+
+  let deleteCommentById = async () => {
+    
+        if (
+            window.confirm("are you sure you want to delete the comment?") == true
+        ) {
+            try {
+                let response = await fetch(`/rest/comment/${comment.id}`, {
+                    method: "DELETE",
+                });
+                console.log(response.status);
+                window.location.reload();
+                
+            } catch (error) {
+                alert("Something went wrong try again");
+            }
+        } else {
+            alert("Comment was not deleted");
+        }
+    
+};
 
   useEffect(() => {
     getCommenterName();
@@ -36,6 +61,21 @@ export default function Comment({ comment }: { comment: any }) {
       {commenterName.username}
     </div>
     <br />
+    <div>
+      {/*threadcreator=använder / comment=användare/  Admin/ threadmoderator.name== loggedinuser&& threadmoderator id == threadid */}
+    {  comment.thread.creator.username===loggedInUser.username || loggedInUser.username===commenterName.username || loggedInUser.role==="ROLE_ADMIN" || (comment.thread.threadModerators.find((mod:any)=>mod.id===loggedInUser.id)) ? (
+          <button
+          className="noButtonCss bigButton"
+          onClick={deleteCommentById}
+      >
+          <FontAwesomeIcon icon={faTrashCan} />
+      </button>
+    ):(
+      <h1>dont work</h1>
+    )
+      }
+      
+    </div>
     {comment.creationDate}
   </div>
 
