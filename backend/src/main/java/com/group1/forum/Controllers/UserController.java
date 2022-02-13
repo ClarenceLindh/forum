@@ -48,8 +48,19 @@ public class UserController {
         return userService.updateById(id, user);
     }
 
+    @PutMapping("/rest/unban/{id}")
+    public UserEntity updateBan(@PathVariable long id, @RequestBody UserEntity user) {
+        return userService.updateBanById(id,user);
+    }
 
-  }
+    @GetMapping("/rest/users/allBlockedUsers")
+    public List<UserEntity> getAllBlockedUsers(){
+        return userService.getAllBlockedUsers();
+    }
+
+
+
+}
 
 
 

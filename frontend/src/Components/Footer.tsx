@@ -15,10 +15,18 @@ const Footer = () => {
     <Link to={{pathname:'/'}}><FontAwesomeIcon icon={faHouse} /></Link>
     {loggedInUser.role == "ROLE_ADMIN" ? (
              <Link to={{pathname:'/admin/blockedThreads'}}>Blocked Threads</Link>
+             
           ) : (
             <></>
           )}
-   
+
+  {loggedInUser.role === "ROLE_ADMIN" ? (
+                    <div>
+                      <Link to={{pathname:"/admin/banned"}}>Banned users</Link>
+                  </div>
+  ):(
+    <></>
+  )}
     <Link to={{pathname:'/create'}}><FontAwesomeIcon icon={faPlus} /></Link>
     <Link to={{pathname:'/myThread'}}><FontAwesomeIcon icon={faUser} /></Link> 
     

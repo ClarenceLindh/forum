@@ -30,6 +30,7 @@ public class UserEntity {
     @Column(name = "role")
     private String role;
 
+
     @OneToMany(mappedBy = "creator")
     private Set<ThreadEntity> threads;
 
@@ -131,6 +132,15 @@ public class UserEntity {
         this.role = role;
     }
 
+    public UserEntity(long id, String username, String email, String password, String role, Boolean bannedUser) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
+
     public String getEmail() { return email;}
 
     @JsonIgnore
@@ -206,6 +216,8 @@ public class UserEntity {
     public void setBlocked(Boolean blocked) {
         this.blocked = blocked;
     }
+
+
 
     @Override
     public String toString() {

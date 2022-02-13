@@ -79,5 +79,22 @@ public class UserService {
         return userRepo.findIdByUsername(username);
     }
 
+    public List<UserEntity> getAllBlockedUsers() {
+        return userRepo.findByBlockedTrue();
+    }
+
+    public UserEntity updateBanById(long id, UserEntity user) {
+        UserEntity userFromDB = getById(id);
+        if (userFromDB != null) {
+            user.setId(id);
+            user.setPassword(userFromDB.getPassword());
+            user.setEmail(userFromDB.getEmail());
+            user.setUsername(userFromDB.getUsername());
+            user.setRole(userFromDB.getRole());
+            return userRepo.save(user);
+        }
+        return null;
+    }
+
 
 }

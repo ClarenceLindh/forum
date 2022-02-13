@@ -9,6 +9,7 @@ import MyThreads from "./Components/MyThreads";
 import CreateThread from "./Components/CreateThread";
 import ContextProvider from "./Context/ContextProvider";
 import BannedUsers from "./Components/BannedUsers";
+import BannedFromWeb from "./Components/BannedFromWeb"
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
             />
             <Route path="/viewThread/:threadId" element={<ViewThread />} />
             <Route path="/thread/bannedusers/:threadId" element={<BannedUsers />} />
+            <Route path="/admin/banned" element={<BannedFromWeb />} />
             <Route path="/admin/blockedThreads" element={<ViewBlockedThreads/>} />
             <Route path="/myThread" element={<MyThreads />} />
             <Route path="/create" element={<CreateThread />} />

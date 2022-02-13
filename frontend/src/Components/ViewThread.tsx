@@ -248,6 +248,36 @@ function ViewThread() {
         }
     };
 
+
+    let banAccountByClick = async () => {
+      const accountInfo = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          blocked: true,
+        }),
+      }
+      if (
+        window.confirm("are you sure you want to ban " + author.username) ==
+        true
+      ) {
+        try {
+          await fetch(`/rest/unban/${author.id}`, accountInfo).then(
+            async (response) => {
+              const data = await response.json();
+            }
+          );
+          if (response.status == 200) navigate("/");
+        } catch (error) {
+          alert("error, try later");
+        }
+      } else {
+        alert("you canceled the ban");
+      }
+    };
+
     let deleteAccountByClick = async () => {
         const accountInfo = {
             method: "PUT",
@@ -500,6 +530,7 @@ function ViewThread() {
                                     <span>Settings</span>
                                     <div className="dropdown-content">
                                         <button onClick={deleteAccountByClick}>Delete Account</button>
+                                        <button onClick={banAccountByClick}>Ban Account</button>
                                     </div>
                                 </div>) : (
                                 <div>
@@ -529,17 +560,7 @@ function ViewThread() {
                                     className="comment" onChange={(submit) => setComment(submit.target.value)} placeholder="Comment..." disabled={threadBans.find((bannedUser: any) => bannedUser.id === loggedInUser.id)}
                                 />
                                 <div>
-                                    {loggedInUser.role === "ROLE_ADMIN" ? (
-                                        <div className="dropdown">
-                                            <span>Settings</span>
-                                            <div className="dropdown-content">
-                                                <button onClick={deleteAccountByClick}>Delete Account</button>
-                                            </div>
-                                        </div>) : (
-                                        <div>
-
-                                        </div>
-                                    )}
+                                    
                                 </div>
                             </div>
 
@@ -563,18 +584,7 @@ function ViewThread() {
                                     />{" "}
                                 </button>
                             </a>
-                            {loggedInUser.role === "ROLE_ADMIN" ? (
-                                <div className="dropdown">
-                                    <span>Settings</span>
-                                    <div className="dropdown-content">
-                                        <button onClick={deleteAccountByClick}>
-                                            Delete Account
-                                        </button>
-                                    </div>
-                                </div>
-                            ) : (
-                                <div></div>
-                            )}
+                          
                         </div>
                     </div>
                 </div>
@@ -627,18 +637,7 @@ function ViewThread() {
                             >
                                 <FontAwesomeIcon icon={faTrashCan} />
                             </button>
-                            {loggedInUser.role === "ROLE_ADMIN" ? (
-                                <div className="dropdown">
-                                    <span>Settings</span>
-                                    <div className="dropdown-content">
-                                        <button onClick={deleteAccountByClick}>
-                                            Delete Account
-                                        </button>
-                                    </div>
-                                </div>
-                            ) : (
-                                <div></div>
-                            )}
+                            
                         </div>
                     </div>
                 </div>
