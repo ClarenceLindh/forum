@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React, { useContext } from "react";
 import Login from "./Components/Login";
 import Home from "./Components/Home";
+import ViewBlockedThreads from "./Components/ViewBlockedThreads"
 import ViewThread from "./Components/ViewThread";
 import MyThreads from "./Components/MyThreads";
 import CreateThread from "./Components/CreateThread";
@@ -23,6 +24,7 @@ function App() {
             />
             <Route path="/viewThread/:threadId" element={<ViewThread />} />
             <Route path="/thread/bannedusers/:threadId" element={<BannedUsers />} />
+            <Route path="/admin/blockedThreads" element={<ViewBlockedThreads/>} />
             <Route path="/myThread" element={<MyThreads />} />
             <Route path="/create" element={<CreateThread />} />
           </Routes>

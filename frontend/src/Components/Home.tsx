@@ -6,29 +6,22 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "../Context/ContextProvider";
 import { Link } from "react-router-dom";
 import Footer from "./Footer";
+import Header from "./Header";
 
 const Home = () => {
   const navigate = useNavigate();
 
-  const { loggedInUser, whoAmI } = useContext(Context);
-  const [showCT, setShowCT] = useState(false);
+  const { loggedInUser, whoAmI,logout } = useContext(Context);
+  //const [showCT, setShowCT] = useState(false);
   const [threads, setThreads] = useState([{}]);
+  const [activeTopic, setActiveTopic] = useState("")
+  const [ filteredThreads, setFilteredThreads ] = useState([]);
+
+
 
   ////////////////////////////////////////
-  const logout = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    // tell backend to forget us
-    console.log("logout work");
-    let response = await fetch("/logout", {
-      method: "post",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      mode: "no-cors", //  <3
-    }).then(() => {
-      whoAmI();
-    });
+ 
 
-    window.location.reload();
-  };
 
   /////////////////////////////////////////////////////
   ////////////////////////////////////////////////////
@@ -56,11 +49,15 @@ const Home = () => {
     // controller url: "/rest/thread/{threadId}"
     const raw = await fetch(`/rest/threads/all-unblocked-threads`);
     const res = await raw.json();
-    console.log(res);
+    console.log("res", res);
+    
+    console.log("setFilteredThreads", filteredThreads);
 
     res.forEach((element: { id: any; name: string; complete: boolean }) => {
       setThreads((threads) => [...threads, element]);
     });
+
+  
   }
 
   useEffect(() => {
@@ -73,46 +70,30 @@ const Home = () => {
     }
   }, [allTopics]);
 
+  const handleClick = (e:any) => {
+    setActiveTopic(e);
+  }
+
   return (
     <div>
       <div className="main">
-        <div className="header">
-          <div></div>
-          <h1>Forum</h1>
-          <div>
-            {Object.keys(loggedInUser).length === 0 &&
-            loggedInUser.constructor === Object ? (
-              <h2
-                onClick={() => {
-                  navigate("/login");
-                }}
-              >
-                Sign in
-              </h2>
-            ) : (
-              <div className="loginLogoutContainer">
-                <h3>Welcome back {loggedInUser.username}!</h3>
-                <button onClick={logout}>logout</button>
-              </div>
-            )}
-          </div>
-        </div>
+        <Header />
 
         <div className="body">
           <div className="categories">
             {allTopics.map(function (e, index) {
               return (
-                <div id="topic" key={index}>
+                <button id="topic" key={index} value="sport" onClick={() => handleClick(e.name)} >
                   {e.name}
-                </div>
+                </button>
+
               );
             })}
           </div>
 
-          {showCT ? <CreateThread topics={allTopics} thread={threads} /> : null}
 
           <div className="items">
-            <ThreadList threads={threads} />
+            <ThreadList threads={threads} activeTopic={activeTopic} />
           </div>
         </div>
 

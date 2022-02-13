@@ -7,7 +7,7 @@ export default function Thread({ thread }: { thread: any }) {
   const threadId = thread.id;
 
   return (
-    <div className="box">
+    <div className="box cardWrapper">
       <Link className="linkButton" to={`/viewThread/${threadId}`}>
         <div>
           <h2>{thread.title}</h2>
@@ -15,6 +15,7 @@ export default function Thread({ thread }: { thread: any }) {
         <div>{thread.text}</div>
         <div></div>
       {thread.creationDate}
+      
       </Link>
     </div>
   );
