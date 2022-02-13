@@ -37,6 +37,7 @@ function ViewThread() {
     const [editedTitle, setEditedTitle] = useState<string>();
     const [editedText, setEditedText] = useState<string>();
     const [threadModerators, setThreadModerators] = useState<any>([]);
+    const [threadBans, setThreadBans] = useState<any>([]);
     const [commentUser, setCommentUser] = useState<any>({});
     const [comments, setComments] = useState([{}])
     const [filteredComments, setFilteredComments] = useState<any>([]);
@@ -58,6 +59,7 @@ function ViewThread() {
         setEditedTitle(res.title);
         setEditedText(res.text);
         setThreadModerators(res.threadModerators);
+        setThreadBans(res.threadBans)
         console.log("this is response: ", response);
         console.log(res);
     };
@@ -524,7 +526,7 @@ function ViewThread() {
                             <div className="threadComment">
                                 <h3 className="commentTitle">Comment here</h3>
                                 <textarea
-                                    className="comment" onChange={(submit) => setComment(submit.target.value)} placeholder="Comment..."
+                                    className="comment" onChange={(submit) => setComment(submit.target.value)} placeholder="Comment..." disabled={threadBans.find((bannedUser: any) => bannedUser.id === loggedInUser.id)}
                                 />
                                 <div>
                                     {loggedInUser.role === "ROLE_ADMIN" ? (
