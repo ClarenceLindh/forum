@@ -44,13 +44,13 @@ function ViewThread() {
     var [response] = useState<any>({});
     let tuggle = false;
 
-
     const getThreadById = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
         // controller url: "/rest/thread/{threadId}"
         const raw = await fetch(`/rest/thread/${threadId}`);
         const res = await raw.json();
         response = res;
+
 
         setTopic(res.topicId);
         setPost(res);
@@ -61,6 +61,7 @@ function ViewThread() {
         console.log("this is response: ", response);
         console.log(res);
     };
+
 
     useEffect(() => {
         getThreadById({ preventDefault: () => { } });
@@ -421,7 +422,14 @@ function ViewThread() {
                             <>{post.title}</>
                         )}
                         <br />
-
+                        {author.id === loggedInUser.id ||
+                        loggedInUser.role === "ROLE_ADMIN" ||
+                        threadModerators.find((moderator: any) => moderator.id === loggedInUser.id) ? (
+                            <Link to={`/thread/bannedusers/${threadId}`}><button>See banned users</button></Link>
+                        ) : (
+                            <></>
+                        )
+                        }
                         {author.id == loggedInUser.id ||
                             loggedInUser.role == "ROLE_ADMIN" ? (
                             <>
@@ -474,8 +482,8 @@ function ViewThread() {
                             </form>
                             {renderModerators()}
                         </div>
-                    ) : ( 
-                        null )}
+                    ) : (
+                        null)}
                     <a>
                         {author.role === "ROLE_DELETED" ? (
                             <div>Created by deletedUser</div>
@@ -484,40 +492,6 @@ function ViewThread() {
                         )}
                     </a>
                     <div>
-                    <div>
-                                {loggedInUser.role === "ROLE_ADMIN" ? (
-                                    <div className="dropdown">
-                                        <span>Settings</span>
-                                        <div className="dropdown-content">
-                                            <button onClick={deleteAccountByClick}>Delete Account</button>
-                                        </div>
-                                    </div>) : (
-                                    <div>
-                                        <div className="comments">
-                                            <CommentList comments={comments} />
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        <div>
-
-
-
-
-                            <a>{author.role === "ROLE_DELETED" ? (
-                        <div>
-                            Started by deletedUser
-                        </div>
-                    ) : (
-                        <div className="commentAuth">
-                            Started by {author.username}
-                        </div>
-                    )}</a>
-                    <div className="threadComment">
-                        <h3 className="commentTitle">Comment here</h3>
-                        <textarea
-                            className="comment" onChange={(submit) => setComment(submit.target.value)} placeholder="Comment..."
-                        />
                         <div>
                             {loggedInUser.role === "ROLE_ADMIN" ? (
                                 <div className="dropdown">
@@ -527,11 +501,45 @@ function ViewThread() {
                                     </div>
                                 </div>) : (
                                 <div>
-                                    
+                                    <div className="comments">
+                                        <CommentList comments={comments} />
+                                    </div>
                                 </div>
                             )}
                         </div>
-                    </div>
+                        <div>
+
+
+
+
+                            <a>{author.role === "ROLE_DELETED" ? (
+                                <div>
+                                    Started by deletedUser
+                                </div>
+                            ) : (
+                                <div className="commentAuth">
+                                    Started by {author.username}
+                                </div>
+                            )}</a>
+                            <div className="threadComment">
+                                <h3 className="commentTitle">Comment here</h3>
+                                <textarea
+                                    className="comment" onChange={(submit) => setComment(submit.target.value)} placeholder="Comment..."
+                                />
+                                <div>
+                                    {loggedInUser.role === "ROLE_ADMIN" ? (
+                                        <div className="dropdown">
+                                            <span>Settings</span>
+                                            <div className="dropdown-content">
+                                                <button onClick={deleteAccountByClick}>Delete Account</button>
+                                            </div>
+                                        </div>) : (
+                                        <div>
+
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
 
 
 
@@ -567,97 +575,98 @@ function ViewThread() {
                             )}
                         </div>
                     </div>
-        </div>
-                
-                    <Footer />
                 </div>
-                );
-  } else if (
-                loggedInUser.role == "ROLE_ADMIN" &&
-                post.blockedThreadStatus === true
-                ) {
-    return (
-                <div>
-                    <Header />
 
-                    <div className="threadContainer">
-                        <div className="threadTitle">
-                            {post.title}
-                            {loggedInUser.role == "ROLE_ADMIN" ? (
-                                <>
-                                    <button
-                                        className="noButtonCss bigButton"
-                                        onClick={deleteThreadById}
-                                    >
-                                        <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                </>
-                            ) : (
-                                <></>
-                            )}
-                            {loggedInUser.role == "ROLE_ADMIN" &&
-                                post.blockedThreadStatus === true ? (
-                                <button onClick={unblockThread}>unblock</button>
-                            ) : (
-                                <></>
-                            )}
-                        </div>
-                        <div className="threadContent">
-                            {post.text} test
-                            <a>Creator: {author.username}</a>
-                        </div>
-                        <div>
-                            <div>
-                                <button>
-                                    <FontAwesomeIcon icon={faShare} />
-                                </button>
+                <Footer />
+            </div>
+        );
+    } else if (
+        loggedInUser.role == "ROLE_ADMIN" &&
+        post.blockedThreadStatus === true
+    ) {
+        return (
+            <div>
+                <Header />
+
+                <div className="threadContainer">
+                    <div className="threadTitle">
+                        {post.title}
+                        {loggedInUser.role == "ROLE_ADMIN" ? (
+                            <>
                                 <button
                                     className="noButtonCss bigButton"
                                     onClick={deleteThreadById}
                                 >
                                     <FontAwesomeIcon icon={faTrashCan} />
                                 </button>
-                                {loggedInUser.role === "ROLE_ADMIN" ? (
-                                    <div className="dropdown">
-                                        <span>Settings</span>
-                                        <div className="dropdown-content">
-                                            <button onClick={deleteAccountByClick}>
-                                                Delete Account
-                                            </button>
-                                        </div>
+                            </>
+                        ) : (
+                            <></>
+                        )}
+                        {loggedInUser.role == "ROLE_ADMIN" &&
+                            post.blockedThreadStatus === true ? (
+                            <button onClick={unblockThread}>unblock</button>
+                        ) : (
+                            <></>
+                        )}
+                    </div>
+                    <div className="threadContent">
+                        {post.text} test
+                        <a>Creator: {author.username}</a>
+                    </div>
+                    <div>
+                        <div>
+                            <button>
+                                <FontAwesomeIcon icon={faShare} />
+                            </button>
+                            <button
+                                className="noButtonCss bigButton"
+                                onClick={deleteThreadById}
+                            >
+                                <FontAwesomeIcon icon={faTrashCan} />
+                            </button>
+                            {loggedInUser.role === "ROLE_ADMIN" ? (
+                                <div className="dropdown">
+                                    <span>Settings</span>
+                                    <div className="dropdown-content">
+                                        <button onClick={deleteAccountByClick}>
+                                            Delete Account
+                                        </button>
                                     </div>
-                                ) : (
-                                    <div></div>
-                                )}
-                            </div>
+                                </div>
+                            ) : (
+                                <div></div>
+                            )}
                         </div>
                     </div>
-
                 </div>
-                );
-  } else if (post.blockedThreadStatus === true) {
-    return (
-                <>
-                    <h1>THREAD IS BLOCKED</h1>
-                    <button>
-                        <Link className="linkButton" to={"/"}>
-                            CLICK ON ME TO GO HOME
-                        </Link>
-                    </button>
-                </>
-                );
-  } else {
-    return (
-                <>
-                    <h1>PAGE DOESNT EXIT 404 ERROR</h1>
-                    <button>
-                        <Link className="linkButton" to={"/"}>
-                            CLICK ON ME TO GO HOME
-                        </Link>
-                    </button>
-                </>
-                );
-  }
+
+            </div>
+        );
+    } else if (post.blockedThreadStatus === true) {
+        return (
+            <>
+                <h1>THREAD IS BLOCKED</h1>
+                <button>
+                    <Link className="linkButton" to={"/"}>
+                        CLICK ON ME TO GO HOME
+                    </Link>
+                </button>
+            </>
+        );
+    } else {
+        return (
+            <>
+                <h1>PAGE DOESNT EXIT 404 ERROR</h1>
+                <button>
+                    <Link className="linkButton" to={"/"}>
+                        CLICK ON ME TO GO HOME
+                    </Link>
+                </button>
+            </>
+        );
+    }
 }
 
-                export default ViewThread;
+
+export default ViewThread;

@@ -6,13 +6,11 @@ import Home from "./Components/Home";
 import ViewBlockedThreads from "./Components/ViewBlockedThreads"
 import ViewThread from "./Components/ViewThread";
 import MyThreads from "./Components/MyThreads";
-import { useEffect, useState } from "react";
 import CreateThread from "./Components/CreateThread";
-import ContextProvider, { Context } from "./Context/ContextProvider";
-import Footer from "./Components/Footer";
+import ContextProvider from "./Context/ContextProvider";
+import BannedUsers from "./Components/BannedUsers";
 
 function App() {
-  const { loggedInUser, setLoggedInUser } = useContext(Context);
 
   return (
     <div className="App">
@@ -25,6 +23,7 @@ function App() {
               element={<Login/>}
             />
             <Route path="/viewThread/:threadId" element={<ViewThread />} />
+            <Route path="/thread/bannedusers/:threadId" element={<BannedUsers />} />
             <Route path="/admin/blockedThreads" element={<ViewBlockedThreads/>} />
             <Route path="/myThread" element={<MyThreads />} />
             <Route path="/create" element={<CreateThread />} />
