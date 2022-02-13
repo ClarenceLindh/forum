@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faArrowUpFromBracket,
     faCircleMinus,
+    faCirclePlus,
     faEnvelope,
     faFloppyDisk,
     faPenToSquare,
@@ -127,13 +128,8 @@ function ViewThread() {
 
     useEffect(() => {
         getAllComments();
-    }, [threadId]);
-
-    useEffect(() => {
         toggleComments()
-    }, [threadId])
-
-
+    }, [threadId]);
 
     const checkIfCreator = async () => {
         try {
@@ -151,7 +147,7 @@ function ViewThread() {
 
     useEffect(() => {
         checkIfCreator();
-    }, [post]);
+    }, [post, loggedInUser, comment, threadBans, threadModerators]);
 
     const saveEdit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
@@ -481,11 +477,12 @@ function ViewThread() {
                                     placeholder="User ID"
                                     onChange={(e) => setModId(e.target.value)}
                                 />
+                                <button className="noButtonCss"><FontAwesomeIcon icon={faCirclePlus} /></button>
                             </form>
                             {renderModerators()}
                         </div>
                     ) : (
-                        <></>)}
+                        <>not mod</>)}
                     <a>
                         {author.role === "ROLE_DELETED" ? (
                             <div>Created by deletedUser</div>
