@@ -32,6 +32,7 @@ const MyThreads = () => {
     loggedInUser.constructor === Object
   ) {
     return (
+      <div>
       <div className="main">
         <div className="header">
           <div></div>
@@ -42,8 +43,8 @@ const MyThreads = () => {
         <div className="loginMessage">
           <h2>You need to <Link to={{pathname:'/login'}}>Log in</Link></h2>
         </div>
-
-        <div id="footer">
+      </div>
+      <div id="footer">
           <Footer />
         </div>
       </div>

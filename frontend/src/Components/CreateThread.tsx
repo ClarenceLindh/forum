@@ -17,6 +17,7 @@ const CreateThread = (topics: any) => {
   >([]);
   const navigate = useNavigate();
 
+ 
   const getTopics = async () => {
     try {
       const response = await fetch("/rest/topics/all-topics", {});
@@ -36,8 +37,11 @@ const CreateThread = (topics: any) => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log("handleSubmit");
+if(theTopic)
+ 
+{
     const threadDetails = {
-      topicId: { id: 1 },
+      topicId: { id: theTopic },
       title: headL,
       text: content,
       creationDate: today,
@@ -57,7 +61,14 @@ const CreateThread = (topics: any) => {
     // reload the homepage after submit
     // eslint-disable-next-line no-lone-blocks
     window.location.reload();
+  }
+  else
+  {
+alert("you need to pick a topic")
+  }  
+  
   };
+
 
   return (
     <div className="main">
@@ -89,6 +100,7 @@ const CreateThread = (topics: any) => {
               name=""
               id=""
             >
+              <option value="0">pick a topic</option>
               {allTopics.map((index: any) => (
                 <option value={index.id}>{index.name}</option>
               ))}
