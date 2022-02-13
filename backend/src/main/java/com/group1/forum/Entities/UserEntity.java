@@ -167,7 +167,8 @@ public class UserEntity {
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
     }
-
+    
+    @JsonIgnore
     public String getEmail() { return email;}
 
     @JsonIgnore
