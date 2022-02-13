@@ -91,6 +91,7 @@ public class UserService {
             user.setEmail(userFromDB.getEmail());
             user.setUsername(userFromDB.getUsername());
             user.setRole(userFromDB.getRole());
+            user.setDeleted(userFromDB.getDeleted());
             return userRepo.save(user);
         }
         return null;

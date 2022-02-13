@@ -264,7 +264,7 @@ function ViewThread() {
         true
       ) {
         try {
-          await fetch(`/rest/unban/${author.id}`, accountInfo).then(
+          await fetch(`/rest/editBan/${author.id}`, accountInfo).then(
             async (response) => {
               const data = await response.json();
             }

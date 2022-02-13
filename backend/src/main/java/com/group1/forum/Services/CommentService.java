@@ -38,8 +38,8 @@ public class CommentService {
         return comments;
     } */
 
-    public void deleteCommentById(long threadId) {
-        commentRepo.deleteById(threadId);
+    public void deleteCommentById(long commentId) {
+        commentRepo.deleteById(commentId);
     }
 
     public List<CommentEntity> getAllComments() {

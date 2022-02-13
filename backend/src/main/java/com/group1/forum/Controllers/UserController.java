@@ -55,7 +55,7 @@ public class UserController {
         return userService.updateById(id, user);
     }
 
-    @PutMapping("/rest/unban/{id}")
+    @PutMapping("/rest/editBan/{id}")
     public UserEntity updateBan(@PathVariable long id, @RequestBody UserEntity user) {
         return userService.updateBanById(id,user);
     }

@@ -19,11 +19,13 @@ function BannedUser() {
           },
           body: JSON.stringify({
             blocked: false,
+
           })
         };
-        await fetch(`/rest/unban/${banUserId}`, accountInfo).then(
+        await fetch(`/rest/editBan/${banUserId}`, accountInfo).then(
             async (response) => {
               const data = await response.json();
+              window.location.reload()
             }
           )
         }
