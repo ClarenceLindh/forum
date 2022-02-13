@@ -30,12 +30,15 @@ public class UserEntity {
     @Column(name = "role")
     private String role;
 
-
     @OneToMany(mappedBy = "creator")
     private Set<ThreadEntity> threads;
 
+    @OneToMany(mappedBy = "commenter", cascade = CascadeType.ALL) // cascade gör så att om jag tar bort en användare så försvinner också den användarens recensioner
+    private Set<CommentEntity> comments;
+
     @Column(name="blocked")
     private Boolean blocked;
+
     @JsonIgnore
     @ManyToMany(mappedBy = "threadBans")
     public Set<ThreadEntity> threadBans;
@@ -140,7 +143,6 @@ public class UserEntity {
         this.role = role;
     }
 
-
     public String getEmail() { return email;}
 
     @JsonIgnore
@@ -152,9 +154,6 @@ public class UserEntity {
     public void setPassword(String password) {
         this.password = password;
     }
-
-
-
 
     public String getUsername() {
         return username;
@@ -193,6 +192,15 @@ public class UserEntity {
         this.threads = threads;
     }
 
+    @JsonIgnore
+    public Set<CommentEntity> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<CommentEntity> comments) {
+        this.comments = comments;
+    }
+
     public Set<ThreadEntity> getThreadBans() {
         return threadBans;
     }
@@ -217,8 +225,6 @@ public class UserEntity {
         this.blocked = blocked;
     }
 
-
-
     @Override
     public String toString() {
         return "UserEntity{" +
@@ -228,6 +234,7 @@ public class UserEntity {
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
                 ", threads=" + threads +
+                ", comments=" + comments +
                 ", blocked=" + blocked +
                 ", threadBans=" + threadBans +
                 ", threadModerators=" + threadModerators +
