@@ -16,6 +16,7 @@ function Header() {
         },
         body: JSON.stringify({
             deleted: true,
+            date: Date.now()
         }),
     };
     if (

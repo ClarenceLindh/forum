@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -29,6 +30,8 @@ public class UserEntity {
 
     @Column(name = "role")
     private String role;
+
+    private Date date;
 
 
     public UserEntity(long id, String username, String email, String password, String role, Boolean deleted, Set<ThreadEntity> threads, Boolean blocked, Set<ThreadEntity> threadBans, Set<ThreadEntity> threadModerators) {
@@ -160,6 +163,29 @@ public class UserEntity {
         this.role = role;
     }
 
+    public UserEntity(long id, String username, String email, String password, String role, Date date, Boolean deleted, Set<ThreadEntity> threads, Set<CommentEntity> comments, Boolean blocked, Set<ThreadEntity> threadBans, Set<ThreadEntity> threadModerators) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.date = date;
+        this.deleted = deleted;
+        this.threads = threads;
+        this.comments = comments;
+        this.blocked = blocked;
+        this.threadBans = threadBans;
+        this.threadModerators = threadModerators;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     public Boolean getDeleted() {
         return deleted;
     }
@@ -167,7 +193,7 @@ public class UserEntity {
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
     }
-    
+
     @JsonIgnore
     public String getEmail() { return email;}
 
@@ -259,6 +285,8 @@ public class UserEntity {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
+                ", date=" + date +
+                ", deleted=" + deleted +
                 ", threads=" + threads +
                 ", comments=" + comments +
                 ", blocked=" + blocked +
