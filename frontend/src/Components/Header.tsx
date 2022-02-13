@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router-dom";
 import { Context } from "../Context/ContextProvider";
 
 function Header() {
@@ -44,7 +44,7 @@ function Header() {
 
   return (
     <div className="header">
-      <img className="logo" src="../assets/Logo2.png" alt="" />
+      <Link to="/" > <img className="logo" src="../assets/Logo2.png" alt="" /> </Link>
       <div>
         {Object.keys(loggedInUser).length === 0 &&
         loggedInUser.constructor === Object ? (
