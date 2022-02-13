@@ -22,19 +22,16 @@ function BannedUsers() {
       alert(usernameInput + " is a moderator. Remove " + usernameInput + " as moderator before banning.")
     }
     else {
-      await fetch(`/rest/thread/${threadId}/ban/user/${usernameInput}`, {
-        method: "POST"
-
-      })
-        .then(async (response) => await response.json())
-        .then(data => {
-          console.log(data);
+      try {
+        let response = await fetch(`/rest/thread/${threadId}/ban/user/${usernameInput}`, {
+          method: "POST"
         })
-        .catch((error) => {
-          alert(error)
-          alert("User " + usernameInput + " does not exist")
-          console.error(error);
-        })
+        const data = await response.json()
+        window.location.reload()
+        return data;
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 
@@ -42,9 +39,10 @@ function BannedUsers() {
     fetch(`/rest/thread/${threadId}/unban/user/${userId}`, {
       method: "DELETE"
     })
-      .then(response => response.json())
+      .then(async (response) => await response.json())
       .then(data => {
         console.log(data)
+        window.location.reload()
       })
       .catch((error) => {
         console.error(error)
@@ -77,7 +75,7 @@ function BannedUsers() {
               (bannedUser: { id: number; username: string }) => (
                 <li key={bannedUser.id}>
                   {bannedUser.username} <br />
-                  <button onClick={() => unbanUser(bannedUser.id)}>Unban</button>
+                  <button onClick={() => {unbanUser(bannedUser.id); window.location.reload()}}>Unban</button>
                 </li>
               )
             )}
@@ -89,12 +87,9 @@ function BannedUsers() {
               placeholder="Username"
               onChange={(e) => setUsernameInput(e.target.value)}
             />
-            <button type='submit' onClick={
-              
-                banUser
-              
-              }>
-                Ban user</button>
+            <button type='submit' onClick={banUser}>
+              Ban user
+            </button>
           </form>
         </div>
       </div>
