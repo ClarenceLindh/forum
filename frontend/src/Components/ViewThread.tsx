@@ -517,13 +517,6 @@ function ViewThread() {
                         </div>
                     ) : (
                         <></>)}
-                    <a>
-                        {author.delete === true ? (
-                            <div>Created by deletedUser</div>
-                        ) : (
-                            <div>Created by {author.username}</div>
-                        )}
-                    </a>
                     <div>
                         <div>
                             {loggedInUser.role === "ROLE_ADMIN" ? (
