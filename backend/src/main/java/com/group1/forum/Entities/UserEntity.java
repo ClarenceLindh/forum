@@ -215,6 +215,7 @@ public class UserEntity {
         this.username = username;
     }
 
+    @JsonProperty
     public void setEmail(String email) {
         this.email = email;
     }
