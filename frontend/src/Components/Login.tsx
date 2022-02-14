@@ -8,11 +8,10 @@ const Login = () => {
   const navigate = useNavigate();
 
   const dataPolicy =
-    "Your data is safe with us. We will not sell or share your data with anyone. " +
-    "Your username and auto generated ID will be public and your password will be encrypted. " +
-    "We will not store your password in plain text. " +
-    "Your email-adress will only be visible to our administrator.";
+    "Your data is safe with us. We will not sell or share your data with anyone. Your username and auto generated ID will be public and your password will be encrypted. We will not store your password in plain text.  Your email-address will only be visible to our administrator. You can at any time request a deletion of your account. That will make your account invisible to other members of the forum. According to our GDPR compliance we will keep you data for 30 days before it is removed.";
 
+    const userPolicyLink = "https://drive.google.com/file/d/1BxSRSnkNCZx3cCpFmhFpZuCErahvnaj7/view?usp=sharing";
+    
   const [loginUsername, setLoginUsername] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
   const [blockedAccs, setBlockedAccs] = useState<any>([]);
@@ -112,12 +111,13 @@ const Login = () => {
 
     console.log(credentials);
 
+
     if (
       window.confirm(
         "You are registering as " +
           registerUsername +
           ". By clicking on OK you agree to the following user data policies: " +
-          dataPolicy
+          dataPolicy + "You can download our policy here: " + userPolicyLink
       )
     ) 
       try {
@@ -192,6 +192,9 @@ const Login = () => {
         />
         <button type="submit">Register</button>
       </form>
+        <a href={userPolicyLink}>
+        <button>User policy</button>
+        </a>
     </div>
   );
 };
