@@ -8,3 +8,7 @@ Made with Java, React and SQL.
 3. Open frontend-folder and run "npm install"
 4. Run "npm start"
 
+Admins and users have different privileges in frontend.
+
+username: "Lasse74" password: "abc123" - Role: Administrator
+username: "abc" password: "123" - Role: User
