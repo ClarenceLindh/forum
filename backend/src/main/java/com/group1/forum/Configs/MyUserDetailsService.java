@@ -23,7 +23,7 @@ public class MyUserDetailsService implements org.springframework.security.core.u
     @PostConstruct
     private void createDefaultUsers(){
         if(userRepo.findByUsername("Lasse74") == null){
-            addUser(new UserEntity("Lasse74@mail.se", "Lasse74", "abc123", true, "ROLE_USER"));
+            addUser(new UserEntity("Lasse74@mail.se", "Lasse74", "abc123", false, "ROLE_ADMIN"));
             addUser(new UserEntity("abc@mail.se", "abc", "123", false, "ROLE_USER"));
 
         }
