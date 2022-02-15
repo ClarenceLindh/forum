@@ -71,7 +71,7 @@ export default function Comment({ comment }: { comment: any }) {
           <FontAwesomeIcon icon={faTrashCan} />
       </button>
     ):(
-      <h1>dont work</h1>
+      <></>
     )
       }
       
